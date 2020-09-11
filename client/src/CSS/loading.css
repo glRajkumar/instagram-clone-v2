@@ -1,0 +1,50 @@
+.lo-style-1::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: 3px solid lightcoral;
+    border-top-color: crimson;
+    animation: spinner 0.7s linear infinite; }
+  
+  .lo-style-2::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: crimson;
+    border-bottom-color: crimson;
+    animation: spinner 0.7s ease infinite; }
+  
+  .lo-style-3::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border-top: 3px solid crimson;
+    border-right: 2px solid transparent;
+    animation: spinner 0.7s linear infinite; }
+  
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg); } }
+  
