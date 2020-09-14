@@ -5,8 +5,9 @@ import { AuthContext } from '../State/Auth/AuthContextProvider'
 import '../../CSS/profile.css'
 import user from '../../Img/user.png'
 
-const UserProfile  = ()=>{
-    const [ userProfile,setProfile ] = useState(null)    
+const UsersProfile  = () => {
+    const [ userProfile, setProfile ] = useState(null)
+    const [ posts, setPosts ] = useState([])   
     const { userid } = useParams()
     const { updateFollow, following, headers } = useContext(AuthContext)
     const [ showfollow, setShowFollow ] = useState(following ? !following.includes(userid) : true)
@@ -14,24 +15,29 @@ const UserProfile  = ()=>{
     useEffect(()=>{
         axios.get(`/user/${userid}`, {headers})
         .then((res)=>{
-            setProfile(res.data)
+            setProfile(res.data.user)
         })
         .catch((err)=>{
             console.log(err)
         })
+
+        axios.get(`/post/onlyphotos/${userid}`, {headers})
+        .then((res)=>{
+            setPosts(res.data.mypost)
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
     },[])
 
     const followUser = ()=>{
         axios.put('/user/follow', {followId:userid}, {headers})
-        .then((res)=>{
+        .then(()=>{
             updateFollow(true, userid)
             setProfile((prevState)=>{
                 return {
                     ...prevState,
-                    user:{
-                        ...prevState.user,
-                        followers:[...prevState.user.followers, userid]
-                       }
+                    followers : [...prevState.followers, userid]
                 }
             })
             setShowFollow(false)
@@ -43,16 +49,13 @@ const UserProfile  = ()=>{
 
     const unfollowUser = ()=>{
         axios.put('/user/unfollow', {unfollowId:userid}, {headers})
-        .then((res)=>{
+        .then(()=>{
             updateFollow(false, userid)
             setProfile((prevState)=>{
-                const newFollower = prevState.user.followers.filter(item => item !== userid )
+                const newFollower = prevState.followers.filter(item => item !== userid )
                  return {
-                     ...prevState,
-                     user:{
-                         ...prevState.user,
-                         followers:newFollower
-                        }
+                    ...prevState,
+                    followers : newFollower
                  }
              })
              setShowFollow(true)
@@ -70,20 +73,20 @@ const UserProfile  = ()=>{
            <div className="profile-main">
                <div className="profile-img">
                    {
-                       userProfile.user.img ? 
-                       <img src={`/upload/${userProfile.user.img}`} alt="profile-img" /> :
+                       userProfile.img ? 
+                       <img src={`/upload/${userProfile.img}`} alt="profile-img" /> :
                        <img src={user} alt="profile-img" />
                    }
                </div>
               
                <div className="profile-details">
-                   <h4>{userProfile.user.name}</h4>
-                   <h5>{userProfile.user.email}</h5>
+                   <h4>{userProfile.name}</h4>
+                   <h5>{userProfile.email}</h5>
               
                    <div className="profile-mini">
-                       <h6>{userProfile.posts.length} posts</h6>
-                       <h6>{userProfile.user.followers.length} followers</h6>
-                       <h6>{userProfile.user.following.length} following</h6>
+                       <h6>{posts.length} posts</h6>
+                       <h6>{userProfile.followers.length} followers</h6>
+                       <h6>{userProfile.following.length} following</h6>
                    </div>
               
                    { 
@@ -101,7 +104,7 @@ const UserProfile  = ()=>{
      
            <div className="profile-posts">
                {
-                userProfile.posts.map(item=>{
+                posts.map(item=>{
                     return(
                     <img
                         key={item._id} 
@@ -119,5 +122,4 @@ const UserProfile  = ()=>{
    )
 }
 
-
-export default UserProfile
+export default UsersProfile

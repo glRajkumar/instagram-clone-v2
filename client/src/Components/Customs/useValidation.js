@@ -33,18 +33,18 @@ export const useEvalid = (value) => {
 }
 
 export const usePvalid = (value) => {
-    let RegExPat = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()<>?])/
+    let RegExPat = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/
 
     if(value === ''){
         let msg = 'Please Provide password'
         return [ msg, true ]
     }
     if(!RegExPat.test(value)){
-        let msg = 'Password must contain atleast 1 Special character, 1 Number, 1 Capital letter'
+        let msg = 'Password must contain atleast 1 Number, 1 Capital letter'
         return [ msg, true ]
     }
-    if(value.length < 8){
-        let msg = 'Password must be atleast 8 characters'
+    if(value.length < 6){
+        let msg = 'Password must be atleast 6 characters'
         return [ msg, true ]
     }
     if(true){

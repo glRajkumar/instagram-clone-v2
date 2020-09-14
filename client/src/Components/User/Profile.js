@@ -7,11 +7,11 @@ import { useHistory } from 'react-router-dom'
 
 function Profile() {
     const [ mypics, setPics ] = useState([])
-    const { name, email, followers, following, img, headers } = useContext(AuthContext)
+    const { _id, name, email, followers, following, img, headers } = useContext(AuthContext)
     const history = useHistory()
 
     useEffect(()=>{
-        axios.get("/post/mypost", {headers})
+        axios.get(`/post/onlyphotos/${_id}`, {headers})
         .then((res)=>{
             setPics(res.data.mypost)
           })

@@ -11,8 +11,6 @@ function UpdateImg() {
     const { headers, updatePic } = useContext(AuthContext)
     const history = useHistory()
 
-    console.log(progress)
-
     const submit = (e) =>{
         e.preventDefault();                
         const formData = new FormData()
@@ -30,7 +28,6 @@ function UpdateImg() {
 
         axios.put("/user/update-img", formData, config)
         .then(res => {
-            console.log(res.data)
             setProgress(0)
             updatePic(res.data.img)
             history.push('/profile')
@@ -61,11 +58,14 @@ function UpdateImg() {
                 />
             </div>
 
-            <div>
+            <div className="text-center">
                 <button onClick={submit}>Submit</button>
             </div>
+            <br />
+
+            { progress > 0 && <ProgressBar progress={progress} />}
             
-            { progress > 0 && <ProgressBar progress={progress} />}            
+            <br />            
         </div>
     )
 }

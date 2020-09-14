@@ -3,9 +3,11 @@ const router = express.Router()
 const auth = require('../middlewares/auth')
 const Post =  require("../models/Post")
 
-router.get('/mypost', auth, (req,res)=>{
-    Post.find({postedBy:req.user._id})
-    .populate("PostedBy","_id name")
+router.get('/onlyphotos/:id', auth, (req,res)=>{
+    const id = req.params.id
+
+    Post.find({postedBy : id})
+    .select('photo')
     .then(mypost=>{
         res.json({ mypost })
     })
@@ -22,6 +24,19 @@ router.get('/allpost', auth, (req,res)=>{
     .then((posts)=>{
         res.json({ posts })
     }).catch(err=>{
+        console.log(err)
+    })
+})
+
+router.get('/mypost', auth, (req,res)=>{
+    Post.find({postedBy:req.user._id})
+    .populate("postedBy","_id name img")
+    .populate("comments.postedBy","_id name img")
+    .sort('-createdAt')
+    .then(posts=>{
+        res.json({ posts })
+    })
+    .catch(err=>{
         console.log(err)
     })
 })
@@ -111,20 +126,25 @@ router.put('/unlike', auth, async (req,res)=>{
     }
 })
 
-router.put('/comment', auth, (req,res)=>{
+router.put('/comment', auth, async (req,res)=>{
     const { postId } = req.body
     const comment = {
         text : req.body.text,
         postedBy : req.user._id
     }
-    
-    Post.findByIdAndUpdate(postId, {$push: { comments : comment }},{ new : true })
-    .populate("comments.postedBy","_id name img")
-    .populate("postedBy","_id name img")
-    .exec((err,result)=>{
-        if(err) return res.status(422).json({error:err})
-        res.json(result)
-    })
+
+    try {
+        const post = await Post.findByIdAndUpdate(postId, 
+            {$push: { comments : comment }},
+            { new : true }).select('comments._id')
+
+        let last = post.comments.length - 1
+        let newId = post.comments[last]._id
+        res.json({ newId, msg : 'commented successfully' })
+
+    } catch (error) {
+        res.status(400).json({ error, msg : 'comment action failed' })
+    }
 })
 
 router.delete('/:postId', auth, async (req,res)=>{

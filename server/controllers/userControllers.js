@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middlewares/auth')
 const upload = require("../middlewares/upload")
 const User = require('../models/User')
-const Post =  require("../models/Post")
 const nodemailer = require('nodemailer')
 require('dotenv').config()
 
@@ -63,9 +62,8 @@ router.get('/:id', auth, async (req,res)=>{
     const id = req.params.id
 
     try {
-        const user = await User.findOne({_id : id}).select("-password -token")
-        const posts = await Post.find({postedBy : id}).populate("postedBy","_id name")
-        res.json({user,posts})
+        const user = await User.findOne({_id : id}).select("-password -token -resetPassToken -expirePassToken")
+        res.json({user})
     } catch (error) {
         res.status(400).json({error, msg : 'cannot get user'})
     }
@@ -81,11 +79,6 @@ router.put('/update-img', auth, upload.single("img"), async (req,res) => {
     } catch (error) {
         res.status(400).json({ error, msg : "img not saved" })
     }
-    // User.findByIdAndUpdate(id, {$set: { img }}, { new : true },
-    //     (err,result)=>{
-    //      if(err) return res.status(400).json({error: err, msg : "img not saved"})
-    //      res.json({img , result})
-    // })
 })
 
 router.put('/follow', auth, async (req,res)=>{

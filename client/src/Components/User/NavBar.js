@@ -42,18 +42,19 @@ const NavBar = ({auth}) =>{
                 />
             </li>,
              <li key="2"><Link to="/profile">Profile</Link></li>,
-             <li key="3"><Link to="/createpost">Create Post</Link></li>,
-             <li key="4"><Link to="/myfollowingpost">My following Posts</Link></li>,
-             <li key="5">
-                <button onClick={logout }>
+             <li key="3"><Link to="/myposts">Myposts</Link></li>,
+             <li key="4"><Link to="/createpost">Create Post</Link></li>,
+             <li key="5"><Link to="/followingposts">My following Posts</Link></li>,
+             <li key="6">
+                <button onClick={logout}>
                     Logout
                 </button>
              </li>
             ]
         }else{
           return [
-           <li key="6"><Link to="/login">Login</Link></li>,
-           <li key="7"><Link to="/signup">Signup</Link></li>
+           <li key="7"><Link to="/login">Login</Link></li>,
+           <li key="8"><Link to="/signup">Signup</Link></li>
           ]
         }
     }
@@ -88,7 +89,7 @@ const NavBar = ({auth}) =>{
                 </Link>
             </li>,
             <li key="4">
-                <Link to="/myfollowingpost">
+                <Link to="/followingposts">
                     <img 
                     src={followers} 
                     alt="search-icon" 
