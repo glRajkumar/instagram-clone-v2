@@ -4,6 +4,7 @@ import axios from 'axios'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
 import '../../CSS/profile.css'
 import user from '../../Img/user.png'
+import Loading from '../Common/Loading'
 
 const UsersProfile  = () => {
     const [ userProfile, setProfile ] = useState(null)
@@ -66,7 +67,7 @@ const UsersProfile  = () => {
     }
 
     return (
-       <>
+    <>
        {
        userProfile ?
        <div className="profile">
@@ -101,9 +102,11 @@ const UsersProfile  = () => {
                     } 
                </div>
            </div>
-     
-           <div className="profile-posts">
-               {
+
+           {
+            posts.length > 0 ?     
+            <div className="profile-posts">
+                {
                 posts.map(item=>{
                     return(
                     <img
@@ -114,11 +117,15 @@ const UsersProfile  = () => {
                     />  
                     )
                 })
-               }
-           </div>
+                }
+            </div>
+            : <h3 className="text-center">No post yet</h3>
+            }
        </div>
-       : <h2>loading...!</h2>}
-       </>
+
+       : <Loading />
+       }
+    </>
    )
 }
 

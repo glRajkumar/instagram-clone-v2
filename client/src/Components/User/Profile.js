@@ -48,10 +48,11 @@ function Profile() {
                 <button style={{marginRight: '5px'}} onClick={() =>{ history.push('/updatepass')}}>Update Password</button>
                 <button onClick={() =>{ history.push('/resetpass')}}>Reset Password</button>
             </div>
-            
+
+            {
+            mypics.length > 0 ?
             <div className="profile-posts">
                 {
-                mypics ?
                 mypics.map(item=>{
                     return(
                     <img 
@@ -62,10 +63,10 @@ function Profile() {
                     />  
                     )
                 })
-                : <h5 className="text-center">No post yet</h5>
                 }
             </div>
-
+            : <h3 className="text-center">No post yet</h3>
+            }
         </div>
     )
 }

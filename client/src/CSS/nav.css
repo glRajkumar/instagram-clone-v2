@@ -18,7 +18,7 @@ ul li{
     align-items: center;
 }
 
-.open{
+.mini{
     display: none;
 }
 
@@ -32,14 +32,10 @@ ul li{
 #inMod{
     background-color: whitesmoke;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-.hamburger{
-    display: none;
 }
 
 @media (max-width: 900px){
@@ -58,17 +54,21 @@ ul li{
 @media (max-width: 600px){
     nav{
         min-height: 17vh;
+        padding: 0.3rem 0.6rem;
         grid-template-columns: 1fr 3fr;
     }
 
-    .list{
+    nav button {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem; 
+    }
+        
+    .big{
         display: none;
     }
 
-    .open{
+    .mini{
         display: flex;
-        justify-content: space-around;
-        align-items: center;
     }
 }
 

@@ -70,3 +70,41 @@
 .input-com:focus{
     outline: 0;
 }
+
+@media (max-width: 750px){    
+    .post-name{
+        padding: 0.8rem;
+    }
+    
+    .post-content{
+        padding: 0.8rem;
+    }
+    
+    .post-name img, .post-comments-img{
+        width: 22px;
+        height: 22px;
+    }
+        
+    .post-comments{
+        max-height: 230px;
+    }
+}
+
+@media (max-width: 450px){
+    .post-name{
+        padding: 0.6rem;
+    }
+    
+    .post-content{
+        padding: 0.6rem;
+    }
+    
+    .post-name img, .post-comments-img{
+        width: 20px;
+        height: 20px;
+    }
+        
+    .post-comments{
+        max-height: 180px;
+    }
+}

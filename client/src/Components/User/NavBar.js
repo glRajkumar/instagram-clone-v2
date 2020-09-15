@@ -9,6 +9,7 @@ import close from '../../Img/close.png'
 import user from '../../Img/user.png'
 import add from '../../Img/add.png'
 import followers from '../../Img/followers.png'
+import picture from '../../Img/picture.png'
 
 const NavBar = ({auth}) =>{
     const searchModal = useRef(null)
@@ -30,47 +31,26 @@ const NavBar = ({auth}) =>{
         }
     }
     
-    const renderList = (auth)=> {
-        if(auth){
-            return [
-             <li key="1">
-                <img 
-                 src={search} 
-                 alt="search-icon" 
-                 className="icons"
-                 onClick={()=> setModal(true)} 
-                />
+    const renderBig = () => {
+        return [
+            <li className="big" key="2">
+                <Link to="/profile">Profile</Link>
             </li>,
-             <li key="2"><Link to="/profile">Profile</Link></li>,
-             <li key="3"><Link to="/myposts">Myposts</Link></li>,
-             <li key="4"><Link to="/createpost">Create Post</Link></li>,
-             <li key="5"><Link to="/followingposts">My following Posts</Link></li>,
-             <li key="6">
-                <button onClick={logout}>
-                    Logout
-                </button>
-             </li>
-            ]
-        }else{
-          return [
-           <li key="7"><Link to="/login">Login</Link></li>,
-           <li key="8"><Link to="/signup">Signup</Link></li>
-          ]
-        }
+            <li className="big" key="3">
+                <Link to="/myposts">Myposts</Link>
+            </li>,
+            <li className="big" key="4">
+                <Link to="/createpost">Create Post</Link>
+            </li>,
+            <li className="big" key="5">
+                <Link to="/followingposts">My following Posts</Link>
+            </li>
+        ]
     }
- 
-    const renderListOpen = (auth)=> {
-        if(auth){
-            return [
-            <li key="1">
-                <img 
-                 src={search} 
-                 alt="search-icon" 
-                 className="icons"
-                 onClick={()=> setModal(true)} 
-                />
-            </li>,
-            <li key="2">
+
+    const renderMini = () => {
+        return [
+            <li className="mini" key="2">
                 <Link to="/profile">
                     <img 
                     src={user} 
@@ -79,7 +59,16 @@ const NavBar = ({auth}) =>{
                     />
                 </Link>
             </li>,
-            <li key="3">
+            <li className="mini" key="3">
+                <Link to="/myposts">
+                    <img 
+                    src={picture} 
+                    alt="search-icon" 
+                    className="icons" 
+                    />
+                </Link>
+            </li>,
+            <li className="mini" key="4">
                 <Link to="/createpost">
                     <img 
                     src={add} 
@@ -88,7 +77,7 @@ const NavBar = ({auth}) =>{
                     />
                 </Link>
             </li>,
-            <li key="4">
+            <li className="mini" key="5">
                 <Link to="/followingposts">
                     <img 
                     src={followers} 
@@ -96,21 +85,10 @@ const NavBar = ({auth}) =>{
                     className="icons" 
                     />
                 </Link>
-            </li>,
-            <li key="5">
-                <button onClick={logout}>
-                    Logout
-                </button>
             </li>
-            ]
-        }else{
-          return [
-            <li key="6"><Link to="/login">Login</Link></li>,
-            <li key="7"><Link to="/signup">Signup</Link></li>
-          ]
-        }
+        ]
     }
-    
+
     return(
     <>  
     {
@@ -121,11 +99,36 @@ const NavBar = ({auth}) =>{
             </Link>
 
             <ul className="list">
-                { renderList(auth) }
-            </ul>
+            { auth ? 
+                (
+                <>
+                    <li key="1">
+                        <img 
+                         src={search} 
+                         alt="search-icon" 
+                         className="icons"
+                         onClick={()=> setModal(true)} 
+                        />
+                    </li>
 
-            <ul className="open">
-                { renderListOpen(auth) }
+                    { renderMini() }
+                    { renderBig() }
+
+                    <li key="6">
+                    <button onClick={logout}>
+                        Logout
+                    </button>
+                    </li>
+                </>
+                )
+                :
+                (
+                <>
+                    <li key="7"><Link to="/login">Login</Link></li>
+                    <li key="8"><Link to="/signup">Signup</Link></li>
+                </>
+                )
+            }
             </ul>
         </nav>
         :
