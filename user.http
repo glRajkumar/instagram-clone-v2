@@ -1,0 +1,95 @@
+@host = http://localhost:5000
+@token = Bearer 
+
+### get me 
+GET {{host}}/user/me
+Authorization: {{token}}
+
+### get user by id
+GET {{host}}/user/5f5dbb63c364ef27082d548e
+Authorization: {{token}}
+
+### register
+POST {{host}}/user/register
+Content-Type: application/json
+
+{
+    "name": "kiuj",
+    "email" : "",
+    "password" : "aA1!aaaa"
+}
+
+### login
+POST {{host}}/user/login
+Content-Type: application/json
+
+{
+    "email" : "",
+    "password" : "aA1!aaaa"
+}
+
+### updatePass
+PUT {{host}}/user
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "email" : "kk@bb.bb",
+    "oldPass" : "aA1!aaaa",
+    "newPass" : "Aa1!abba"
+}
+
+### follow
+PUT {{host}}/user/follow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "followId" : "5f5cae1de665bf35f420d4d2"
+}
+
+### unfollow
+PUT {{host}}/user/unfollow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "unfollowId" : "5f5cae1de665bf35f420d4d2"
+}
+
+### reset password
+POST {{host}}/user/reset-password
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "email" : ""
+}
+
+### new password
+POST {{host}}/user/new-password
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "password" : "akssd@aa.bb",
+    "token" : "afbacd0fc2b9a0842f3a49c3fcd0b026ec5267115eb04f87b14947faa1a49a31"
+}
+
+###search users
+POST {{host}}/user/search-users
+Authorization: {{token}}
+
+{
+    "query" : ""
+}
+
+### logout
+POST {{host}}/user/logout
+Content-Type: application/json
+Authorization: {{token}}
+
+### delete
+DELETE  {{host}}/user
+Content-Type: application/json
+Authorization: {{token}}

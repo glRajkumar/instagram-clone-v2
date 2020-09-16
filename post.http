@@ -1,0 +1,77 @@
+@host = http://localhost:5000
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjVmMTU3Nzk2YTAyNzIyOTgzNjY4MzgiLCJpYXQiOjE2MDAwNjY5MzgsImV4cCI6MTYwMDEzMTczOH0.skR-aR03krKkx7N7vB64etzc8y56aeKSNsSB2op7Z7Y
+
+### get my post 
+GET {{host}}/post/mypost
+Authorization: {{token}}
+
+### get all post 
+GET {{host}}/post/allpost
+Authorization: {{token}}
+
+### get sub post 
+GET {{host}}/post/getsubpost
+Authorization: {{token}}
+
+### create post
+POST {{host}}/post/createpost
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "title": "title2",
+    "body" : "body2",
+    "picUrl" : "pic2"
+}
+
+### like post
+PUT {{host}}/post/like
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId": "5f5dbbd8c364ef27082d548f"
+}
+
+### unlike post
+PUT {{host}}/post/unlike
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId": "5f5dbbd8c364ef27082d548f"
+}
+
+
+### hearted post
+PUT {{host}}/post/hearted
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId": "5f5dbbd8c364ef27082d548f"
+}
+
+### unhearted post
+PUT {{host}}/post/unhearted
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId": "5f5dbbd8c364ef27082d548f"
+}
+
+### comment post
+PUT {{host}}/post/comment
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "text": "super2222",
+    "postId" : "5f5f15d796a0272298366839"
+}
+
+### delete
+DELETE  {{host}}/post/5f5dbfad599d6d34246e4a71
+Content-Type: application/json
+Authorization: {{token}}
