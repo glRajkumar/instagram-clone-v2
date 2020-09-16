@@ -3,7 +3,7 @@ import Posts from './Posts'
 
 function AllPosts() {
   return (
-    <Posts url="allpost" />
+    <Posts url="allpost" text="no posts" />
   )
 }
 

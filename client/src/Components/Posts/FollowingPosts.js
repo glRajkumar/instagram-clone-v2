@@ -3,7 +3,7 @@ import Posts from './Posts'
 
 function FollowingPosts() {
   return (
-    <Posts url="getsubpost" />
+    <Posts url="getsubpost" text="follow someone to view here" />
   )
 }
 
