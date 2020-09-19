@@ -1,4 +1,4 @@
-import React, { createContext, useLayoutEffect, useReducer } from 'react'
+import React, { createContext, useReducer, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import AuthReducer from './AuthReducer'
@@ -6,6 +6,8 @@ import AuthReducer from './AuthReducer'
 export const AuthContext = createContext()
 
 const AuthContextProvider = (props) =>{
+  const [ firstRender, setFirstRender ] = useState(true)
+
   const inialState = {
     _id : "",
     name : "",
@@ -29,28 +31,37 @@ const AuthContextProvider = (props) =>{
   const logged = async () => {
     try {
       const existed = localStorage.getItem("insta_token")
-      if(existed && existed !== ""){
-        const res = await axios.get("/user/me",{ 
-          headers : { 
-            Authorization: "Bearer " + existed 
+      const exp = localStorage.getItem("insta_token_exp")
+      const valid = 64800000 - (Date.now() - exp)
+
+      if(existed){
+        if (valid > 0) {
+          const res = await axios.get("/user/me",{ 
+            headers : { 
+              Authorization: "Bearer " + existed 
+            }
+          })
+  
+          let { _id, name, email, img, followers, following } = res.data
+  
+          const payload = {
+            _id,
+            name ,
+            email ,
+            img , 
+            followers, 
+            following,
+            auth : true,
+            token : existed
           }
-        })
+  
+          dispatch({ type : "LOGIN", payload })
+          history.push("/")
 
-        let { _id, name, email, img, followers, following } = res.data
-
-        const payload = {
-          _id,
-          name ,
-          email ,
-          img , 
-          followers, 
-          following,
-          auth : true,
-          token : existed
+        }else{
+          localStorage.removeItem("insta_token")
+          localStorage.removeItem("insta_token_exp")
         }
-
-        dispatch({ type : "LOGIN", payload })
-        history.push("/")
       }
     } catch (error) {
       console.log(error)
@@ -58,15 +69,20 @@ const AuthContextProvider = (props) =>{
     }
   }
    
-  useLayoutEffect(() => {
+  const oneTimeRender = () =>{
     logged()
-  }, [])
+    setFirstRender(false)
+  }
 
+  if (firstRender) {
+    oneTimeRender()
+  }
+  
   const login = async (formData) => {
     try {
       const res = await axios.post("/user/login", formData)
       const {token, user} = await res.data
-     
+
       const payload = {
         _id: user._id,
         name : user.name ,
@@ -79,6 +95,7 @@ const AuthContextProvider = (props) =>{
       }
 
       localStorage.setItem("insta_token", token)
+      localStorage.setItem("insta_token_exp", Date.now())
       dispatch({ type : "LOGIN", payload })
       history.push("/")                    
     } catch (error) {
@@ -125,6 +142,7 @@ const AuthContextProvider = (props) =>{
     try {
       await axios.post("/user/logout",{},{headers})
       localStorage.removeItem("insta_token")
+      localStorage.removeItem("insta_token_exp")
       dispatch({ type : "LOGOUT" })
       history.push("/login")
     } catch (error) {
@@ -137,6 +155,7 @@ const AuthContextProvider = (props) =>{
     try {
       await axios.delete("/user", {headers})
       localStorage.removeItem("insta_token")
+      localStorage.removeItem("insta_token_exp")
       dispatch({ type : "LOGOUT" })
       history.push("/signup")
     } catch (error) {
