@@ -11,9 +11,6 @@ app.use(cors())
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
-//to open img in local
-app.use('/upload', express.static("upload"))
-
 const userControllers = require('./controllers/userControllers')
 const postControllers = require('./controllers/postControllers')
 const imgControllers = require('./controllers/imgControllers')

@@ -1,7 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../middlewares/auth')
-const upload = require("../middlewares/upload")
+const mongoose = require('mongoose')
+const upload = require('../middlewares/GFupload')
+
+const options = {
+    bucketName: 'uploads'
+}
 
 router.post('/', auth, upload.single("img"), async (req, res)=>{
     try {
@@ -10,5 +15,18 @@ router.post('/', auth, upload.single("img"), async (req, res)=>{
         res.status(400).json({ error, msg: "Image upload failed" })
     }
 })
+
+//Get the Single image
+router.get('/:filename', (req, res) => {
+  const gfB = new mongoose.mongo.GridFSBucket(mongoose.connection.db, options)
+
+  const d = gfB.openDownloadStreamByName(req.params.filename)
+
+  d.on("data", (chunk)=>{ res.write(chunk) })
+
+  d.on("error", (err)=>{ res.json({err}) })
+
+  d.on("end", ()=>{ res.end() })
+});
 
 module.exports = router
