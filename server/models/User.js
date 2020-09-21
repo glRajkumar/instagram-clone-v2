@@ -26,14 +26,6 @@ let User = mongoose.model('User',{
 
     token : [{ type : String }],
 
-    resetPassToken : {
-        type : String 
-    },
-    
-    expirePassToken : {
-        type : Date
-    },
-    
     followers:[{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

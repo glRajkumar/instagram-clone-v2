@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middlewares/auth')
 const upload = require("../middlewares/GFupload")
 const User = require('../models/User')
+const Token = require('../models/Token')
 const nodemailer = require('nodemailer')
 require('dotenv').config()
 
@@ -62,7 +63,7 @@ router.get('/:id', auth, async (req,res)=>{
     const id = req.params.id
 
     try {
-        const user = await User.findOne({_id : id}).select("-password -token -resetPassToken -expirePassToken")
+        const user = await User.findOne({_id : id}).select("-password -token")
         res.json({user})
     } catch (error) {
         res.status(400).json({error, msg : 'cannot get user'})
@@ -74,7 +75,7 @@ router.put('/update-img', auth, upload.single("img"), async (req,res) => {
     const img = req.file.filename
 
     try {
-        await User.findByIdAndUpdate(id, {$set: { img }}, { new : true })
+        await User.findByIdAndUpdate(id, {$set: { img }})
         res.json({ img })
     } catch (error) {
         res.status(400).json({ error, msg : "img not saved" })
@@ -134,24 +135,23 @@ router.post('/reset-password', async (req,res)=>{
     try {
         const buffer = crypto.randomBytes(32).toString("hex")
         if(!buffer) return console.log(buffer)
-        const reset_token = buffer
+        const resetPassToken = buffer
         
         const user = await User.findOne({email})
         if(!user) return res.status(422).json({msg : "User dont exists with that email"})
         
-        user.resetPassToken = reset_token
-        user.expirePassToken = Date.now() + 3600000
-        await user.save()
+        const token = new Token({resetPassToken, expirePassToken : Date.now() + 3600000, email})
+        await token.save()
 
         await transporter.sendMail({
-            to : user.email,
+            to : email,
             from : process.env.EMAIL,
             subject : "password reset",
             html : `
             <p>You requested for password reset</p>
             <h5>copy the following token to reset the password</h5>
             <br />
-            <h2>${reset_token}</h2>
+            <h2>${resetPassToken}</h2>
             <br /> `
         })
         // if (info) console.log("email send " + info.response) -- to check mailer is working
@@ -167,16 +167,16 @@ router.post('/new-password', async (req, res)=>{
    const sentToken = req.body.token
 
    try {
-       const user = await User.findOne({resetPassToken : sentToken, expirePassToken : {$gt : Date.now()}})
-       if(!user) return res.status(422).json({error:"Try again session expired"})
-    
+       const token = await Token.findOne({resetPassToken : sentToken, expirePassToken : {$gt : Date.now()}})
+       if(!token) return res.status(422).json({error:"Try again session expired"})
+       
        const salt = await bcrypt.genSalt(10)
        const hash = await bcrypt.hash(newPassword, salt)
-
+       
+       const user = await User.findOne({email : token.email})
        user.password = hash
-       user.resePasstToken = undefined
-       user.expirePassToken = undefined
        await user.save()
+       
        res.json({msg : "password updated success"})
    
     } catch (error) {
