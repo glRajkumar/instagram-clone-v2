@@ -12,7 +12,9 @@ const UsersProfile  = () => {
     const { userid } = useParams()
     const { updateFollow, following, headers } = useContext(AuthContext)
     const [ showfollow, setShowFollow ] = useState(following ? !following.includes(userid) : true)
-    
+    const [ hasMore, setHasMore ] = useState(true)
+    const [ skip, setSkip ] = useState(0)
+
     useEffect(()=>{
         axios.get(`/user/${userid}`, {headers})
         .then((res)=>{
@@ -21,15 +23,26 @@ const UsersProfile  = () => {
         .catch((err)=>{
             console.log(err)
         })
+    },[])
 
-        axios.get(`/post/onlyphotos/${userid}`, {headers})
+    useEffect(()=>{
+        getPhotos()
+    },[])
+
+    const getPhotos = () => {
+        axios.get(`/post/onlyphotos/${userid}/?skip=${skip}`, {headers})
         .then((res)=>{
-            setPosts(res.data.mypost)
+            setPosts(prev => [
+                ...prev,
+                ...res.data.mypost
+            ])
+            setSkip(prev => prev + 5)
+            if (res.data.mypost.length < 5) setHasMore(prev => !prev)
           })
           .catch((err)=>{
             console.log(err)
           })
-    },[])
+    }
 
     const followUser = ()=>{
         axios.put('/user/follow', {followId:userid}, {headers})
@@ -120,6 +133,11 @@ const UsersProfile  = () => {
                 }
             </div>
             : <h3 className="text-center">No post yet</h3>
+            }
+            
+            {
+                hasMore && 
+                <button onClick={getPhotos}>Load more</button>
             }
        </div>
 

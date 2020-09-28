@@ -5,16 +5,27 @@ import axios from 'axios'
 function usePost(url) {
     const { _id, name, img, headers } = useContext(AuthContext)
     const [ posts, setPosts ] = useState([])
-  
+    const [ hasMore, setHasMore ] = useState(true)
+    const [ skip, setSkip ] = useState(0)
+
     useEffect(()=>{
-        axios.get(`/post/${url}`,{headers})
+        getPosts()
+    }, [])
+
+    const getPosts = () => {
+        axios.get(`/post/${url}/?skip=${skip}`,{headers})
         .then((res)=>{
-            setPosts(res.data.posts)
+            setPosts(prev => [ 
+                ...prev ,
+                ...res.data.posts 
+            ])
+            setSkip(prev => prev + 5)
+            if (res.data.posts.length < 5) setHasMore(prev => !prev)
         })
         .catch((err)=>{
         console.log(err)
         })
-    }, [])
+    }
 
     const likePost = (postId)=>{
         axios.put('/post/like', {postId}, {headers})
@@ -150,7 +161,18 @@ function usePost(url) {
         })
     }
     
-    return [ _id, posts, likePost, unlikePost, heartPost, unheartPost, makeComment, deletePost ]
+    return [ 
+        _id, 
+        posts, 
+        hasMore,
+        getPosts,
+        likePost, 
+        unlikePost, 
+        heartPost, 
+        unheartPost, 
+        makeComment, 
+        deletePost
+    ]
 }
 
 export default usePost

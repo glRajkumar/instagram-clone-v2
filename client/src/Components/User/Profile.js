@@ -9,16 +9,27 @@ function Profile() {
     const [ mypics, setPics ] = useState([])
     const { _id, name, email, followers, following, img, headers } = useContext(AuthContext)
     const history = useHistory()
+    const [ hasMore, setHasMore ] = useState(true)
+    const [ skip, setSkip ] = useState(0)
 
     useEffect(()=>{
-        axios.get(`/post/onlyphotos/${_id}`, {headers})
+        getPhotos()
+    }, [])
+
+    const getPhotos = () => {
+        axios.get(`/post/onlyphotos/${_id}/?skip=${skip}`, {headers})
         .then((res)=>{
-            setPics(res.data.mypost)
+            setPics(prev => [
+                ...prev,
+                ...res.data.mypost
+            ])
+            setSkip(prev => prev + 5)
+            if (res.data.mypost.length < 5) setHasMore(prev => !prev)
           })
           .catch((err)=>{
             console.log(err)
           })
-    }, [])
+    }
 
     return (
         <div className="profile">
@@ -66,6 +77,11 @@ function Profile() {
                 }
             </div>
             : <h3 className="text-center">No post yet</h3>
+            }
+
+            {
+                hasMore && 
+                <button onClick={getPhotos}>Load more</button>
             }
         </div>
     )

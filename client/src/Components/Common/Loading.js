@@ -1,5 +1,6 @@
 import React from 'react'
+import '../../CSS/loading.css'
 
-const Loading = () =>  <div className="lo-style-3"></div> 
+const Loading = () =>  <div className="loading"></div> 
 
 export default Loading
