@@ -9,8 +9,19 @@ import heartRed from '../../Img/heart_red.png'
 import user from '../../Img/user.png'
 import usePost from '../Customs/usePost'
 
-function Posts({url, text}){  
-  const [ _id, posts, likePost, unlikePost, heartPost, unheartPost, makeComment, deletePost ] = usePost(url)
+function Posts({url, text}){      
+  const [ 
+    _id, 
+    posts, 
+    hasMore,
+    getPosts,
+    likePost, 
+    unlikePost, 
+    heartPost, 
+    unheartPost, 
+    makeComment, 
+    deletePost
+  ] = usePost(url)
 
   const Nothing = () => (
     <h2 className="text-center"> {text} </h2>
@@ -104,6 +115,11 @@ function Posts({url, text}){
             </div>
             )
           })
+        }
+
+        {
+          hasMore && 
+          <button onClick={getPosts}>load more</button>
         }
       </div>      
     )
