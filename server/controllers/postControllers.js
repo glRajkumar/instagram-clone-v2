@@ -10,7 +10,7 @@ router.get('/onlyphotos/:id', auth, (req,res)=>{
     Post.find({postedBy : id})
     .select('photo')
     .skip(skip)
-    .limit(5)
+    .limit(6)
     .then(mypost=>{
         res.json({ mypost })
     })

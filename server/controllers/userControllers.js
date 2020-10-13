@@ -49,7 +49,17 @@ router.post('/login', async (req, res)=>{
         let payload = {userId : user._id}
         let token = jwt.sign(payload, process.env.jwtSecretKey , { expiresIn: '18h' })
         user.token = user.token.concat(token)
-        await user.save()            
+        await user.save() 
+        
+        user = {
+            _id : user._id,
+            name : user.name,
+            email : user.email,
+            img : user.img,
+            followers : user.followers,
+            following : user.following
+        }
+        
         res.json({token, user})        
 
     } catch (error) {
@@ -57,7 +67,16 @@ router.post('/login', async (req, res)=>{
     }
 })
 
-router.get('/me', auth, (req,res)=> res.send(req.user))
+router.get('/me', auth, async (req,res)=> {
+    const id = req.user._id
+
+    try {
+        const user = await User.findOne({_id : id}).select("-password -token")     
+        res.json({user})   
+    } catch (error) {
+        res.status(400).json({ error, msg:"Cannot find the user" })
+    }
+})
 
 router.get('/:id', auth, async (req,res)=>{
     const id = req.params.id

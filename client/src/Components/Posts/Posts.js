@@ -34,7 +34,6 @@ function Posts({url, text}){
     <div className="home">
     {
       posts.map((post)=>{
-        console.log(`/upload/${post.photo}`)
         return(
         <div className="post" key={post._id}>
           <h4 className="post-name">

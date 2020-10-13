@@ -23,8 +23,8 @@ function Profile() {
                 ...prev,
                 ...res.data.mypost
             ])
-            setSkip(prev => prev + 5)
-            if (res.data.mypost.length < 5) setHasMore(prev => !prev)
+            setSkip(prev => prev + 6)
+            if (res.data.mypost.length < 6) setHasMore(prev => !prev)
           })
           .catch((err)=>{
             console.log(err)
