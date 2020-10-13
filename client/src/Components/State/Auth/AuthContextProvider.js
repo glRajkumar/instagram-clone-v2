@@ -42,7 +42,7 @@ const AuthContextProvider = (props) =>{
             }
           })
   
-          let { _id, name, email, img, followers, following } = res.data
+          let { _id, name, email, img, followers, following } = res.data.user
   
           const payload = {
             _id,

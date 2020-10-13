@@ -5,16 +5,15 @@ import { AuthContext } from '../State/Auth/AuthContextProvider'
 import '../../CSS/profile.css'
 import user from '../../Img/user.png'
 import Loading from '../Common/Loading'
+import usePhotos from '../Customs/usePhotos'
 
 const UsersProfile  = () => {
     const [ userProfile, setProfile ] = useState(null)
-    const [ posts, setPosts ] = useState([])   
     const { userid } = useParams()
     const { updateFollow, following, headers } = useContext(AuthContext)
     const [ showfollow, setShowFollow ] = useState(following ? !following.includes(userid) : true)
-    const [ hasMore, setHasMore ] = useState(true)
-    const [ skip, setSkip ] = useState(0)
-
+    const [ pics, hasMore, getPhotos ] = usePhotos(userid, headers)
+ 
     useEffect(()=>{
         axios.get(`/user/${userid}`, {headers})
         .then((res)=>{
@@ -24,25 +23,6 @@ const UsersProfile  = () => {
             console.log(err)
         })
     },[])
-
-    useEffect(()=>{
-        getPhotos()
-    },[])
-
-    const getPhotos = () => {
-        axios.get(`/post/onlyphotos/${userid}/?skip=${skip}`, {headers})
-        .then((res)=>{
-            setPosts(prev => [
-                ...prev,
-                ...res.data.mypost
-            ])
-            setSkip(prev => prev + 6)
-            if (res.data.mypost.length < 6) setHasMore(prev => !prev)
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-    }
 
     const followUser = ()=>{
         axios.put('/user/follow', {followId:userid}, {headers})
@@ -98,7 +78,7 @@ const UsersProfile  = () => {
                    <h5>{userProfile.email}</h5>
               
                    <div className="profile-mini">
-                       <h6>{posts.length} posts</h6>
+                       <h6>{pics.length} posts</h6>
                        <h6>{userProfile.followers.length} followers</h6>
                        <h6>{userProfile.following.length} following</h6>
                    </div>
@@ -117,10 +97,10 @@ const UsersProfile  = () => {
            </div>
 
            {
-            posts.length > 0 ?     
+            pics.length > 0 ?     
             <div className="profile-posts">
                 {
-                posts.map(item=>{
+                pics.map(item=>{
                     return(
                     <img
                         key={item._id} 

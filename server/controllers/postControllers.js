@@ -9,10 +9,11 @@ router.get('/onlyphotos/:id', auth, (req,res)=>{
 
     Post.find({postedBy : id})
     .select('photo')
+    .sort('-createdAt')
     .skip(skip)
     .limit(6)
-    .then(mypost=>{
-        res.json({ mypost })
+    .then(pics =>{
+        res.json({ pics })
     })
     .catch(err=>{
         console.log(err)
@@ -28,7 +29,7 @@ router.get('/allpost', auth, (req,res)=>{
     .sort('-createdAt')
     .skip(skip)
     .limit(5)
-    .then((posts)=>{
+    .then(posts =>{
         res.json({ posts })
     }).catch(err=>{
         console.log(err)
@@ -44,7 +45,7 @@ router.get('/mypost', auth, (req,res)=>{
     .sort('-createdAt')
     .skip(skip)
     .limit(5)
-    .then(posts=>{
+    .then(posts =>{
         res.json({ posts })
     })
     .catch(err=>{
@@ -61,7 +62,7 @@ router.get('/getsubpost', auth, (req,res)=>{
     .sort('-createdAt')
     .skip(skip)
     .limit(5)
-    .then(posts=>{
+    .then(posts =>{
         res.json({ posts })
     })
     .catch(err=>{

@@ -1,35 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import '../../CSS/profile.css'
-import axios from 'axios'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
 import user from '../../Img/user.png'
 import { useHistory } from 'react-router-dom'
+import usePhotos from '../Customs/usePhotos'
 
 function Profile() {
-    const [ mypics, setPics ] = useState([])
     const { _id, name, email, followers, following, img, headers } = useContext(AuthContext)
+    const [ pics, hasMore, getPhotos ] = usePhotos(_id, headers)
     const history = useHistory()
-    const [ hasMore, setHasMore ] = useState(true)
-    const [ skip, setSkip ] = useState(0)
-
-    useEffect(()=>{
-        getPhotos()
-    }, [])
-
-    const getPhotos = () => {
-        axios.get(`/post/onlyphotos/${_id}/?skip=${skip}`, {headers})
-        .then((res)=>{
-            setPics(prev => [
-                ...prev,
-                ...res.data.mypost
-            ])
-            setSkip(prev => prev + 6)
-            if (res.data.mypost.length < 6) setHasMore(prev => !prev)
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
-    }
 
     return (
         <div className="profile">
@@ -47,7 +26,7 @@ function Profile() {
                     <h3>{ email }</h3>
                     
                     <div className="profile-mini">
-                        <h5>{ mypics ? mypics.length : "0" } posts</h5>
+                        <h5>{ pics ? pics.length : "0" } posts</h5>
                         <h5>{ followers.length } followers</h5>
                         <h5>{ following.length } following</h5>
                     </div>
@@ -61,10 +40,10 @@ function Profile() {
             </div>
 
             {
-            mypics.length > 0 ?
+            pics.length > 0 ?
             <div className="profile-posts">
                 {
-                mypics.map(item=>{
+                pics.map(item=>{
                     return(
                     <img 
                      key={item._id} 
