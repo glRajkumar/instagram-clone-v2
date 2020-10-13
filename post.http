@@ -1,16 +1,20 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjVmMTU3Nzk2YTAyNzIyOTgzNjY4MzgiLCJpYXQiOjE2MDAwNjY5MzgsImV4cCI6MTYwMDEzMTczOH0.skR-aR03krKkx7N7vB64etzc8y56aeKSNsSB2op7Z7Y
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjcwMGIzOWRmYjJhNTQxMjg1MDk2MmIiLCJpYXQiOjE2MDExNzg0NDEsImV4cCI6MTYwMTI0MzI0MX0.R5eaCy_Qhkc31QiDi-XJLDn2NWZZCh17ruNzw0rKjm0
+
+### get onlyphotos 
+GET {{host}}/post/onlyphotos/5f700b39dfb2a5412850962b/?skip=5
+Authorization: {{token}}
 
 ### get my post 
-GET {{host}}/post/mypost
+GET {{host}}/post/mypost/?skip=5
 Authorization: {{token}}
 
 ### get all post 
-GET {{host}}/post/allpost
+GET {{host}}/post/allpost/?skip=5
 Authorization: {{token}}
 
 ### get sub post 
-GET {{host}}/post/getsubpost
+GET {{host}}/post/getsubpost/?skip=5
 Authorization: {{token}}
 
 ### create post
@@ -19,9 +23,9 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "title": "title2",
-    "body" : "body2",
-    "picUrl" : "pic2"
+    "title": "title3",
+    "body" : "body3",
+    "picUrl" : "pic3"
 }
 
 ### like post

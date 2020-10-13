@@ -5,9 +5,12 @@ const Post =  require("../models/Post")
 
 router.get('/onlyphotos/:id', auth, (req,res)=>{
     const id = req.params.id
+    let skip = parseInt(req.query.skip)
 
     Post.find({postedBy : id})
     .select('photo')
+    .skip(skip)
+    .limit(5)
     .then(mypost=>{
         res.json({ mypost })
     })
@@ -17,10 +20,14 @@ router.get('/onlyphotos/:id', auth, (req,res)=>{
 })
 
 router.get('/allpost', auth, (req,res)=>{
+    let skip = parseInt(req.query.skip)
+
     Post.find()
     .populate("postedBy","_id name img")
     .populate("comments.postedBy","_id name img")
     .sort('-createdAt')
+    .skip(skip)
+    .limit(5)
     .then((posts)=>{
         res.json({ posts })
     }).catch(err=>{
@@ -29,10 +36,14 @@ router.get('/allpost', auth, (req,res)=>{
 })
 
 router.get('/mypost', auth, (req,res)=>{
+    let skip = parseInt(req.query.skip)
+
     Post.find({postedBy:req.user._id})
     .populate("postedBy","_id name img")
     .populate("comments.postedBy","_id name img")
     .sort('-createdAt')
+    .skip(skip)
+    .limit(5)
     .then(posts=>{
         res.json({ posts })
     })
@@ -42,10 +53,14 @@ router.get('/mypost', auth, (req,res)=>{
 })
 
 router.get('/getsubpost', auth, (req,res)=>{
+    let skip = parseInt(req.query.skip)
+
     Post.find({ postedBy: {$in : req.user.following} })
     .populate("postedBy","_id name img")
     .populate("comments.postedBy","_id name img")
     .sort('-createdAt')
+    .skip(skip)
+    .limit(5)
     .then(posts=>{
         res.json({ posts })
     })

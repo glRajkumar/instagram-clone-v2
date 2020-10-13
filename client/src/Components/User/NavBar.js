@@ -11,9 +11,9 @@ import add from '../../Img/add.png'
 import followers from '../../Img/followers.png'
 import picture from '../../Img/picture.png'
 
-const NavBar = ({auth}) =>{
+const NavBar = () =>{
     const searchModal = useRef(null)
-    const { _id, logout } = useContext(AuthContext)
+    const { _id, auth, logout } = useContext(AuthContext)
     const [ modal, setModal ] = useState(false)
     const [ searchQ, setSearchQ ] = useState('')
     const [ userDetails, setUserDetails ] = useState([])

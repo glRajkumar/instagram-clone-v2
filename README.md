@@ -1,5 +1,5 @@
-## Guidance
-Coders Never Quit Youtube channel. Feel free to look the channel. But code may differ from the channel. 
+## Updates
+Fully Changed and Optimized comparing to the previous version. Also added more features.
 
 ## Installing dependecies...
 npm install for both server and client(cd - /client).

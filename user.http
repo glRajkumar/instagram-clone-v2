@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = Bearer 
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjcwMGIzOWRmYjJhNTQxMjg1MDk2MmIiLCJpYXQiOjE2MDExNzg0NDEsImV4cCI6MTYwMTI0MzI0MX0.R5eaCy_Qhkc31QiDi-XJLDn2NWZZCh17ruNzw0rKjm0
 
 ### get me 
 GET {{host}}/user/me
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "name": "kiuj",
-    "email" : "",
+    "email" : "nnn@nnnn.com",
     "password" : "aA1!aaaa"
 }
 
@@ -24,7 +24,7 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "",
+    "email" : "nnn@nnnn.com",
     "password" : "aA1!aaaa"
 }
 
