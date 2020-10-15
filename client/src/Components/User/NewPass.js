@@ -7,10 +7,10 @@ import { AuthContext } from '../State/Auth/AuthContextProvider'
 import { useHistory } from 'react-router-dom'
 
 function NewPass() {
-    const [ oldPass, oldPonChange, opmsg, operr ] = useInput('', usePvalid)
-    const [ newPass, newPonChange, npmsg, nperr ] = useInput('', usePvalid)
-    const [ conPass, conPonChange, cpmsg, cperr ] = useInput('', useCvalid, newPass)
-    const [ fail, setFail ] = useState(false)
+    const [oldPass, oldPonChange, opmsg, operr] = useInput('', usePvalid)
+    const [newPass, newPonChange, npmsg, nperr] = useInput('', usePvalid)
+    const [conPass, conPonChange, cpmsg, cperr] = useInput('', useCvalid, newPass)
+    const [fail, setFail] = useState(false)
     const { headers } = useContext(AuthContext)
     const history = useHistory()
 
@@ -19,27 +19,27 @@ function NewPass() {
     let conPassRef = useRef('')
     let SubRef = useRef('')
 
-    useEffect(()=>{
-        oldPassRef.current.focus() 
+    useEffect(() => {
+        oldPassRef.current.focus()
     }, [])
 
     function oldPassKeyDown(e) {
-        if(e.key === "Enter") newPassRef.current.focus()
+        if (e.key === "Enter") newPassRef.current.focus()
     }
 
     function newPassKeyDown(e) {
-        if(e.key === "Enter") conPassRef.current.focus()
+        if (e.key === "Enter") conPassRef.current.focus()
     }
 
     function conPassKeyDown(e) {
-        if(e.key === "Enter") SubRef.current.focus()
+        if (e.key === "Enter") SubRef.current.focus()
     }
 
-    const onSubmit = async (event) =>{
+    const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            if(operr === false && nperr === false && cperr === false){
-                await axios.put("/user/update-password", { oldPass, newPass }, {headers})
+            if (operr === false && nperr === false && cperr === false) {
+                await axios.put("/user/update-password", { oldPass, newPass }, { headers })
                 history.push('/profile')
             }
         } catch (error) {
@@ -48,65 +48,65 @@ function NewPass() {
         }
     }
 
-return (
-    <div className="form-box">
-        <h2 className="text-center">
-            <img src={insta_logo} alt="instagram logo" />
-        </h2>
-        <br />
+    return (
+        <div className="form-box">
+            <h2 className="text-center">
+                <img src={insta_logo} alt="instagram logo" />
+            </h2>
+            <br />
 
-        <label htmlFor="password"> Old Password </label>
-        <input
-            className="input-box"
-            ref={oldPassRef}
-            onKeyDown={oldPassKeyDown} 
-            name="password"
-            type="password"
-            value={oldPass}
-            onChange={oldPonChange}
-        />
-        { 
-        operr && <div className="alert"> {opmsg} </div>                        
-        }
+            <label htmlFor="password"> Old Password </label>
+            <input
+                className="input-box"
+                ref={oldPassRef}
+                onKeyDown={oldPassKeyDown}
+                name="password"
+                type="password"
+                value={oldPass}
+                onChange={oldPonChange}
+            />
+            {
+                operr && <div className="alert"> {opmsg} </div>
+            }
 
-        <label htmlFor="password"> New Password </label>
-        <input
-            className="input-box"
-            ref={newPassRef}
-            onKeyDown={newPassKeyDown} 
-            name="password"
-            type="password"
-            value={newPass}
-            onChange={newPonChange}
-        />
-        { 
-        nperr && <div className="alert"> {npmsg} </div>                        
-        }
+            <label htmlFor="password"> New Password </label>
+            <input
+                className="input-box"
+                ref={newPassRef}
+                onKeyDown={newPassKeyDown}
+                name="password"
+                type="password"
+                value={newPass}
+                onChange={newPonChange}
+            />
+            {
+                nperr && <div className="alert"> {npmsg} </div>
+            }
 
-        <label htmlFor="password"> Conform Password </label>
-        <input
-            className="input-box"
-            ref={conPassRef}
-            onKeyDown={conPassKeyDown} 
-            name="password"
-            type="password"
-            value={conPass}
-            onChange={conPonChange}
-        />
-        { 
-        cperr && <div className="alert"> {cpmsg} </div>                        
-        }
+            <label htmlFor="password"> Conform Password </label>
+            <input
+                className="input-box"
+                ref={conPassRef}
+                onKeyDown={conPassKeyDown}
+                name="password"
+                type="password"
+                value={conPass}
+                onChange={conPonChange}
+            />
+            {
+                cperr && <div className="alert"> {cpmsg} </div>
+            }
 
-        <button
-            ref={SubRef} 
-            onClick={onSubmit}
-        >Submit</button>
+            <button
+                ref={SubRef}
+                onClick={onSubmit}
+            >Submit</button>
 
-        {
-        fail && <div className="alert"> Failed to Update. Try again.</div> 
-        }
-    </div>
-)
+            {
+                fail && <div className="alert"> Failed to Update. Try again.</div>
+            }
+        </div>
+    )
 }
 
 export default NewPass

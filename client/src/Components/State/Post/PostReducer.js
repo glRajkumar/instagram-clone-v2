@@ -3,129 +3,129 @@ const PostReducer = (state, { type, payload }) => {
         case "LOADING":
             return {
                 ...state,
-                postLoading : true 
+                postLoading: true
             }
 
         case "GET":
             if (payload.posts.length < 5) {
-                return{
+                return {
                     ...state,
-                    skip : state.skip + 5,
-                    postLoading : false, 
-                    posts : [
+                    skip: state.skip + 5,
+                    postLoading: false,
+                    posts: [
                         ...state.posts,
                         ...payload.posts
                     ],
-                    hasMore : false
-                }        
-            }else{
-                return{
+                    hasMore: false
+                }
+            } else {
+                return {
                     ...state,
-                    skip : state.skip + 5,
-                    postLoading : false, 
-                    posts : [
+                    skip: state.skip + 5,
+                    postLoading: false,
+                    posts: [
                         ...state.posts,
                         ...payload.posts
                     ]
-                }    
+                }
             }
 
         case "LIKE":
             if (payload.like) {
-                const newData = state.posts.map(post =>{
+                const newData = state.posts.map(post => {
                     if (post._id === payload.postId) {
-                        return{
+                        return {
                             ...post,
-                            likes : [
+                            likes: [
                                 ...post.likes,
                                 payload._id
                             ]
-                        }            
-                    }else{
+                        }
+                    } else {
                         return post
                     }
                 })
-                return{
+                return {
                     ...state,
-                    posts : newData
-                }                    
-            }else{
+                    posts: newData
+                }
+            } else {
                 const newData = state.posts.map(post => {
                     if (post._id === payload.postId) {
                         let newLike = post.likes.filter(like => like !== payload._id)
                         return {
                             ...post,
-                            likes : newLike
-                        }  
-                    }else{
+                            likes: newLike
+                        }
+                    } else {
                         return post
                     }
                 })
-                return{
+                return {
                     ...state,
-                    posts : newData
-                }    
+                    posts: newData
+                }
             }
 
         case "HEART":
             if (payload.hearted) {
-                const newData = state.posts.map(post =>{
+                const newData = state.posts.map(post => {
                     if (post._id === payload.postId) {
-                        return{
+                        return {
                             ...post,
-                            hearted : [
+                            hearted: [
                                 ...post.hearted,
                                 payload._id
                             ]
-                        }            
-                    }else{
+                        }
+                    } else {
                         return post
                     }
                 })
-               return{
+                return {
                     ...state,
-                    posts : newData
-                }                    
-            }else{
+                    posts: newData
+                }
+            } else {
                 const newData = state.posts.map(post => {
                     if (post._id === payload.postId) {
-                    let newLike = post.hearted.filter(hearted => hearted !== payload._id)
+                        let newLike = post.hearted.filter(hearted => hearted !== payload._id)
                         return {
                             ...post,
-                            hearted : newLike
-                        }  
-                    }else{
+                            hearted: newLike
+                        }
+                    } else {
                         return post
                     }
                 })
-                return{
+                return {
                     ...state,
-                    posts : newData
-                }    
+                    posts: newData
+                }
             }
-        
+
         case "COMMENT":
-            return{
+            return {
                 ...state,
-                posts : payload
-            }                        
-        
+                posts: payload
+            }
+
         case "DELETE":
-            const newData = state.posts.filter(item=>{
+            const newData = state.posts.filter(item => {
                 return item._id !== payload
             })
-            return{
+            return {
                 ...state,
-                posts : newData
+                posts: newData
             }
 
         case "ERROR":
             return {
                 ...state,
-                postLoading : false,
-                postError : "Something went wrong..." 
+                postLoading: false,
+                postError: "Something went wrong..."
             }
-                                                    
+
         default: return state
     }
 }

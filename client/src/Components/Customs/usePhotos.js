@@ -3,18 +3,18 @@ import PicsReducer from '../State/Pics/PicsReducer'
 import axios from 'axios'
 
 const initialState = {
-    pics : [],
-    skip : 0,
-    hasMore : true,
-    picsLoading : false,
-    picsError : ""
+    pics: [],
+    skip: 0,
+    hasMore: true,
+    picsLoading: false,
+    picsError: ""
 }
 
-function usePhotos(id, headers){
-    const [ initPicLoad, setInit ] = useState(true)
-    const [ { pics, skip, hasMore, picsLoading, picsError } , dispatch ] = useReducer(PicsReducer, initialState)
+function usePhotos(id, headers) {
+    const [initPicLoad, setInit] = useState(true)
+    const [{ pics, skip, hasMore, picsLoading, picsError }, dispatch] = useReducer(PicsReducer, initialState)
 
-    useEffect(()=>{
+    useEffect(() => {
         getPhotos()
         setInit(false)
     }, [])
@@ -22,19 +22,19 @@ function usePhotos(id, headers){
     const getPhotos = async () => {
         try {
             dispatch({ type: 'LOADING' })
-            let res = await axios.get(`/post/onlyphotos/${id}/?skip=${skip}`, {headers})
+            let res = await axios.get(`/post/onlyphotos/${id}/?skip=${skip}`, { headers })
             const payload = {
-                pics : res.data.pics
-            }            
-            dispatch({ type : 'GET', payload })
-       
+                pics: res.data.pics
+            }
+            dispatch({ type: 'GET', payload })
+
         } catch (error) {
-            dispatch({ type : "ERROR" })
-            console.log(error)               
+            dispatch({ type: "ERROR" })
+            console.log(error)
         }
     }
 
-    return [ initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos ]
+    return [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos]
 }
 
 export default usePhotos

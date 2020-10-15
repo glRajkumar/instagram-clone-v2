@@ -3,40 +3,40 @@ const PicsReducer = (state, { type, payload }) => {
         case "LOADING":
             return {
                 ...state,
-                picsLoading : true 
+                picsLoading: true
             }
 
         case "GET":
             if (payload.pics.length < 6) {
-                return{
+                return {
                     ...state,
-                    skip : state.skip + 6,
-                    picsLoading : false, 
-                    pics : [
+                    skip: state.skip + 6,
+                    picsLoading: false,
+                    pics: [
                         ...state.pics,
                         ...payload.pics
                     ],
-                    hasMore : false
-                }        
-            }else{
-                return{
+                    hasMore: false
+                }
+            } else {
+                return {
                     ...state,
-                    skip : state.skip + 6,
-                    picsLoading : false, 
-                    pics : [
+                    skip: state.skip + 6,
+                    picsLoading: false,
+                    pics: [
                         ...state.pics,
                         ...payload.pics
                     ]
-                }    
+                }
             }
 
         case "ERROR":
             return {
                 ...state,
-                picsLoading : false,
-                picsError : "Something went wrong..." 
+                picsLoading: false,
+                picsError: "Something went wrong..."
             }
-                                                    
+
         default: return state
     }
 }

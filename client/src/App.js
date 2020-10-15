@@ -4,11 +4,11 @@ import { NotFound, Protected, UnAuthor } from './Components/Common'
 import { Signup, Login, NavBar, Profile, UsersProfile, NewPass, ResetPass, NewPassGen, UpdateImg } from './Components/User'
 import { CreatePost, AllPosts, FollowingPosts, MyPosts } from './Components/Posts'
 
-const App = () => {  
+const App = () => {
   return (
     <>
-    <NavBar />
-    
+      <NavBar />
+
       <Switch>
         <Route exact path='/signup' component={Signup} />
         <Route exact path='/login' component={Login} />
@@ -20,12 +20,12 @@ const App = () => {
         <Protected exact path="/myposts" component={MyPosts} />
         <Protected exact path="/createpost" component={CreatePost} />
         <Protected path="/followingposts" component={FollowingPosts} />
-        
+
         <Protected exact path="/updatepass" component={NewPass} />
         <Protected exact path="/updateimg" component={UpdateImg} />
         <Route exact path="/resetpass" component={ResetPass} />
         <Route path="/token" component={NewPassGen} />
-        
+
         <Route exact path="/unauth" component={UnAuthor} />
         <Route path="*" component={NotFound} />
       </Switch>

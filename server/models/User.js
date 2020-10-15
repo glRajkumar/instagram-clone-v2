@@ -1,10 +1,10 @@
 let mongoose = require('mongoose')
 
-let User = mongoose.model('User',{
-    fullName : { 
-        type : String,
-        required : [true, "Name is required"],
-        minlength : [3, "Name should atleast 3 letter"]        
+let User = mongoose.model('User', {
+    fullName: {
+        type: String,
+        required: [true, "Name is required"],
+        minlength: [3, "Name should atleast 3 letter"]
     },
 
     username: {
@@ -13,52 +13,52 @@ let User = mongoose.model('User',{
         trim: true,
         unique: true,
     },
-    
-    email : { 
-        type : String,
-        required : [true, "Email is required"],
-        unique : true, 
-        match : [/\S+@\S+\.\S+/, "Email is not valid"]  
+
+    email: {
+        type: String,
+        required: [true, "Email is required"],
+        unique: true,
+        match: [/\S+@\S+\.\S+/, "Email is not valid"]
     },
 
-    img : {
-        type : String,
-        default : null
+    img: {
+        type: String,
+        default: null
     },
 
-    password : {
-        type : String,
-        required : [true, "Password is required"]
+    password: {
+        type: String,
+        required: [true, "Password is required"]
     },
 
-    token : [{ type : String }],
+    token: [{ type: String }],
 
-    followers:[{ 
+    followers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
 
-    followersCount : {
-        type : Number,
-        default : 0
+    followersCount: {
+        type: Number,
+        default: 0
     },
-    
-    following:[{
+
+    following: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
 
-    followersCount : {
-        type : Number,
-        default : 0
+    followersCount: {
+        type: Number,
+        default: 0
     },
 
-    totalPosts : {
-        type : Number,
-        default : 0
+    totalPosts: {
+        type: Number,
+        default: 0
     },
 
-    savedPosts : [{
+    savedPosts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }]
