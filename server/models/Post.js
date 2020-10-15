@@ -1,32 +1,37 @@
 const mongoose = require('mongoose')
 
 const postSchema = new mongoose.Schema({    
-    title:{
+    title : {
         type : String,
         required : true
     },
 
-    body:{
+    body : {
         type : String,
         required : true
     },
 
-    photo:{
+    photo : {
         type : String,
         required : true
     },
 
-    hearted:[{
+    hearted : [{
         type : mongoose.Schema.Types.ObjectId, 
         ref : "User"
     }],
 
-    likes:[{
+    likes : [{
         type : mongoose.Schema.Types.ObjectId, 
         ref : "User"
     }],
 
-    comments:[{
+    likesCount : {
+        type : Number,
+        default : 0,    
+    },
+
+    comments : [{
         text : String,
         postedBy :{
             type : mongoose.Schema.Types.ObjectId, 
@@ -34,7 +39,12 @@ const postSchema = new mongoose.Schema({
         }
     }],
 
-    postedBy:{
+    commentsCount : {
+        type : Number,
+        default : 0,
+    },
+    
+    postedBy : {
         type : mongoose.Schema.Types.ObjectId,
         ref : "User"
     }    

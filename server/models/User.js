@@ -1,12 +1,19 @@
 let mongoose = require('mongoose')
 
 let User = mongoose.model('User',{
-    name : { 
+    fullName : { 
         type : String,
         required : [true, "Name is required"],
         minlength : [3, "Name should atleast 3 letter"]        
     },
 
+    username: {
+        type: String,
+        required: [true, "Please enter your username"],
+        trim: true,
+        unique: true,
+    },
+    
     email : { 
         type : String,
         required : [true, "Email is required"],
@@ -30,8 +37,28 @@ let User = mongoose.model('User',{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }],
+
+    followersCount : {
+        type : Number,
+        default : 0
+    },
     
     following:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+
+    followersCount : {
+        type : Number,
+        default : 0
+    },
+
+    totalPosts : {
+        type : Number,
+        default : 0
+    },
+
+    savedPosts : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     }]

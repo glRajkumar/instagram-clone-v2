@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjcwMGIzOWRmYjJhNTQxMjg1MDk2MmIiLCJpYXQiOjE2MDExNzg0NDEsImV4cCI6MTYwMTI0MzI0MX0.R5eaCy_Qhkc31QiDi-XJLDn2NWZZCh17ruNzw0rKjm0
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjcwMGIzOWRmYjJhNTQxMjg1MDk2MmIiLCJpYXQiOjE2MDI1Njc5MjIsImV4cCI6MTYwMjYzMjcyMn0.mo0PkToTD7SW37wLtoYwQi3oXpXXE1CS-VOikBIlSE0
 
 ### get me 
 GET {{host}}/user/me
