@@ -5,6 +5,11 @@
     width: 1rem;
     cursor: pointer; }
 
+.rel-pos{
+  position: relative;
+  margin: 2rem 0;
+}    
+
 ::-webkit-scrollbar{
   width: 10px;
   height: 10px; }

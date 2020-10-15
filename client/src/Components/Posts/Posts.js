@@ -15,8 +15,9 @@ function Posts({url, text}){
     _id, 
     posts, 
     hasMore,
-    loading,
-    error,
+    postLoading,
+    postError,
+    initPostLoad,
     getPosts,
     likePost, 
     unlikePost, 
@@ -124,30 +125,33 @@ function Posts({url, text}){
     </div>      
   )
   
-  if (posts.length > 0) {
+  if (!initPostLoad) {
     return(
-      <>
-        <PostsLists />
-        {
-          loading && 
-          <div className="post-load"><Loading /></div>
-        }
+    <>
+      {
+        posts.length > 0 ? <PostsLists /> : <Nothing />
+      }
+          
+      {
+        postLoading && 
+        <div className="rel-pos"><Loading /></div>
+      }
 
-        {
-          (hasMore && !loading) &&
-          <div className="loadbtn">
-            <button onClick={getPosts}>load more</button>
-          </div>
-        }
+      {
+        (hasMore && !postLoading) &&
+        <div className="loadbtn">
+          <button onClick={getPosts}>load more</button>
+        </div>
+      }
 
-        {
-          error && <div>error</div>
-        }
-      </>
-    )
-  }else{
+      {
+        postError && <div>error</div>
+      }
+    </>
+    ) 
+  } else {
     return(
-      <Nothing />
+      <div className="rel-pos"><Loading /></div>
     )
   }
 }

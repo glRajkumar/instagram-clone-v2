@@ -3,7 +3,7 @@ const PicsReducer = (state, { type, payload }) => {
         case "LOADING":
             return {
                 ...state,
-                loading : true 
+                picsLoading : true 
             }
 
         case "GET":
@@ -11,7 +11,7 @@ const PicsReducer = (state, { type, payload }) => {
                 return{
                     ...state,
                     skip : state.skip + 6,
-                    loading : false, 
+                    picsLoading : false, 
                     pics : [
                         ...state.pics,
                         ...payload.pics
@@ -22,7 +22,7 @@ const PicsReducer = (state, { type, payload }) => {
                 return{
                     ...state,
                     skip : state.skip + 6,
-                    loading : false, 
+                    picsLoading : false, 
                     pics : [
                         ...state.pics,
                         ...payload.pics
@@ -33,8 +33,8 @@ const PicsReducer = (state, { type, payload }) => {
         case "ERROR":
             return {
                 ...state,
-                loading : false,
-                error : "Something went wrong..." 
+                picsLoading : false,
+                picsError : "Something went wrong..." 
             }
                                                     
         default: return state

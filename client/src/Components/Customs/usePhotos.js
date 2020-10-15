@@ -1,24 +1,27 @@
-import { useReducer, useEffect } from 'react'
-import PicsReducer from '../State/PIcs/PicsReducer'
+import { useReducer, useEffect, useState } from 'react'
+import PicsReducer from '../State/Pics/PicsReducer'
 import axios from 'axios'
 
 const initialState = {
     pics : [],
     skip : 0,
     hasMore : true,
-    loading : false,
-    error : ""
+    picsLoading : false,
+    picsError : ""
 }
 
 function usePhotos(id, headers){
-    const [ { pics, skip, loading, hasMore, error } , dispatch ] = useReducer(PicsReducer, initialState)
-    
+    const [ initPicLoad, setInit ] = useState(true)
+    const [ { pics, skip, hasMore, picsLoading, picsError } , dispatch ] = useReducer(PicsReducer, initialState)
+
     useEffect(()=>{
         getPhotos()
+        setInit(false)
     }, [])
 
     const getPhotos = async () => {
         try {
+            dispatch({ type: 'LOADING' })
             let res = await axios.get(`/post/onlyphotos/${id}/?skip=${skip}`, {headers})
             const payload = {
                 pics : res.data.pics
@@ -31,7 +34,7 @@ function usePhotos(id, headers){
         }
     }
 
-    return [ pics, hasMore, getPhotos ]
+    return [ initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos ]
 }
 
 export default usePhotos

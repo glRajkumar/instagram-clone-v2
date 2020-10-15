@@ -3,7 +3,7 @@ const PostReducer = (state, { type, payload }) => {
         case "LOADING":
             return {
                 ...state,
-                loading : true 
+                postLoading : true 
             }
 
         case "GET":
@@ -11,7 +11,7 @@ const PostReducer = (state, { type, payload }) => {
                 return{
                     ...state,
                     skip : state.skip + 5,
-                    loading : false, 
+                    postLoading : false, 
                     posts : [
                         ...state.posts,
                         ...payload.posts
@@ -22,7 +22,7 @@ const PostReducer = (state, { type, payload }) => {
                 return{
                     ...state,
                     skip : state.skip + 5,
-                    loading : false, 
+                    postLoading : false, 
                     posts : [
                         ...state.posts,
                         ...payload.posts
@@ -122,8 +122,8 @@ const PostReducer = (state, { type, payload }) => {
         case "ERROR":
             return {
                 ...state,
-                loading : false,
-                error : "Something went wrong..." 
+                postLoading : false,
+                postError : "Something went wrong..." 
             }
                                                     
         default: return state

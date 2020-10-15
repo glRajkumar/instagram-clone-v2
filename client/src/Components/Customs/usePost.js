@@ -1,4 +1,4 @@
-import { useEffect, useContext, useReducer  } from 'react'
+import { useEffect, useContext, useReducer, useState  } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
 import PostReducer from '../State/Post/PostReducer'
@@ -6,17 +6,19 @@ import PostReducer from '../State/Post/PostReducer'
 const initialState = {
     posts : [],
     skip : 0,
-    loading : false,
+    postLoading : false,
     hasMore : true,
-    error : ""
+    postError : ""
 }
 
 function usePost(url) {
+    const [ initPostLoad, setInit ] = useState(true)
     const { _id, name, img, headers } = useContext(AuthContext)
-    const [ { posts, skip, loading, hasMore, error } , dispatch ] = useReducer(PostReducer, initialState)
+    const [ { posts, skip, postLoading, hasMore, postError } , dispatch ] = useReducer(PostReducer, initialState)
     
     useEffect(()=>{
         getPosts()
+        setInit(false)
     }, [])
 
     const getPosts = async () => {
@@ -148,8 +150,9 @@ function usePost(url) {
         _id, 
         posts, 
         hasMore,
-        loading,
-        error,
+        postLoading,
+        postError,
+        initPostLoad,
         getPosts,
         likePost, 
         unlikePost, 

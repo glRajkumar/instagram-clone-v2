@@ -4,10 +4,11 @@ import { AuthContext } from '../State/Auth/AuthContextProvider'
 import user from '../../Img/user.png'
 import { useHistory } from 'react-router-dom'
 import usePhotos from '../Customs/usePhotos'
+import { Loading } from '../Common'
 
 function Profile() {
     const { _id, name, email, followers, following, img, headers } = useContext(AuthContext)
-    const [ pics, hasMore, getPhotos ] = usePhotos(_id, headers)
+    const [ initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos ] = usePhotos(_id, headers)
     const history = useHistory()
 
     return (
@@ -40,30 +41,45 @@ function Profile() {
             </div>
 
             {
-            pics.length > 0 ?
-            <div className="profile-posts">
-                {
-                pics.map(item=>{
-                    return(
-                    <img 
-                     key={item._id} 
-                     className="item" 
-                     src={`/upload/${item.photo}`} 
-                     alt={item._id}
-                    />  
-                    )
-                })
-                }
-            </div>
-            : <h3 className="text-center">No post yet</h3>
+            !initPicLoad ?
+            <>
+            {
+                pics.length > 0 ?
+                <div className="profile-posts">
+                    {
+                    pics.map(item=>{
+                        return(
+                        <img 
+                        key={item._id} 
+                        className="item" 
+                        src={`/upload/${item.photo}`} 
+                        alt={item._id}
+                        />  
+                        )
+                    })
+                    }
+                </div>
+                : <h3 className="text-center">No post yet</h3>
             }
 
             {
-                hasMore && 
+                picsLoading &&
+                <div className="rel-pos"><Loading /></div>
+            }
+
+            {                    
+                (hasMore && !picsLoading) &&
                 <button onClick={getPhotos}>Load more</button>
             }
+            
+            {
+                picsError && <div>Error</div>
+            }
+            </>
+            : <div className="rel-pos"><Loading /></div>
+            }
         </div>
-    )
+    )        
 }
 
 export default Profile
