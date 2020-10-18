@@ -1,12 +1,12 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjcwMGIzOWRmYjJhNTQxMjg1MDk2MmIiLCJpYXQiOjE2MDI1Njc5MjIsImV4cCI6MTYwMjYzMjcyMn0.mo0PkToTD7SW37wLtoYwQi3oXpXXE1CS-VOikBIlSE0
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhhN2Y3MjRiMzNhMjA2MDAzMzNmNWUiLCJpYXQiOjE2MDI5OTc5MzMsImV4cCI6MTYwMzA2MjczM30.bnlR84viIgCxF2FO1sekz6WusmDiS9bjtmaT4ANddIg
 
 ### get me 
 GET {{host}}/user/me
 Authorization: {{token}}
 
 ### get user by id
-GET {{host}}/user/5f5dbb63c364ef27082d548e
+GET {{host}}/user/5f684c9b44974b3a587907ca
 Authorization: {{token}}
 
 ### register
@@ -14,8 +14,9 @@ POST {{host}}/user/register
 Content-Type: application/json
 
 {
-    "name": "kiuj",
-    "email" : "nnn@nnnn.com",
+    "fullName" : "newname",
+    "userName": "kiuj",
+    "email" : "nnnaf@nnnn.com",
     "password" : "aA1!aaaa"
 }
 
@@ -24,8 +25,8 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "nnn@nnnn.com",
-    "password" : "aA1!aaaa"
+    "email" : "mm@mmm.mmm",
+    "password" : "aA1!aa"
 }
 
 ### updatePass
@@ -55,6 +56,24 @@ Authorization: {{token}}
 
 {
     "unfollowId" : "5f5cae1de665bf35f420d4d2"
+}
+
+### save post
+PUT {{host}}/user/savepost
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId" : "5f8a83cc9f1252244818dc74"
+}
+
+### unsave post
+PUT {{host}}/user/unsavepost
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId" : "5f8a853b066cb3316caf1c95"
 }
 
 ### reset password

@@ -18,8 +18,30 @@ const transporter = nodemailer.createTransport({
     }
 })
 
+router.get('/me', auth, async (req, res) => {
+    const id = req.user._id
+
+    try {
+        const user = await User.findOne({ _id: id }).select("-password -token")
+        res.json({ user })
+    } catch (error) {
+        res.status(400).json({ error, msg: "Cannot find the user" })
+    }
+})
+
+router.get('/:id', auth, async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const user = await User.findOne({ _id: id }).select("-password -token")
+        res.json({ user })
+    } catch (error) {
+        res.status(400).json({ error, msg: 'cannot get user' })
+    }
+})
+
 router.post('/register', async (req, res) => {
-    let { name, email, password } = req.body
+    let { fullName, userName, email, password } = req.body
 
     try {
         const userExist = await User.findOne({ email })
@@ -27,7 +49,7 @@ router.post('/register', async (req, res) => {
 
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
-        let user = new User({ email, name, password: hash })
+        let user = new User({ fullName, userName, email, password: hash })
         await user.save()
         res.json({ msg: "User Saved successfully" })
 
@@ -53,39 +75,22 @@ router.post('/login', async (req, res) => {
 
         user = {
             _id: user._id,
-            name: user.name,
+            fullName: user.fullName,
+            userName: user.userName,
             email: user.email,
             img: user.img,
             followers: user.followers,
-            following: user.following
+            followersCount: user.followersCount,
+            following: user.following,
+            followingCount: user.followingCount,
+            totalPosts: user.totalPosts,
+            savedPosts: user.savedPosts
         }
 
         res.json({ token, user })
 
     } catch (error) {
         res.status(400).json({ error, msg: "User LogIn failed" })
-    }
-})
-
-router.get('/me', auth, async (req, res) => {
-    const id = req.user._id
-
-    try {
-        const user = await User.findOne({ _id: id }).select("-password -token")
-        res.json({ user })
-    } catch (error) {
-        res.status(400).json({ error, msg: "Cannot find the user" })
-    }
-})
-
-router.get('/:id', auth, async (req, res) => {
-    const id = req.params.id
-
-    try {
-        const user = await User.findOne({ _id: id }).select("-password -token")
-        res.json({ user })
-    } catch (error) {
-        res.status(400).json({ error, msg: 'cannot get user' })
     }
 })
 
@@ -106,8 +111,8 @@ router.put('/follow', auth, async (req, res) => {
     const id = req.user._id
 
     try {
-        await User.findByIdAndUpdate(followId, { $push: { followers: id } })
-        await User.findByIdAndUpdate(id, { $push: { following: followId } })
+        await User.findByIdAndUpdate(followId, { $push: { followers: id }, $inc: { followersCount: 1 } })
+        await User.findByIdAndUpdate(id, { $push: { following: followId }, $inc: { followingCount: 1 } })
         res.json({ msg: "follow action saved successfully" })
     } catch (error) {
         res.status(400).json({ error, msg: "follow action failed" })
@@ -119,11 +124,37 @@ router.put('/unfollow', auth, async (req, res) => {
     const id = req.user._id
 
     try {
-        await User.findByIdAndUpdate(unfollowId, { $pull: { followers: id } })
-        await User.findByIdAndUpdate(id, { $pull: { following: unfollowId } })
+        await User.findByIdAndUpdate(unfollowId, { $pull: { followers: id }, $inc: { followersCount: -1 } })
+        await User.findByIdAndUpdate(id, { $pull: { following: unfollowId }, $inc: { followingCount: -1 } })
         res.json({ msg: "unfollow action saved successfully" })
     } catch (error) {
         res.status(400).json({ error, msg: "unfollow action failed" })
+    }
+})
+
+router.put('/savepost', auth, async (req, res) => {
+    const { postId } = req.body
+    const id = req.user._id
+
+    try {
+        await User.findByIdAndUpdate(id, { $push: { savedPosts: postId } })
+        res.json({ msg: "Post saved successfully" })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: "Post not saved in db" })
+    }
+})
+
+router.put('/unsavepost', auth, async (req, res) => {
+    const { postId } = req.body
+    const id = req.user._id
+
+    try {
+        await User.findByIdAndUpdate(id, { $pull: { savedPosts: postId } })
+        res.json({ msg: "Post unsaved successfully" })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: "Post not unsaved in db" })
     }
 })
 
@@ -205,6 +236,7 @@ router.post('/new-password', async (req, res) => {
 
 router.post('/search-users', async (req, res) => {
     let userPattern = new RegExp("^" + req.body.query)
+
     try {
         const user = await User.find({ email: { $regex: userPattern } }).select("_id email")
         res.json({ user })

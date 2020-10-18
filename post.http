@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjcwMGIzOWRmYjJhNTQxMjg1MDk2MmIiLCJpYXQiOjE2MDExNzg0NDEsImV4cCI6MTYwMTI0MzI0MX0.R5eaCy_Qhkc31QiDi-XJLDn2NWZZCh17ruNzw0rKjm0
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhhN2Y3MjRiMzNhMjA2MDAzMzNmNWUiLCJpYXQiOjE2MDI5OTc5MzMsImV4cCI6MTYwMzA2MjczM30.bnlR84viIgCxF2FO1sekz6WusmDiS9bjtmaT4ANddIg
 
 ### get onlyphotos 
-GET {{host}}/post/onlyphotos/5f700b39dfb2a5412850962b/?skip=5
+GET {{host}}/post/onlyphotos/5f8a7f724b33a20600333f5e/?skip=6
 Authorization: {{token}}
 
 ### get my post 
@@ -23,9 +23,9 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "title": "title3",
+    "title" : "title3",
     "body" : "body3",
-    "picUrl" : "pic3"
+    "picUrl" : "5ffea9e3f5a15f09fcd219fe8484b136"
 }
 
 ### like post
@@ -34,7 +34,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f5dbbd8c364ef27082d548f"
+    "postId": "5f8a853c066cb3316caf1c96"
 }
 
 ### unlike post
@@ -43,9 +43,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f5dbbd8c364ef27082d548f"
+    "postId": "5f8a853c066cb3316caf1c96"
 }
-
 
 ### hearted post
 PUT {{host}}/post/hearted
@@ -53,7 +52,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f5dbbd8c364ef27082d548f"
+    "postId": "5f8a853c066cb3316caf1c96"
 }
 
 ### unhearted post
@@ -62,7 +61,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f5dbbd8c364ef27082d548f"
+    "postId": "5f8a853c066cb3316caf1c96"
 }
 
 ### comment post
@@ -71,11 +70,26 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "text": "super2222",
-    "postId" : "5f5f15d796a0272298366839"
+    "text": "actual",
+    "postId" : "5f8a853c066cb3316caf1c96"
+}
+
+### delete comment
+DELETE {{host}}/post/comment
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId" : "5f8a853c066cb3316caf1c96",
+    "commentId" : "5f8ad3326230f64ba885fe8f"
 }
 
 ### delete
-DELETE  {{host}}/post/5f5dbfad599d6d34246e4a71
+DELETE  {{host}}/post/5f8ad2b6f8babb36a4f14d99
+Content-Type: application/json
+Authorization: {{token}}
+
+### delete all posts of user
+DELETE  {{host}}/post/
 Content-Type: application/json
 Authorization: {{token}}

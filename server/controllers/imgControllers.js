@@ -17,7 +17,7 @@ router.post('/', auth, upload.single("img"), async (req, res) => {
 })
 
 //Get the Single image
-router.get('/:filename', (req, res) => {
+router.get('/:filename', auth, (req, res) => {
     const gfB = new mongoose.mongo.GridFSBucket(mongoose.connection.db, options)
 
     const d = gfB.openDownloadStreamByName(req.params.filename)

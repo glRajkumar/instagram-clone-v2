@@ -7,7 +7,7 @@ let User = mongoose.model('User', {
         minlength: [3, "Name should atleast 3 letter"]
     },
 
-    username: {
+    userName: {
         type: String,
         required: [true, "Please enter your username"],
         trim: true,
@@ -48,7 +48,7 @@ let User = mongoose.model('User', {
         ref: "User"
     }],
 
-    followersCount: {
+    followingCount: {
         type: Number,
         default: 0
     },
@@ -60,7 +60,7 @@ let User = mongoose.model('User', {
 
     savedPosts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "Post"
     }]
 })
 

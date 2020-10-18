@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const auth = require('../middlewares/auth')
 const Post = require("../models/Post")
+const User = require('../models/User')
 
 router.get('/onlyphotos/:id', auth, (req, res) => {
     const id = req.params.id
@@ -70,24 +71,25 @@ router.get('/getsubpost', auth, (req, res) => {
         })
 })
 
-router.post('/createpost', auth, (req, res) => {
+router.post('/createpost', auth, async (req, res) => {
     const { title, body, picUrl } = req.body
     const id = req.user._id
 
-    const post = new Post({
-        title,
-        body,
-        photo: picUrl,
-        postedBy: id
-    })
+    try {
+        const post = new Post({
+            title,
+            body,
+            photo: picUrl,
+            postedBy: id
+        })
 
-    post.save()
-        .then(() => {
-            res.json({ msg: "Post saved successfully" })
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        await post.save()
+        await User.findByIdAndUpdate(id, { $inc: { totalPosts: 1 } })
+        res.json({ msg: "Post saved successfully" })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: "Post not saved in db" })
+    }
 })
 
 router.put('/hearted', auth, async (req, res) => {
@@ -121,7 +123,7 @@ router.put('/like', auth, async (req, res) => {
     const { postId } = req.body
 
     try {
-        await Post.findByIdAndUpdate(postId, { $push: { likes: id } })
+        await Post.findByIdAndUpdate(postId, { $push: { likes: id }, $inc: { likesCount: 1 } })
         res.json({ msg: 'liked successfully' })
 
     } catch (error) {
@@ -134,7 +136,7 @@ router.put('/unlike', auth, async (req, res) => {
     const { postId } = req.body
 
     try {
-        await Post.findByIdAndUpdate(postId, { $pull: { likes: id } })
+        await Post.findByIdAndUpdate(postId, { $pull: { likes: id }, $inc: { likesCount: -1 } })
         res.json({ msg: 'unliked successfully' })
 
     } catch (error) {
@@ -151,7 +153,7 @@ router.put('/comment', auth, async (req, res) => {
 
     try {
         const post = await Post.findByIdAndUpdate(postId,
-            { $push: { comments: comment } },
+            { $push: { comments: comment }, $inc: { commentsCount: 1 } },
             { new: true }).select('comments._id')
 
         let last = post.comments.length - 1
@@ -163,15 +165,42 @@ router.put('/comment', auth, async (req, res) => {
     }
 })
 
+router.delete('/comment', auth, async (req, res) => {
+    const { postId, commentId } = req.body
+
+    try {
+        await Post.findByIdAndUpdate(postId,
+            { $pull: { comments: { _id: commentId } }, $inc: { commentsCount: -1 } })
+        res.json({ msg: " comment deleted successfully" })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: 'delete action failed' })
+    }
+})
+
 router.delete('/:postId', auth, async (req, res) => {
     const id = req.params.postId
+    const userId = req.user._id
 
     try {
         await Post.findByIdAndRemove(id)
+        await User.findByIdAndUpdate(userId, { $inc: { totalPosts: -1 } })
         res.json({ msg: "deleted successfully" })
 
     } catch (error) {
         res.status(400).json({ error, msg: 'delete action failed' })
+    }
+})
+
+router.delete('/', auth, async (req, res) => {
+    const userId = req.user._id
+
+    try {
+        await Post.deleteMany({ postedBy: userId })
+        res.json({ msg: "all posts deleted successfully" })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: 'all posts delete action failed' })
     }
 })
 

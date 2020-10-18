@@ -20,6 +20,9 @@ const storage = new GridFsStorage({
                 resolve(fileInfo);
             });
         });
+    },
+    options: {
+        useUnifiedTopology: true
     }
 });
 
