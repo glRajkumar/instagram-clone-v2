@@ -1,0 +1,18 @@
+@host = http://localhost:5000
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhhN2Y3MjRiMzNhMjA2MDAzMzNmNWUiLCJpYXQiOjE2MDI5OTc5MzMsImV4cCI6MTYwMzA2MjczM30.bnlR84viIgCxF2FO1sekz6WusmDiS9bjtmaT4ANddIg
+
+### Get the Single image
+GET {{host}}/upload/788e99e0a2fe3212cab982fd1bc0bbe2
+Authorization: {{token}}
+
+### post img
+POST {{host}}/upload/
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="img"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+------WebKitFormBoundary--

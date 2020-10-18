@@ -1,0 +1,30 @@
+to get informations along with formdata of files (example)
+
+### in frontend 
+formData.append("img", selectedFile)
+formData.append("title", title)
+formData.append("body", body)
+
+
+### in backend
+1) ensure express.urlencoded({ extended: true })
+
+2) REST-Client extention
+METHOD {{host}}/upload/
+Accept: text/plain
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="title"
+My name is title
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="body"
+My name is body
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="img"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+------WebKitFormBoundary--
