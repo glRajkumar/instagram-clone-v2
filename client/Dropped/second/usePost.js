@@ -13,7 +13,7 @@ const initialState = {
 
 function usePost(url) {
     const [initPostLoad, setInit] = useState(true)
-    const { _id, headers, updateTotalPosts } = useContext(AuthContext)
+    const { _id, userName, img, headers, updateTotalPosts } = useContext(AuthContext)
     const [{ posts, skip, postLoading, hasMore, postError }, dispatch] = useReducer(PostReducer, initialState)
 
     useEffect(() => {
@@ -43,7 +43,8 @@ function usePost(url) {
             await axios.put('/post/like', { postId }, { headers })
             const payload = {
                 like: true,
-                postId
+                postId,
+                _id
             }
             dispatch({ type: 'LIKE', payload })
 
@@ -58,7 +59,8 @@ function usePost(url) {
             await axios.put('/post/unlike', { postId }, { headers })
             const payload = {
                 like: false,
-                postId
+                postId,
+                _id
             }
             dispatch({ type: 'LIKE', payload })
 
@@ -73,7 +75,8 @@ function usePost(url) {
             await axios.put('/post/hearted', { postId }, { headers })
             const payload = {
                 hearted: true,
-                postId
+                postId,
+                _id
             }
             dispatch({ type: 'HEART', payload })
 
@@ -88,7 +91,8 @@ function usePost(url) {
             await axios.put('/post/unhearted', { postId }, { headers })
             const payload = {
                 hearted: false,
-                postId
+                postId,
+                _id
             }
             dispatch({ type: 'HEART', payload })
 
@@ -101,7 +105,30 @@ function usePost(url) {
     const makeComment = async (text, postId) => {
         try {
             if (text !== '') {
-                await axios.put('/comment', { text, postId }, { headers })
+                const { data } = await axios.put('/post/comment', { text, postId }, { headers })
+                const newData = posts.map(post => {
+                    if (post._id === postId) {
+                        return {
+                            ...post,
+                            comments: [
+                                ...post.comments,
+                                {
+                                    _id: data.newId,
+                                    text,
+                                    postedBy: {
+                                        _id,
+                                        userName,
+                                        img
+                                    }
+                                }
+                            ]
+                        }
+                    } else {
+                        return post
+                    }
+                })
+
+                dispatch({ type: 'COMMENT', payload: newData })
             }
 
         } catch (error) {

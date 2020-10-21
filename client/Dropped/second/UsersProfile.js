@@ -99,59 +99,42 @@ const UsersProfile = () => {
                         </div>
 
                         {
-                            (showfollow && !userProfile.isPublic) &&
-                            <div className="public">
-                                <img src="" alt="" />
-                                <div>
-                                    <h5>This account is private</h5>
-                                    <p>Follow this account to see their photos and videos</p>
-                                </div>
-                            </div>
-                        }
+                            !initPicLoad ?
+                                <>
+                                    {
+                                        pics.length > 0 ?
+                                            <div className="profile-posts">
+                                                {
+                                                    pics.map(item => {
+                                                        return (
+                                                            <img
+                                                                key={item._id}
+                                                                className="item"
+                                                                src={`/upload/${item.photo}`}
+                                                                alt={item._id}
+                                                            />
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                            : <h3 className="text-center">No post yet</h3>
+                                    }
 
-                        {
-                            userProfile.isPublic &&
-                            <div>
-                                {
-                                    !initPicLoad ?
-                                        <>
-                                            {
-                                                pics.length > 0 ?
-                                                    <div className="profile-posts">
-                                                        {
-                                                            pics.map(item => {
-                                                                return (
-                                                                    <img
-                                                                        key={item._id}
-                                                                        className="item"
-                                                                        src={`/upload/${item.photo}`}
-                                                                        alt={item._id}
-                                                                    />
-                                                                )
-                                                            })
-                                                        }
-                                                    </div>
-                                                    : <h3 className="text-center">No post yet</h3>
-                                            }
+                                    {
+                                        picsLoading &&
+                                        <div className="rel-pos"><Loading /></div>
+                                    }
 
-                                            {
-                                                picsLoading &&
-                                                <div className="rel-pos"><Loading /></div>
-                                            }
+                                    {
+                                        (hasMore && !picsLoading) &&
+                                        <button onClick={getPhotos}>Load more</button>
+                                    }
 
-                                            {
-                                                (hasMore && !picsLoading) &&
-                                                <button onClick={getPhotos}>Load more</button>
-                                            }
-
-                                            {
-                                                picsError && <div>Error</div>
-                                            }
-                                        </>
-                                        : <div className="rel-pos"><Loading /></div>
-                                }
-
-                            </div>
+                                    {
+                                        picsError && <div>Error</div>
+                                    }
+                                </>
+                                : <div className="rel-pos"><Loading /></div>
                         }
                     </div>
                     : <div className="rel-pos"><Loading /></div>

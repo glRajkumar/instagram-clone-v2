@@ -7,11 +7,13 @@ import useInput from '../Customs/useInput'
 import insta_logo from '../../Img/Insta_logo.png'
 
 const Signup = () => {
-    const [name, nonChange, nmsg, nerr] = useInput('', useNvalid)
+    const [fullName, fnonChange, fnmsg, fnerr] = useInput('', useNvalid)
+    const [userName, unonChange, unmsg, unerr] = useInput('', useNvalid)
     const [email, eonChange, emsg, eerr] = useInput('', useEvalid)
     const [password, ponChange, pmsg, perr] = useInput('', usePvalid)
 
-    let nameRef = useRef('')
+    let fnameRef = useRef('')
+    let unameRef = useRef('')
     let emailRef = useRef('')
     let passRef = useRef('')
     let SubRef = useRef('')
@@ -21,10 +23,14 @@ const Signup = () => {
     const history = useHistory()
 
     useEffect(() => {
-        nameRef.current.focus()
+        fnameRef.current.focus()
     }, [])
 
-    function nameKeyDown(e) {
+    function fnameKeyDown(e) {
+        if (e.key === "Enter") unameRef.current.focus()
+    }
+
+    function unameKeyDown(e) {
         if (e.key === "Enter") emailRef.current.focus()
     }
 
@@ -39,9 +45,9 @@ const Signup = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            if (nerr === false && eerr === false && perr === false) {
+            if (fnerr === false && unerr === false && eerr === false && perr === false) {
                 setLoading(true)
-                await axios.post("/user/register", { name, email, password })
+                await axios.post("/user/register", { fullName, userName, email, password })
                 history.push("/login")
             }
         } catch (error) {
@@ -64,18 +70,32 @@ const Signup = () => {
             </div>
             }
 
-            <label htmlFor="name"> Name </label>
+            <label htmlFor="name"> Full Name </label>
             <input
                 className="input-box"
-                ref={nameRef}
-                onKeyDown={nameKeyDown}
+                ref={fnameRef}
+                onKeyDown={fnameKeyDown}
                 name="name"
                 type="text"
-                value={name}
-                onChange={nonChange}
+                value={fullName}
+                onChange={fnonChange}
             />
             {
-                nerr && <div className="alert"> {nmsg} </div>
+                fnerr && <div className="alert"> {fnmsg} </div>
+            }
+
+            <label htmlFor="name"> User Name </label>
+            <input
+                className="input-box"
+                ref={unameRef}
+                onKeyDown={unameKeyDown}
+                name="name"
+                type="text"
+                value={userName}
+                onChange={unonChange}
+            />
+            {
+                unerr && <div className="alert"> {unmsg} </div>
             }
 
             <label htmlFor="email"> Email </label>

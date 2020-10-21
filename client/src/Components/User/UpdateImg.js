@@ -26,7 +26,7 @@ function UpdateImg() {
             }
         }
 
-        axios.put("/user/update-img", formData, config)
+        axios.put("/user/img", formData, config)
             .then(res => {
                 setProgress(0)
                 updatePic(res.data.img)

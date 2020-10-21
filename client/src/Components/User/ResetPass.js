@@ -29,7 +29,7 @@ const ResetPass = () => {
         try {
             if (eerr === false) {
                 setLoading(true)
-                await axios.post("/user/reset-password", { email })
+                await axios.post("/token/reset", { email })
                 history.push("/token")
             }
         } catch (error) {

@@ -35,7 +35,7 @@ const NewPassGen = () => {
         try {
             if (perr === false) {
                 setLoading(true)
-                await axios.post("/user/new-password", { password, token })
+                await axios.post("/token/new", { password, token })
                 history.push("/login")
             }
         } catch (error) {

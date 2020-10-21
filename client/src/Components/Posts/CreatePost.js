@@ -12,12 +12,13 @@ function CreatePost() {
     const [progress, setProgress] = useState(0)
     const [picUrl, setPicUrl] = useState("")
     const history = useHistory()
-    const { headers } = useContext(AuthContext)
+    const { headers, updateTotalPosts } = useContext(AuthContext)
 
     useEffect(() => {
         if (picUrl) {
             axios.post('/post/createpost', { title, body, picUrl }, { headers })
-                .then((res) => {
+                .then(() => {
+                    updateTotalPosts(true)
                     history.push('/')
                 })
                 .catch(err => {

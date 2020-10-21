@@ -16,7 +16,6 @@ export default (state, action) => {
                 followersCount: action.payload.followersCount,
                 followingCount: action.payload.followingCount,
                 totalPosts: action.payload.totalPosts,
-                isPublic: action.payload.isPublic,
                 auth: action.payload.auth,
                 token: action.payload.token,
                 loading: false
@@ -26,12 +25,6 @@ export default (state, action) => {
             return {
                 ...state,
                 img: action.payload.imgName
-            }
-
-        case "PUBLIC":
-            return {
-                ...state,
-                isPublic: !state.isPublic
             }
 
         case "FOLLOW":
@@ -57,7 +50,6 @@ export default (state, action) => {
                 followingCount: 0,
                 totalPosts: 0,
                 token: "",
-                isPublic: true,
                 auth: false,
                 loading: false,
                 error: ""

@@ -13,14 +13,13 @@ const AuthContextProvider = (props) => {
     fullName: "",
     userName: "",
     email: "",
-    token: "",
     img: null,
-    isPublic: true,
-    auth: false,
-    loading: true,
     followersCount: 0,
     followingCount: 0,
     totalPosts: 0,
+    token: "",
+    auth: false,
+    loading: true,
     error: ""
   }
 
@@ -46,13 +45,35 @@ const AuthContextProvider = (props) => {
             }
           })
 
+          let {
+            _id,
+            fullName,
+            userName,
+            email,
+            img,
+            followersCount,
+            followingCount,
+            totalPosts
+          } = res.data
+
+          console.log({ _id, fullName, userName, email, img, followersCount, followingCount, totalPosts })
+          let b = { ...res.data }
+          console.log(b)
+
           const payload = {
-            ...res.data,
+            _id,
+            fullName,
+            userName,
+            email,
+            img,
+            followersCount,
+            followingCount,
+            totalPosts,
             auth: true,
             token: existed
           }
-          console.log(payload)
 
+          console.log(payload)
           dispatch({ type: "LOGIN", payload })
           history.push("/")
 
@@ -83,21 +104,32 @@ const AuthContextProvider = (props) => {
   const login = async (formData) => {
     try {
       const res = await axios.post("/user/login", formData)
+      const { token, _id, fullName, userName, img, followersCount, followingCount, totalPosts } = await res.data
 
+      console.log({ token, _id, fullName, userName, img, followersCount, followingCount, totalPosts })
       const payload = {
-        ...res.data,
+        _id,
+        fullName,
+        userName,
         email: formData.email,
+        img,
+        followersCount,
+        followingCount,
+        totalPosts,
         auth: true,
+        token
       }
+      console.log('payload')
       console.log(payload)
 
-      localStorage.setItem("insta_token", res.data.token)
+      localStorage.setItem("insta_token", token)
       localStorage.setItem("insta_token_exp", Date.now())
       dispatch({ type: "LOGIN", payload })
       history.push("/")
     } catch (error) {
       console.log(error)
       dispatch({ type: "ERROR" })
+      throw new Error(error)
     }
   }
 
@@ -107,16 +139,7 @@ const AuthContextProvider = (props) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: "ERROR" })
-    }
-  }
-
-  const updatePublic = async () => {
-    try {
-      await axios.put("/user/public", { headers })
-      dispatch({ type: "PUBLIC" })
-    } catch (error) {
-      console.log(error)
-      dispatch({ type: "ERROR" })
+      throw new Error(error)
     }
   }
 
@@ -137,6 +160,7 @@ const AuthContextProvider = (props) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: "ERROR" })
+      throw new Error(error)
     }
   }
 
@@ -157,6 +181,7 @@ const AuthContextProvider = (props) => {
     } catch (error) {
       console.log(error)
       dispatch({ type: "ERROR" })
+      throw new Error(error)
     }
   }
 
@@ -194,7 +219,6 @@ const AuthContextProvider = (props) => {
       userName: state.userName,
       email: state.email,
       img: state.img,
-      isPublic: state.isPublic,
       followersCount: state.followersCount,
       followingCount: state.followingCount,
       totalPosts: state.totalPosts,
@@ -203,7 +227,6 @@ const AuthContextProvider = (props) => {
       headers,
       login,
       updatePic,
-      updatePublic,
       updateFollow,
       updateTotalPosts,
       logout,

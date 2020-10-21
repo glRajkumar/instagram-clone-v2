@@ -66,7 +66,7 @@ function Posts({ url, text }) {
               <div className="post-content">
                 <div className="post-icons">
                   {
-                    post.isHearted
+                    post.hearted.includes(_id)
                       ?
                       <img src={heartRed} alt="heart-icon" className="icons" onClick={() => { unheartPost(post._id) }} />
                       :
@@ -74,7 +74,7 @@ function Posts({ url, text }) {
                   }
 
                   {
-                    post.isLiked
+                    post.likes.includes(_id)
                       ?
                       <img className="icons" alt="unlike-icon" src={unlikeIc} onClick={() => { unlikePost(post._id) }} />
                       :
@@ -87,7 +87,23 @@ function Posts({ url, text }) {
                 <h6 className="post-body">{post.body}</h6>
 
                 <div className="post-comments">
-                  {post.commentsCount > 0 ? `view all ${post.commentsCount}` : `still no one commented`}
+                  {
+                    post.comments.map(comment => {
+                      return (
+                        <div style={{ paddingBottom: '0.3rem' }} key={comment._id}>
+                          <span style={{ fontWeight: "bolder" }}>
+                            <img
+                              className="post-comments-img"
+                              src={comment.postedBy.img ? `/upload/${comment.postedBy.img}` : user}
+                              alt="user-img"
+                            />
+                            {` ${comment.postedBy.userName} - `}
+                          </span>
+                          <span> {comment.text} </span>
+                        </div>
+                      )
+                    })
+                  }
                 </div>
 
                 <form onSubmit={(e) => {

@@ -36,7 +36,10 @@ const PostReducer = (state, { type, payload }) => {
                     if (post._id === payload.postId) {
                         return {
                             ...post,
-                            isLiked: true,
+                            likes: [
+                                ...post.likes,
+                                payload._id
+                            ],
                             likesCount: post.likesCount + 1
                         }
                     } else {
@@ -50,9 +53,10 @@ const PostReducer = (state, { type, payload }) => {
             } else {
                 const newData = state.posts.map(post => {
                     if (post._id === payload.postId) {
+                        let newLike = post.likes.filter(like => like !== payload._id)
                         return {
                             ...post,
-                            isLiked: false,
+                            likes: newLike,
                             likesCount: post.likesCount - 1
                         }
                     } else {
@@ -71,7 +75,10 @@ const PostReducer = (state, { type, payload }) => {
                     if (post._id === payload.postId) {
                         return {
                             ...post,
-                            isHearted: true
+                            hearted: [
+                                ...post.hearted,
+                                payload._id
+                            ]
                         }
                     } else {
                         return post
@@ -84,9 +91,10 @@ const PostReducer = (state, { type, payload }) => {
             } else {
                 const newData = state.posts.map(post => {
                     if (post._id === payload.postId) {
+                        let newLike = post.hearted.filter(hearted => hearted !== payload._id)
                         return {
                             ...post,
-                            isHearted: false
+                            hearted: newLike
                         }
                     } else {
                         return post

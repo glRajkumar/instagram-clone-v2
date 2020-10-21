@@ -39,7 +39,7 @@ function NewPass() {
         event.preventDefault();
         try {
             if (operr === false && nperr === false && cperr === false) {
-                await axios.put("/user/update-password", { oldPass, newPass }, { headers })
+                await axios.put("/user/password", { oldPass, newPass }, { headers })
                 history.push('/profile')
             }
         } catch (error) {
