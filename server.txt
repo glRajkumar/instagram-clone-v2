@@ -1,0 +1,6 @@
+to check the string is present in an array, we can do as the following ways
+
+### let the array be A, and the string be x.
+
+1) A.map(a => a.toString()).includes(x) //in array method
+2) A.toString().includes(x) //in string method

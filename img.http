@@ -1,9 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhhN2Y3MjRiMzNhMjA2MDAzMzNmNWUiLCJpYXQiOjE2MDI5OTc5MzMsImV4cCI6MTYwMzA2MjczM30.bnlR84viIgCxF2FO1sekz6WusmDiS9bjtmaT4ANddIg
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhlYmRmOWM5OThjMDAyYTQyZTA3NzAiLCJpYXQiOjE2MDMxOTAyNzcsImV4cCI6MTYwMzI1NTA3N30.-dDibI9zzNrexbKLH0tCxxsI-ph81E-sMUM3_rDmwaY
 
 ### Get the Single image
 GET {{host}}/upload/788e99e0a2fe3212cab982fd1bc0bbe2
-Authorization: {{token}}
 
 ### post img
 POST {{host}}/upload/

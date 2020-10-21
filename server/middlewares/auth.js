@@ -9,8 +9,9 @@ async function auth(req, res, next) {
         let userId = payload.userId
 
         let user = await User.findById(userId)
-        let tokenIndex = user.token.indexOf(token)
         if (!user) return res.status(400).send("User was not found")
+
+        let tokenIndex = user.token.indexOf(token)
 
         if (tokenIndex > -1) {
             req.user = user

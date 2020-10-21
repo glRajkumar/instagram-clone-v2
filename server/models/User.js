@@ -14,6 +14,11 @@ let User = mongoose.model('User', {
         unique: true,
     },
 
+    isPublic: {
+        type: Boolean,
+        default: true
+    },
+
     email: {
         type: String,
         required: [true, "Email is required"],

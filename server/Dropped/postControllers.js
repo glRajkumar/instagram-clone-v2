@@ -30,6 +30,7 @@ router.get('/allpost', auth, async (req, res) => {
     try {
         let posts = await Post.find()
             .populate("postedBy", "_id userName img")
+            .populate("comments.postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
             .limit(5)
@@ -60,6 +61,7 @@ router.get('/mypost', auth, async (req, res) => {
     try {
         let posts = await Post.find({ postedBy: req.user._id })
             .populate("postedBy", "_id userName img")
+            .populate("comments.postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
             .limit(5)
@@ -90,6 +92,7 @@ router.get('/getsubpost', auth, async (req, res) => {
     try {
         let posts = await Post.find({ postedBy: { $in: req.user.following } })
             .populate("postedBy", "_id userName img")
+            .populate("comments.postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
             .limit(5)
@@ -185,6 +188,40 @@ router.put('/unlike', auth, async (req, res) => {
 
     } catch (error) {
         res.status(400).json({ error, msg: 'unliked action failed' })
+    }
+})
+
+router.put('/comment', auth, async (req, res) => {
+    const { postId } = req.body
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user._id
+    }
+
+    try {
+        const post = await Post.findByIdAndUpdate(postId,
+            { $push: { comments: comment }, $inc: { commentsCount: 1 } },
+            { new: true }).select('comments._id')
+
+        let last = post.comments.length - 1
+        let newId = post.comments[last]._id
+        res.json({ newId, msg: 'commented successfully' })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: 'comment action failed' })
+    }
+})
+
+router.delete('/comment', auth, async (req, res) => {
+    const { postId, commentId } = req.body
+
+    try {
+        await Post.findByIdAndUpdate(postId,
+            { $pull: { comments: { _id: commentId } }, $inc: { commentsCount: -1 } })
+        res.json({ msg: " comment deleted successfully" })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: 'delete action failed' })
     }
 })
 

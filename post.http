@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhhN2Y3MjRiMzNhMjA2MDAzMzNmNWUiLCJpYXQiOjE2MDI5OTc5MzMsImV4cCI6MTYwMzA2MjczM30.bnlR84viIgCxF2FO1sekz6WusmDiS9bjtmaT4ANddIg
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhlYmRmOWM5OThjMDAyYTQyZTA3NzAiLCJpYXQiOjE2MDMxOTAyNzcsImV4cCI6MTYwMzI1NTA3N30.-dDibI9zzNrexbKLH0tCxxsI-ph81E-sMUM3_rDmwaY
 
 ### get onlyphotos 
-GET {{host}}/post/onlyphotos/5f8a7f724b33a20600333f5e/?skip=6
+GET {{host}}/post/onlyphotos/5f8ebdf9c998c002a42e0770/?skip=0
 Authorization: {{token}}
 
 ### get my post 
@@ -25,7 +25,7 @@ Authorization: {{token}}
 {
     "title" : "title3",
     "body" : "body3",
-    "picUrl" : "5ffea9e3f5a15f09fcd219fe8484b136"
+    "picUrl" : "db684dbdfc5bcb6f6f43ba66e4e10051"
 }
 
 ### like post
@@ -34,7 +34,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f8a853c066cb3316caf1c96"
+    "postId": "5f8ebec6c998c002a42e0782"
 }
 
 ### unlike post
@@ -52,7 +52,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f8a853c066cb3316caf1c96"
+    "postId": "5f8ebec3c998c002a42e077e"
 }
 
 ### unhearted post
@@ -64,28 +64,8 @@ Authorization: {{token}}
     "postId": "5f8a853c066cb3316caf1c96"
 }
 
-### comment post
-PUT {{host}}/post/comment
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-    "text": "actual",
-    "postId" : "5f8a853c066cb3316caf1c96"
-}
-
-### delete comment
-DELETE {{host}}/post/comment
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-    "postId" : "5f8a853c066cb3316caf1c96",
-    "commentId" : "5f8ad3326230f64ba885fe8f"
-}
-
-### delete
-DELETE  {{host}}/post/5f8ad2b6f8babb36a4f14d99
+### delete the particular post
+DELETE  {{host}}/post/5f8ebec6c998c002a42e0783
 Content-Type: application/json
 Authorization: {{token}}
 

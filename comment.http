@@ -1,0 +1,38 @@
+@host = http://localhost:5000
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhlYmRmOWM5OThjMDAyYTQyZTA3NzAiLCJpYXQiOjE2MDMxOTAyNzcsImV4cCI6MTYwMzI1NTA3N30.-dDibI9zzNrexbKLH0tCxxsI-ph81E-sMUM3_rDmwaY
+
+### get comments 
+GET {{host}}/comment/5f8ebec6c998c002a42e0782/?skip=0
+Content-Type: application/json
+Authorization: {{token}}
+
+### post comment
+POST {{host}}/comment
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "text": "actumnjhal",
+    "postId" : "5f8ebec6c998c002a42e0782"
+}
+
+### put comment
+PUT {{host}}/comment
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "text": "actual iuhbjkkkkkhhffbbvb",
+    "commentId" : "5f8fab81d9c35827d431787d"
+}
+
+### delete comment
+DELETE {{host}}/comment
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "postId" : "5f8ebec6c998c002a42e0782",
+    "commentId" : "5f8f030eb4400c58b8bb2160"
+}
+

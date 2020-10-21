@@ -1,40 +1,42 @@
-const crypto = require('crypto')
 const express = require('express')
-const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const auth = require('../middlewares/auth')
 const upload = require("../middlewares/GFupload")
 const User = require('../models/User')
-const Token = require('../models/Token')
-const nodemailer = require('nodemailer')
 require('dotenv').config()
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASS
+const router = express.Router()
+
+router.get('/me', auth, async (req, res) => {
+    let { _id, fullName, userName, isPublic, email, img, followersCount, followingCount, totalPosts } = req.user
+
+    try {
+        res.json({ _id, fullName, userName, isPublic, email, img, followersCount, followingCount, totalPosts })
+    } catch (error) {
+        res.status(400).json({ error, msg: "Cannot find the user" })
     }
 })
 
-router.get('/me', auth, async (req, res) => {
-    const id = req.user._id
+router.get('/saved', auth, async (req, res) => {
+    let { savedPosts } = req.user
 
     try {
-        const user = await User.findOne({ _id: id }).select("-password -token")
-        res.json({ user })
+        res.json({ savedPosts })
     } catch (error) {
         res.status(400).json({ error, msg: "Cannot find the user" })
     }
 })
 
 router.get('/:id', auth, async (req, res) => {
+    const userMe = req.user
     const id = req.params.id
 
     try {
-        const user = await User.findOne({ _id: id }).select("-password -token")
-        res.json({ user })
+        const otherUser = await User.findOne({ _id: id }).select("-password -token -followers -following -savedPosts")
+        const isFollowing = userMe.following.includes(id)
+        res.json({ otherUser, isFollowing })
+
     } catch (error) {
         res.status(400).json({ error, msg: 'cannot get user' })
     }
@@ -73,28 +75,28 @@ router.post('/login', async (req, res) => {
         user.token = user.token.concat(token)
         await user.save()
 
-        user = {
-            _id: user._id,
-            fullName: user.fullName,
-            userName: user.userName,
-            email: user.email,
-            img: user.img,
-            followers: user.followers,
-            followersCount: user.followersCount,
-            following: user.following,
-            followingCount: user.followingCount,
-            totalPosts: user.totalPosts,
-            savedPosts: user.savedPosts
-        }
+        let { _id, fullName, userName, isPublic, img, followersCount, followingCount, totalPosts } = user
 
-        res.json({ token, user })
+        res.json({ token, _id, fullName, isPublic, userName, img, followersCount, followingCount, totalPosts })
 
     } catch (error) {
         res.status(400).json({ error, msg: "User LogIn failed" })
     }
 })
 
-router.put('/update-img', auth, upload.single("img"), async (req, res) => {
+router.put('/public', auth, async (req, res) => {
+    let user = req.user
+
+    try {
+        user.isPublic = !user.isPublic
+        await user.save()
+        res.json({ msg: "public action successful" })
+    } catch (error) {
+        res.status(400).json({ error, msg: "public action failed" })
+    }
+})
+
+router.put('/img', auth, upload.single("img"), async (req, res) => {
     const id = req.user._id
     const img = req.file.filename
 
@@ -158,7 +160,7 @@ router.put('/unsavepost', auth, async (req, res) => {
     }
 })
 
-router.put('/update-password', auth, async (req, res) => {
+router.put('/password', auth, async (req, res) => {
     let { oldPass, newPass } = req.body
 
     try {
@@ -176,61 +178,6 @@ router.put('/update-password', auth, async (req, res) => {
 
     } catch (error) {
         res.status(400).json({ error, msg: "User password update failed" })
-    }
-})
-
-router.post('/reset-password', async (req, res) => {
-    const { email } = req.body
-
-    try {
-        const buffer = crypto.randomBytes(32).toString("hex")
-        if (!buffer) return console.log(buffer)
-        const resetPassToken = buffer
-
-        const user = await User.findOne({ email })
-        if (!user) return res.status(422).json({ msg: "User dont exists with that email" })
-
-        const token = new Token({ resetPassToken, expirePassToken: Date.now() + 3600000, email })
-        await token.save()
-
-        await transporter.sendMail({
-            to: email,
-            from: process.env.EMAIL,
-            subject: "password reset",
-            html: `
-            <p>You requested for password reset</p>
-            <h5>copy the following token to reset the password</h5>
-            <br />
-            <h2>${resetPassToken}</h2>
-            <br /> `
-        })
-        // if (info) console.log("email send " + info.response) -- to check mailer is working
-        res.json({ msg: "check your email" })
-
-    } catch (error) {
-        res.status(400).json({ error, msg: "cannot reset password" })
-    }
-})
-
-router.post('/new-password', async (req, res) => {
-    const newPassword = req.body.password
-    const sentToken = req.body.token
-
-    try {
-        const token = await Token.findOne({ resetPassToken: sentToken, expirePassToken: { $gt: Date.now() } })
-        if (!token) return res.status(422).json({ error: "Try again session expired" })
-
-        const salt = await bcrypt.genSalt(10)
-        const hash = await bcrypt.hash(newPassword, salt)
-
-        const user = await User.findOne({ email: token.email })
-        user.password = hash
-        await user.save()
-
-        res.json({ msg: "password updated success" })
-
-    } catch (error) {
-        res.status(400).json({ error, msg: 'cannot set new password' })
     }
 })
 

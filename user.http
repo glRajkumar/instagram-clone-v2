@@ -1,12 +1,16 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhhN2Y3MjRiMzNhMjA2MDAzMzNmNWUiLCJpYXQiOjE2MDI5OTc5MzMsImV4cCI6MTYwMzA2MjczM30.bnlR84viIgCxF2FO1sekz6WusmDiS9bjtmaT4ANddIg
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhlYmRmOWM5OThjMDAyYTQyZTA3NzAiLCJpYXQiOjE2MDMxOTAyNzcsImV4cCI6MTYwMzI1NTA3N30.-dDibI9zzNrexbKLH0tCxxsI-ph81E-sMUM3_rDmwaY
 
 ### get me 
 GET {{host}}/user/me
 Authorization: {{token}}
 
+### get saved 
+GET {{host}}/user/saved
+Authorization: {{token}}
+
 ### get user by id
-GET {{host}}/user/5f684c9b44974b3a587907ca
+GET {{host}}/user/5f8bfec66c059546687ba510
 Authorization: {{token}}
 
 ### register
@@ -15,8 +19,8 @@ Content-Type: application/json
 
 {
     "fullName" : "newname",
-    "userName": "kiuj",
-    "email" : "nnnaf@nnnn.com",
+    "userName": "kjuh",
+    "email" : "aaa@ngmail.com",
     "password" : "aA1!aaaa"
 }
 
@@ -25,20 +29,26 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "mm@mmm.mmm",
-    "password" : "aA1!aa"
+    "email" : "myn0naf@nnnn.com",
+    "password" : "Aa1!abba"
 }
 
-### updatePass
-PUT {{host}}/user
+### update public preference
+PUT {{host}}/user/public
 Content-Type: application/json
 Authorization: {{token}}
 
-{
-    "email" : "kk@bb.bb",
-    "oldPass" : "aA1!aaaa",
-    "newPass" : "Aa1!abba"
-}
+### update user img
+PUT {{host}}/user/img
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="img"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+------WebKitFormBoundary--
 
 ### follow
 PUT {{host}}/user/follow
@@ -46,7 +56,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "followId" : "5f5cae1de665bf35f420d4d2"
+    "followId" : "5f8bfec66c059546687ba510"
 }
 
 ### unfollow
@@ -55,7 +65,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "unfollowId" : "5f5cae1de665bf35f420d4d2"
+    "unfollowId" : "5f8bfec66c059546687ba510"
 }
 
 ### save post
@@ -64,7 +74,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId" : "5f8a83cc9f1252244818dc74"
+    "postId" : "5f8ebec1c998c002a42e077b"
 }
 
 ### unsave post
@@ -76,23 +86,14 @@ Authorization: {{token}}
     "postId" : "5f8a853b066cb3316caf1c95"
 }
 
-### reset password
-POST {{host}}/user/reset-password
+### update password
+PUT {{host}}/user/password
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "email" : ""
-}
-
-### new password
-POST {{host}}/user/new-password
-Content-Type: application/json
-Authorization: {{token}}
-
-{
-    "password" : "akssd@aa.bb",
-    "token" : "afbacd0fc2b9a0842f3a49c3fcd0b026ec5267115eb04f87b14947faa1a49a31"
+    "oldPass" : "aA1!aaaa",
+    "newPass" : "Aa1!amja"
 }
 
 ###search users
