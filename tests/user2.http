@@ -1,5 +1,6 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzc1OWViYmM5MjA1OGMzNDRkMWIiLCJpYXQiOjE2MDM0MTc5NDksImV4cCI6MTYwMzQ4Mjc0OX0.qQ9vfKNRMk2FPNE-VjSRDEINuJ4qoc9fJHWzSVoq6yU
+
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM0MTg2MjYsImV4cCI6MTYwMzQ4MzQyNn0.-GY6lSwk_YfHANf-H2JLKjTwzbjJTz0zsBu0JafBoJQ
 
 ### get full 
 GET {{host}}/user/full
@@ -22,7 +23,7 @@ GET {{host}}/user/saved
 Authorization: {{token}}
 
 ### get user by id
-GET {{host}}/user/5f923759ebbc92058c344d1b
+GET {{host}}/user/5f91489b12284506ec39d85e
 Authorization: {{token}}
 
 ### register
@@ -31,8 +32,8 @@ Content-Type: application/json
 
 {
     "fullName" : "newname",
-    "userName": "kjdduh",
-    "email" : "aahda@ngmail.com",
+    "userName": "duh",
+    "email" : "aaa@ngmail.com",
     "password" : "aA1!aaaa"
 }
 
@@ -41,7 +42,7 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "aahda@ngmail.com",
+    "email" : "aaa@ngmail.com",
     "password" : "aA1!aaaa"
 }
 
@@ -77,7 +78,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "unfollowId" : "5f9239ff7ba0ba3018ad4593"
+    "unfollowId" : "5f8bfec66c059546687ba510"
 }
 
 ### request to follow
@@ -86,7 +87,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "reqId" : "5f9239ff7ba0ba3018ad4593"
+    "reqId" : "5f923759ebbc92058c344d1b"
 }
 
 ### cancel the request
@@ -95,7 +96,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "reqId" : "5f9239ff7ba0ba3018ad4593"
+    "reqId" : "5f8ebec1c998c002a42e077b"
 }
 
 ### accept the request
@@ -104,7 +105,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "reqId" : "5f9239ff7ba0ba3018ad4593"
+    "reqId" : "5f923759ebbc92058c344d1b"
 }
 
 ### decline the request
@@ -113,7 +114,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "reqId" : "5f8ebec1c998c002a42e077b"
+    "reqId" : "5f923759ebbc92058c344d1b"
 }
 
 ### save post
@@ -122,7 +123,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId" : "5f925c3605033b162c22ff35"
+    "postId" : "5f8ebec1c998c002a42e077b"
 }
 
 ### unsave post

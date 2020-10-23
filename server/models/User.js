@@ -66,6 +66,16 @@ let User = mongoose.model('User', {
     savedPosts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post"
+    }],
+
+    requested: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+
+    requests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }]
 })
 

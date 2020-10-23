@@ -1,20 +1,28 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhlYmRmOWM5OThjMDAyYTQyZTA3NzAiLCJpYXQiOjE2MDMxOTAyNzcsImV4cCI6MTYwMzI1NTA3N30.-dDibI9zzNrexbKLH0tCxxsI-ph81E-sMUM3_rDmwaY
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzc1OWViYmM5MjA1OGMzNDRkMWIiLCJpYXQiOjE2MDM0MTc5NDksImV4cCI6MTYwMzQ4Mjc0OX0.qQ9vfKNRMk2FPNE-VjSRDEINuJ4qoc9fJHWzSVoq6yU
 
 ### get onlyphotos 
 GET {{host}}/post/onlyphotos/5f8ebdf9c998c002a42e0770/?skip=0
 Authorization: {{token}}
 
 ### get my post 
-GET {{host}}/post/mypost/?skip=5
+GET {{host}}/post/mypost/?skip=0
 Authorization: {{token}}
 
 ### get all post 
-GET {{host}}/post/allpost/?skip=5
+GET {{host}}/post/allpost/?skip=0
+Authorization: {{token}}
+
+### get hearted post 
+GET {{host}}/post/heartedpost/?skip=0
+Authorization: {{token}}
+
+### get savedpost post 
+GET {{host}}/post/savedpost/?skip=0
 Authorization: {{token}}
 
 ### get sub post 
-GET {{host}}/post/getsubpost/?skip=5
+GET {{host}}/post/getsubpost/?skip=0
 Authorization: {{token}}
 
 ### create post
@@ -34,7 +42,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f8ebec6c998c002a42e0782"
+    "postId": "5f925c3905033b162c22ff39"
 }
 
 ### unlike post
@@ -52,7 +60,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f8ebec3c998c002a42e077e"
+    "postId": "5f925c3605033b162c22ff35"
 }
 
 ### unhearted post

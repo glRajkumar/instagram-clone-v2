@@ -83,6 +83,66 @@ router.get('/mypost', auth, async (req, res) => {
     }
 })
 
+router.get('/heartedpost', auth, async (req, res) => {
+    const skip = parseInt(req.query.skip)
+    const strId = req.user._id.toString()
+
+    try {
+        let posts = await Post.find({ hearted: { $in: req.user._id } })
+            .populate("postedBy", "_id userName img")
+            .sort('-createdAt')
+            .skip(skip)
+            .limit(5)
+            .lean()
+
+        posts = posts.map(post => {
+            return {
+                ...post,
+                likes: 0,
+                hearted: 0,
+                isLiked: post.likes.toString().includes(strId),
+                isHearted: true,
+                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+            }
+        })
+
+        res.json({ posts })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: "cannot get hearted posts" })
+    }
+})
+
+router.get('/savedpost', auth, async (req, res) => {
+    const skip = parseInt(req.query.skip)
+    const strId = req.user._id.toString()
+
+    try {
+        let posts = await Post.find({ _id: { $in: req.user.savedPosts } })
+            .populate("postedBy", "_id userName img")
+            .sort('-createdAt')
+            .skip(skip)
+            .limit(5)
+            .lean()
+
+        posts = posts.map(post => {
+            return {
+                ...post,
+                likes: 0,
+                hearted: 0,
+                isLiked: post.likes.toString().includes(strId),
+                isHearted: post.hearted.toString().includes(strId),
+                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+            }
+        })
+
+        res.json({ posts })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: "cannot get hearted posts" })
+    }
+})
+
 router.get('/getsubpost', auth, async (req, res) => {
     const skip = parseInt(req.query.skip)
     const strId = req.user._id.toString()

@@ -42,10 +42,7 @@ router.get('/requests', auth, async (req, res) => {
     const { _id } = req.user
 
     try {
-        const requests = await User.findOne({ _id })
-            .select('-_id requests')
-            .populate('requests', '_id img userName')
-            .lean()
+        const requests = await User.findOne({ _id }).select('requests').populate('requests', '_id img userName').lean()
         res.json({ requests })
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get requests" })
@@ -56,10 +53,7 @@ router.get('/requested', auth, async (req, res) => {
     const { _id } = req.user
 
     try {
-        const requested = await User.findOne({ _id })
-            .select('-_id requested')
-            .populate('requested', '_id img userName')
-            .lean()
+        const requested = await User.findOne({ _id }).select('requested').populate('requested', '_id img userName').lean()
         res.json({ requested })
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get requested" })
@@ -71,9 +65,7 @@ router.get('/:id', auth, async (req, res) => {
     const id = req.params.id
 
     try {
-        const otherUser = await User.findOne({ _id: id })
-            .select("-password -token -followers -following -savedPosts -requested -requests")
-            .lean()
+        const otherUser = await User.findOne({ _id: id }).select("-password -token -followers -following -savedPosts -requested -requests")
         const isFollowing = userMe.following.includes(id)
         res.json({ otherUser, isFollowing })
 
@@ -153,14 +145,8 @@ router.put('/follow', auth, async (req, res) => {
     const id = req.user._id
 
     try {
-        await User.findByIdAndUpdate(followId, {
-            $push: { followers: id },
-            $inc: { followersCount: 1 }
-        })
-        await User.findByIdAndUpdate(id, {
-            $push: { following: followId },
-            $inc: { followingCount: 1 }
-        })
+        await User.findByIdAndUpdate(followId, { $push: { followers: id }, $inc: { followersCount: 1 } })
+        await User.findByIdAndUpdate(id, { $push: { following: followId }, $inc: { followingCount: 1 } })
         res.json({ msg: "follow action saved successfully" })
     } catch (error) {
         res.status(400).json({ error, msg: "follow action failed" })
@@ -172,14 +158,8 @@ router.put('/unfollow', auth, async (req, res) => {
     const id = req.user._id
 
     try {
-        await User.findByIdAndUpdate(unfollowId, {
-            $pull: { followers: id },
-            $inc: { followersCount: -1 }
-        })
-        await User.findByIdAndUpdate(id, {
-            $pull: { following: unfollowId },
-            $inc: { followingCount: -1 }
-        })
+        await User.findByIdAndUpdate(unfollowId, { $pull: { followers: id }, $inc: { followersCount: -1 } })
+        await User.findByIdAndUpdate(id, { $pull: { following: unfollowId }, $inc: { followingCount: -1 } })
         res.json({ msg: "unfollow action saved successfully" })
     } catch (error) {
         res.status(400).json({ error, msg: "unfollow action failed" })
@@ -243,16 +223,8 @@ router.put('/accept-req', auth, async (req, res) => {
     const id = req.user._id
 
     try {
-        await User.findByIdAndUpdate(id, {
-            $push: { followers: reqId },
-            $pull: { requests: reqId },
-            $inc: { followersCount: 1 }
-        })
-        await User.findByIdAndUpdate(reqId, {
-            $push: { following: id },
-            $pull: { requested: id },
-            $inc: { followingCount: 1 }
-        })
+        await User.findByIdAndUpdate(id, { $push: { followers: reqId }, $pull: { requests: reqId }, $inc: { followersCount: 1 } })
+        await User.findByIdAndUpdate(reqId, { $push: { following: id }, $pull: { requested: id }, $inc: { followingCount: 1 } })
         res.json({ msg: 'accept-req request accepted successfully' })
     } catch (error) {
         res.status(400).json({ error, msg: "accept-req request accepted action failed" })
