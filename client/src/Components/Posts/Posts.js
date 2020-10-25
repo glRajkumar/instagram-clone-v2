@@ -1,13 +1,16 @@
 import React from 'react'
 import Loading from '../Common/Loading'
 import '../../CSS/home.css'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import deleteIc from '../../Img/delete.png'
 import likeIc from '../../Img/like.png'
 import unlikeIc from '../../Img/unlike.png'
 import heart from '../../Img/heart.png'
 import heartRed from '../../Img/heart_red.png'
-import user from '../../Img/user.png'
+import user from '../../Img/user.svg'
+import save from '../../Img/save.png'
+import saved from '../../Img/saved.png'
+import comment from '../../Img/comment.png'
 import usePost from '../Customs/usePost'
 
 function Posts({ url, text }) {
@@ -23,9 +26,13 @@ function Posts({ url, text }) {
     unlikePost,
     heartPost,
     unheartPost,
+    savePost,
+    unsavePost,
     makeComment,
     deletePost
   ] = usePost(url)
+
+  const history = useHistory()
 
   const Nothing = () => (
     <h2 className="text-center"> {text} </h2>
@@ -80,6 +87,16 @@ function Posts({ url, text }) {
                       :
                       <img className="icons" alt="like-icon" src={likeIc} onClick={() => { likePost(post._id) }} />
                   }
+
+                  <img className="icons" alt="like-icon" src={comment} onClick={() => { history.push(`/comments/${post._id}`) }} />
+
+                  {
+                    post.isSaved
+                      ?
+                      <img className="icons" alt="save-icon" src={saved} onClick={() => { unsavePost(post._id) }} />
+                      :
+                      <img className="icons" alt="saved-icon" src={save} onClick={() => { savePost(post._id) }} />
+                  }
                 </div>
 
                 <h6 className="post-likes">{post.likesCount} likes</h6>
@@ -87,7 +104,11 @@ function Posts({ url, text }) {
                 <h6 className="post-body">{post.body}</h6>
 
                 <div className="post-comments">
-                  {post.commentsCount > 0 ? `view all ${post.commentsCount}` : `still no one commented`}
+                  {
+                    post.commentsCount > 0 ?
+                      `view all ${post.commentsCount} comments` :
+                      `still no one commented`
+                  }
                 </div>
 
                 <form onSubmit={(e) => {

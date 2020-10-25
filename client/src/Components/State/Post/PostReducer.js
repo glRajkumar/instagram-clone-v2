@@ -65,6 +65,39 @@ const PostReducer = (state, { type, payload }) => {
                 }
             }
 
+        case "SAVE":
+            if (payload.save) {
+                const newData = state.posts.map(post => {
+                    if (post._id === payload.postId) {
+                        return {
+                            ...post,
+                            isSaved: true
+                        }
+                    } else {
+                        return post
+                    }
+                })
+                return {
+                    ...state,
+                    posts: newData
+                }
+            } else {
+                const newData = state.posts.map(post => {
+                    if (post._id === payload.postId) {
+                        return {
+                            ...post,
+                            isSaved: false
+                        }
+                    } else {
+                        return post
+                    }
+                })
+                return {
+                    ...state,
+                    posts: newData
+                }
+            }
+
         case "HEART":
             if (payload.hearted) {
                 const newData = state.posts.map(post => {
@@ -98,10 +131,20 @@ const PostReducer = (state, { type, payload }) => {
                 }
             }
 
-        case "COMMENT":
+        case 'COMMENT':
+            const newsData = state.posts.map(post => {
+                if (post._id === payload) {
+                    return {
+                        ...post,
+                        commentsCount: post.commentsCount + 1
+                    }
+                } else {
+                    return post
+                }
+            })
             return {
                 ...state,
-                posts: payload
+                posts: newsData
             }
 
         case "DELETE":

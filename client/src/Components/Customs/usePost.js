@@ -28,8 +28,6 @@ function usePost(url) {
             const payload = {
                 posts: res.data.posts
             }
-            console.log("posts")
-            console.log(res.data.posts)
             dispatch({ type: 'GET', payload })
 
         } catch (error) {
@@ -98,10 +96,41 @@ function usePost(url) {
         }
     }
 
+    const savePost = async (postId) => {
+        try {
+            await axios.put('/user/savepost', { postId }, { headers })
+            const payload = {
+                save: true,
+                postId
+            }
+            dispatch({ type: 'SAVE', payload })
+
+        } catch (error) {
+            dispatch({ type: "ERROR" })
+            console.log(error)
+        }
+    }
+
+    const unsavePost = async (postId) => {
+        try {
+            await axios.put('/user/unsavepost', { postId }, { headers })
+            const payload = {
+                save: false,
+                postId
+            }
+            dispatch({ type: 'SAVE', payload })
+
+        } catch (error) {
+            dispatch({ type: "ERROR" })
+            console.log(error)
+        }
+    }
+
     const makeComment = async (text, postId) => {
         try {
             if (text !== '') {
-                await axios.put('/comment', { text, postId }, { headers })
+                await axios.post('/comment', { text, postId }, { headers })
+                dispatch({ type: 'COMMENT', payload: postId })
             }
 
         } catch (error) {
@@ -134,6 +163,8 @@ function usePost(url) {
         unlikePost,
         heartPost,
         unheartPost,
+        savePost,
+        unsavePost,
         makeComment,
         deletePost
     ]

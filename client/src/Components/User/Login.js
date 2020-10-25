@@ -35,7 +35,11 @@ const Login = () => {
         try {
             if (eerr === false && perr === false) {
                 setLoading(true)
-                await login({ email, password })
+                let res = await login({ email, password })
+                if (!res) {
+                    setLoading(false)
+                    setLogfail(true)
+                }
             }
         } catch (error) {
             setLoading(false)

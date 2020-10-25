@@ -27,7 +27,6 @@ const AuthContextProvider = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, inialState)
   const history = useHistory()
 
-  console.log(state)
   let headers = {
     Authorization: "Bearer " + state.token
   }
@@ -37,6 +36,11 @@ const AuthContextProvider = (props) => {
       const existed = localStorage.getItem("insta_token")
       const exp = localStorage.getItem("insta_token_exp")
       const valid = 64800000 - (Date.now() - exp)
+
+      console.log(valid)
+      console.log(exp)
+      console.log(Date.now())
+      console.log(Date.now() - exp)
 
       if (existed) {
         if (valid > 0) {
@@ -51,7 +55,6 @@ const AuthContextProvider = (props) => {
             auth: true,
             token: existed
           }
-          console.log(payload)
 
           dispatch({ type: "LOGIN", payload })
           history.push("/")
@@ -89,15 +92,16 @@ const AuthContextProvider = (props) => {
         email: formData.email,
         auth: true,
       }
-      console.log(payload)
 
       localStorage.setItem("insta_token", res.data.token)
       localStorage.setItem("insta_token_exp", Date.now())
       dispatch({ type: "LOGIN", payload })
       history.push("/")
+      return true
     } catch (error) {
       console.log(error)
       dispatch({ type: "ERROR" })
+      return false
     }
   }
 
@@ -112,7 +116,7 @@ const AuthContextProvider = (props) => {
 
   const updatePublic = async () => {
     try {
-      await axios.put("/user/public", { headers })
+      await axios.put("/user/public", {}, { headers })
       dispatch({ type: "PUBLIC" })
     } catch (error) {
       console.log(error)
@@ -175,8 +179,7 @@ const AuthContextProvider = (props) => {
 
   const deleteAcc = async () => {
     try {
-      await axios.delete("/user", { headers })
-      await axios.delete("/post", { headers })
+      await axios.delete("/delete", { headers })
       localStorage.removeItem("insta_token")
       localStorage.removeItem("insta_token_exp")
       dispatch({ type: "LOGOUT" })

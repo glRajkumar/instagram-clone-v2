@@ -1,0 +1,27 @@
+.commets{
+    padding: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;  
+}
+
+.comment{
+    margin: .5rem 0;
+}
+
+.extra{
+    margin-right: .5rem;
+}
+
+.comment-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-body{
+    word-break: break-all;
+    margin-bottom: .7rem;
+    opacity: .8;
+}
+

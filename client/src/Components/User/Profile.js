@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import '../../CSS/profile.css'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
-import user from '../../Img/user.png'
+import user from '../../Img/user.svg'
 import { useHistory } from 'react-router-dom'
 import usePhotos from '../Customs/usePhotos'
 import { Loading } from '../Common'
@@ -11,7 +11,6 @@ function Profile() {
         _id,
         fullName,
         userName,
-        email,
         img,
         followersCount,
         followingCount,
@@ -24,32 +23,41 @@ function Profile() {
 
     return (
         <div className="profile">
+            <p className="profile-username"> {userName} </p>
+
             <div className="profile-main">
                 <div className="profile-img">
-                    {
-                        img ?
-                            <img src={`/upload/${img}`} alt="profile-img" /> :
-                            <img src={user} alt="profile-img" />
-                    }
+                    <img
+                        src={img ? `/upload/${img}` : user}
+                        alt="profile-img"
+                    />
+
+                    <p>{fullName}</p>
                 </div>
 
                 <div className="profile-details">
-                    <h2>{fullName}</h2>
-                    <h3>{userName}</h3>
-                    <h3>{email}</h3>
-
                     <div className="profile-mini">
-                        <h5>{totalPosts} posts</h5>
-                        <h5>{followersCount} followers</h5>
-                        <h5>{followingCount} following</h5>
+                        <div>
+                            <p> {totalPosts} </p>
+                            <p> posts </p>
+                        </div>
+                        <div>
+                            <p> {followersCount} </p>
+                            <p> followers </p>
+                        </div>
+                        <div>
+                            <p> {followingCount} </p>
+                            <p> following </p>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div className="profile-extra">
-                <button style={{ marginRight: '5px' }} onClick={() => { history.push('/updateimg') }}>Update Image</button>
-                <button style={{ marginRight: '5px' }} onClick={() => { history.push('/updatepass') }}>Update Password</button>
-                <button onClick={() => { history.push('/resetpass') }}>Reset Password</button>
+                    <button
+                        className="profile-edit"
+                        onClick={() => history.push('/editprofile')}
+                    >
+                        Edit profile
+                    </button>
+                </div>
             </div>
 
             {
