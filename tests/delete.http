@@ -1,0 +1,5 @@
+@host = http://localhost:5000
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzc1OWViYmM5MjA1OGMzNDRkMWIiLCJpYXQiOjE2MDM2MTc1NTMsImV4cCI6MTYwMzY4MjM1M30.W8BBqfXuOjFXHKXvLrr2oZ-Fvh_D0BLb7XcKD04t7kI
+
+DELETE {{host}}/delete
+Authorization: {{token}}

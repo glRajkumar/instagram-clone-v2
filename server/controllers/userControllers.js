@@ -28,16 +28,6 @@ router.get('/me', auth, async (req, res) => {
     }
 })
 
-router.get('/saved', auth, async (req, res) => {
-    const { savedPosts } = req.user
-
-    try {
-        res.json({ savedPosts })
-    } catch (error) {
-        res.status(400).json({ error, msg: "Cannot find the user" })
-    }
-})
-
 router.get('/requests', auth, async (req, res) => {
     const { _id } = req.user
 
@@ -313,17 +303,6 @@ router.post("/logout", auth, async (req, res) => {
         res.json({ msg: "User logged out successfully" })
     } catch (error) {
         res.status(400).json({ error, msg: "User log out failed" })
-    }
-})
-
-router.delete("/", auth, async (req, res) => {
-    let _id = req.user._id
-
-    try {
-        await User.findByIdAndRemove(_id)
-        res.send("User delete successfully")
-    } catch (error) {
-        res.status(400).json({ error, msg: "User deletion failed" })
     }
 })
 

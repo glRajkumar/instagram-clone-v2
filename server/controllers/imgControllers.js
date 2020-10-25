@@ -8,14 +8,6 @@ const options = {
     bucketName: 'uploads'
 }
 
-router.post('/', auth, upload.single("img"), async (req, res) => {
-    try {
-        res.json({ img: req.file.filename })
-    } catch (error) {
-        res.status(400).json({ error, msg: "Image upload failed" })
-    }
-})
-
 //Get the Single image
 router.get('/:filename', (req, res) => {
     const gfB = new mongoose.mongo.GridFSBucket(mongoose.connection.db, options)
@@ -28,5 +20,13 @@ router.get('/:filename', (req, res) => {
 
     d.on("end", () => { res.end() })
 });
+
+router.post('/', auth, upload.single("img"), async (req, res) => {
+    try {
+        res.json({ img: req.file.filename })
+    } catch (error) {
+        res.status(400).json({ error, msg: "Image upload failed" })
+    }
+})
 
 module.exports = router

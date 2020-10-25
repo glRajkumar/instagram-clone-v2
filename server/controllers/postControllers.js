@@ -29,6 +29,7 @@ router.get('/allpost', auth, async (req, res) => {
 
     try {
         let posts = await Post.find()
+            .select('-comments -createdAt -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -59,6 +60,7 @@ router.get('/mypost', auth, async (req, res) => {
 
     try {
         let posts = await Post.find({ postedBy: req.user._id })
+            .select('-comments -createdAt -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -89,6 +91,7 @@ router.get('/heartedpost', auth, async (req, res) => {
 
     try {
         let posts = await Post.find({ hearted: { $in: req.user._id } })
+            .select('-comments -createdAt -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -119,6 +122,7 @@ router.get('/savedpost', auth, async (req, res) => {
 
     try {
         let posts = await Post.find({ _id: { $in: req.user.savedPosts } })
+            .select('-comments -createdAt -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -149,6 +153,7 @@ router.get('/getsubpost', auth, async (req, res) => {
 
     try {
         let posts = await Post.find({ postedBy: { $in: req.user.following } })
+            .select('-comments -createdAt -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -261,18 +266,6 @@ router.delete('/:postId', auth, async (req, res) => {
 
     } catch (error) {
         res.status(400).json({ error, msg: 'delete action failed' })
-    }
-})
-
-router.delete('/', auth, async (req, res) => {
-    const userId = req.user._id
-
-    try {
-        await Post.deleteMany({ postedBy: userId })
-        res.json({ msg: "all posts deleted successfully" })
-
-    } catch (error) {
-        res.status(400).json({ error, msg: 'all posts delete action failed' })
     }
 })
 

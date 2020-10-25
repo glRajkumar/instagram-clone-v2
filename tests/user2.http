@@ -1,6 +1,6 @@
 @host = http://localhost:5000
 
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM0MTg2MjYsImV4cCI6MTYwMzQ4MzQyNn0.-GY6lSwk_YfHANf-H2JLKjTwzbjJTz0zsBu0JafBoJQ
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM2MTc4MTgsImV4cCI6MTYwMzY4MjYxOH0.v2S5Q5XUWllMmtOGxHO_TIYPglAaaa0GRAkeWzzcvIQ
 
 ### get full 
 GET {{host}}/user/full
@@ -16,10 +16,6 @@ Authorization: {{token}}
 
 ### get requested
 GET {{host}}/user/requested
-Authorization: {{token}}
-
-### get saved 
-GET {{host}}/user/saved
 Authorization: {{token}}
 
 ### get user by id
@@ -155,10 +151,5 @@ Authorization: {{token}}
 
 ### logout
 POST {{host}}/user/logout
-Content-Type: application/json
-Authorization: {{token}}
-
-### delete
-DELETE  {{host}}/user
 Content-Type: application/json
 Authorization: {{token}}

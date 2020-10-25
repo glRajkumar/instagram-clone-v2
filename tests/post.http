@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzc1OWViYmM5MjA1OGMzNDRkMWIiLCJpYXQiOjE2MDM0MTc5NDksImV4cCI6MTYwMzQ4Mjc0OX0.qQ9vfKNRMk2FPNE-VjSRDEINuJ4qoc9fJHWzSVoq6yU
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM2MTc4MTgsImV4cCI6MTYwMzY4MjYxOH0.v2S5Q5XUWllMmtOGxHO_TIYPglAaaa0GRAkeWzzcvIQ
 
 ### get onlyphotos 
-GET {{host}}/post/onlyphotos/5f8ebdf9c998c002a42e0770/?skip=0
+GET {{host}}/post/onlyphotos/5f923759ebbc92058c344d1b/?skip=0
 Authorization: {{token}}
 
 ### get my post 
@@ -74,10 +74,5 @@ Authorization: {{token}}
 
 ### delete the particular post
 DELETE  {{host}}/post/5f8ebec6c998c002a42e0783
-Content-Type: application/json
-Authorization: {{token}}
-
-### delete all posts of user
-DELETE  {{host}}/post/
 Content-Type: application/json
 Authorization: {{token}}

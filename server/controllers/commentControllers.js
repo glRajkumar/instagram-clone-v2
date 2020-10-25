@@ -10,6 +10,7 @@ router.get('/:postId', auth, async (req, res) => {
 
     try {
         const comments = await Comment.find({ 'post': postId })
+            .select('text postedBy')
             .populate('postedBy', "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -36,7 +37,7 @@ router.post('/', auth, async (req, res) => {
         await comment.save()
         await Post.findByIdAndUpdate(postId, { $push: { comments: comment._id }, $inc: { commentsCount: 1 } })
 
-        res.json({ comment, msg: 'commented successfully' })
+        res.json({ id: comment._id, msg: 'commented successfully' })
 
     } catch (error) {
         res.status(400).json({ error, msg: 'comment action failed' })
@@ -55,8 +56,8 @@ router.put('/', auth, async (req, res) => {
     }
 })
 
-router.delete('/', auth, async (req, res) => {
-    const { postId, commentId } = req.body
+router.delete('/:postId/:commentId', auth, async (req, res) => {
+    const { postId, commentId } = req.params
 
     try {
         await Comment.findByIdAndRemove(commentId)

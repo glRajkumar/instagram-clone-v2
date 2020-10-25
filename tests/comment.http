@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjhlYmRmOWM5OThjMDAyYTQyZTA3NzAiLCJpYXQiOjE2MDMxOTAyNzcsImV4cCI6MTYwMzI1NTA3N30.-dDibI9zzNrexbKLH0tCxxsI-ph81E-sMUM3_rDmwaY
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM2MTc4MTgsImV4cCI6MTYwMzY4MjYxOH0.v2S5Q5XUWllMmtOGxHO_TIYPglAaaa0GRAkeWzzcvIQ
 
 ### get comments 
-GET {{host}}/comment/5f8ebec6c998c002a42e0782/?skip=0
+GET {{host}}/comment/5f95446a4b517f2810f2cc98/?skip=0
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -12,8 +12,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "text": "actumnjhal",
-    "postId" : "5f8ebec6c998c002a42e0782"
+    "text": "raj 2",
+    "postId" : "5f95446a4b517f2810f2cc98"
 }
 
 ### put comment
@@ -23,7 +23,7 @@ Authorization: {{token}}
 
 {
     "text": "actual iuhbjkkkkkhhffbbvb",
-    "commentId" : "5f8fab81d9c35827d431787d"
+    "commentId" : "5f940eee0bf62a18740dd459"
 }
 
 ### delete comment
