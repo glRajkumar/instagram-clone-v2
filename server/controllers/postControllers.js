@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../middlewares/auth')
+const saved = require('../middlewares/saved')
 const Post = require("../models/Post")
 
 router.get('/onlyphotos/:id', auth, async (req, res) => {
@@ -23,7 +24,7 @@ router.get('/onlyphotos/:id', auth, async (req, res) => {
     }
 })
 
-router.get('/allpost', auth, async (req, res) => {
+router.get('/allpost', auth, saved, async (req, res) => {
     const skip = parseInt(req.query.skip)
     const strId = req.user._id.toString()
 
@@ -41,9 +42,10 @@ router.get('/allpost', auth, async (req, res) => {
                 ...post,
                 likes: 0,
                 hearted: 0,
+                isMine: strId === post.postedBy._id.toString(),
                 isLiked: post.likes.toString().includes(strId),
                 isHearted: post.hearted.toString().includes(strId),
-                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+                isSaved: req.saved.savedPosts.toString().includes(post._id.toString())
             }
         })
 
@@ -54,7 +56,7 @@ router.get('/allpost', auth, async (req, res) => {
     }
 })
 
-router.get('/mypost', auth, async (req, res) => {
+router.get('/mypost', auth, saved, async (req, res) => {
     const skip = parseInt(req.query.skip)
     const strId = req.user._id.toString()
 
@@ -72,9 +74,10 @@ router.get('/mypost', auth, async (req, res) => {
                 ...post,
                 likes: 0,
                 hearted: 0,
+                isMine: true,
                 isLiked: post.likes.toString().includes(strId),
                 isHearted: post.hearted.toString().includes(strId),
-                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+                isSaved: req.saved.savedPosts.toString().includes(post._id.toString())
             }
         })
 
@@ -85,7 +88,7 @@ router.get('/mypost', auth, async (req, res) => {
     }
 })
 
-router.get('/heartedpost', auth, async (req, res) => {
+router.get('/heartedpost', auth, saved, async (req, res) => {
     const skip = parseInt(req.query.skip)
     const strId = req.user._id.toString()
 
@@ -103,9 +106,10 @@ router.get('/heartedpost', auth, async (req, res) => {
                 ...post,
                 likes: 0,
                 hearted: 0,
-                isLiked: post.likes.toString().includes(strId),
                 isHearted: true,
-                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+                isMine: strId === post.postedBy._id.toString(),
+                isLiked: post.likes.toString().includes(strId),
+                isSaved: req.saved.savedPosts.toString().includes(post._id.toString())
             }
         })
 
@@ -116,12 +120,12 @@ router.get('/heartedpost', auth, async (req, res) => {
     }
 })
 
-router.get('/savedpost', auth, async (req, res) => {
+router.get('/savedpost', auth, saved, async (req, res) => {
     const skip = parseInt(req.query.skip)
     const strId = req.user._id.toString()
 
     try {
-        let posts = await Post.find({ _id: { $in: req.user.savedPosts } })
+        let posts = await Post.find({ _id: { $in: req.saved.savedPosts } })
             .select('-comments -createdAt -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
@@ -134,9 +138,10 @@ router.get('/savedpost', auth, async (req, res) => {
                 ...post,
                 likes: 0,
                 hearted: 0,
+                isSaved: true,
+                isMine: strId === post.postedBy._id.toString(),
                 isLiked: post.likes.toString().includes(strId),
-                isHearted: post.hearted.toString().includes(strId),
-                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+                isHearted: post.hearted.toString().includes(strId)
             }
         })
 
@@ -147,7 +152,7 @@ router.get('/savedpost', auth, async (req, res) => {
     }
 })
 
-router.get('/getsubpost', auth, async (req, res) => {
+router.get('/getsubpost', auth, saved, async (req, res) => {
     const skip = parseInt(req.query.skip)
     const strId = req.user._id.toString()
 
@@ -165,9 +170,10 @@ router.get('/getsubpost', auth, async (req, res) => {
                 ...post,
                 likes: 0,
                 hearted: 0,
+                isMine: strId === post.postedBy._id.toString(),
                 isLiked: post.likes.toString().includes(strId),
                 isHearted: post.hearted.toString().includes(strId),
-                isSaved: req.user.savedPosts.toString().includes(post._id.toString())
+                isSaved: req.saved.savedPosts.toString().includes(post._id.toString())
             }
         })
 

@@ -1,5 +1,6 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzc1OWViYmM5MjA1OGMzNDRkMWIiLCJpYXQiOjE2MDM2MTc1NTMsImV4cCI6MTYwMzY4MjM1M30.W8BBqfXuOjFXHKXvLrr2oZ-Fvh_D0BLb7XcKD04t7kI
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OGE5OGZmYzQwZDFhOTAyZGViYjIiLCJpYXQiOjE2MDM3MDE0MDgsImV4cCI6MTYwMzc2NjIwOH0.qAestqnm9NEfB1igEw7FAyFRTRvTm1ZlL3f8Fo77E0A
+# 5f968a98ffc40d1a902debb2
 
 ### get full 
 GET {{host}}/user/full
@@ -7,6 +8,14 @@ Authorization: {{token}}
 
 ### get me 
 GET {{host}}/user/me
+Authorization: {{token}}
+
+### get followers
+GET {{host}}/user/followers
+Authorization: {{token}}
+
+### get following
+GET {{host}}/user/following
 Authorization: {{token}}
 
 ### get requests
@@ -18,7 +27,7 @@ GET {{host}}/user/requested
 Authorization: {{token}}
 
 ### get user by id
-GET {{host}}/user/5f923759ebbc92058c344d1b
+GET {{host}}/user/5f957bcadded980484501319
 Authorization: {{token}}
 
 ### register
@@ -27,8 +36,8 @@ Content-Type: application/json
 
 {
     "fullName" : "newname",
-    "userName": "kjdduh",
-    "email" : "aahda@ngmail.com",
+    "userName": "eeue",
+    "email" : "eeeu@ngmail.com",
     "password" : "aA1!aaaa"
 }
 
@@ -37,7 +46,7 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "aahda@ngmail.com",
+    "email" : "eeeu@ngmail.com",
     "password" : "aA1!aaaa"
 }
 
@@ -64,7 +73,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "followId" : "5f91489b12284506ec39d85e"
+    "followId" : "5f968a98ffc40d1a902debb2"
 }
 
 ### unfollow
@@ -82,7 +91,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "reqId" : "5f9239ff7ba0ba3018ad4593"
+    "reqId" : "5f964b17b555f92a90232800"
 }
 
 ### cancel the request

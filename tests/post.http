@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM2MTc4MTgsImV4cCI6MTYwMzY4MjYxOH0.v2S5Q5XUWllMmtOGxHO_TIYPglAaaa0GRAkeWzzcvIQ
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OGE5OGZmYzQwZDFhOTAyZGViYjIiLCJpYXQiOjE2MDM3MDE0MDgsImV4cCI6MTYwMzc2NjIwOH0.qAestqnm9NEfB1igEw7FAyFRTRvTm1ZlL3f8Fo77E0A
 
 ### get onlyphotos 
-GET {{host}}/post/onlyphotos/5f923759ebbc92058c344d1b/?skip=0
+GET {{host}}/post/onlyphotos/5f968a98ffc40d1a902debb2/?skip=0
 Authorization: {{token}}
 
 ### get my post 
@@ -33,7 +33,7 @@ Authorization: {{token}}
 {
     "title" : "title3",
     "body" : "body3",
-    "picUrl" : "db684dbdfc5bcb6f6f43ba66e4e10051"
+    "picUrl" : "79aa7814c24b2f2a4349033d798017ef"
 }
 
 ### like post
@@ -54,16 +54,16 @@ Authorization: {{token}}
     "postId": "5f8a853c066cb3316caf1c96"
 }
 
-### hearted post
+### heart the post
 PUT {{host}}/post/hearted
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "postId": "5f925c3605033b162c22ff35"
+    "postId": "5f968ab8ffc40d1a902debb7"
 }
 
-### unhearted post
+### unheart the post
 PUT {{host}}/post/unhearted
 Content-Type: application/json
 Authorization: {{token}}
