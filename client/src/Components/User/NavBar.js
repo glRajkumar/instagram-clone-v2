@@ -43,7 +43,7 @@ const NavBar = () => {
                 <Link to="/createpost">Create Post</Link>
             </li>,
             <li className="big" key="5">
-                <Link to="/followingposts">My following Posts</Link>
+                <Link to="/allposts">All Posts</Link>
             </li>
         ]
     }
@@ -78,7 +78,7 @@ const NavBar = () => {
                 </Link>
             </li>,
             <li className="mini" key="5">
-                <Link to="/followingposts">
+                <Link to="/allposts">
                     <img
                         src={followers}
                         alt="search-icon"

@@ -60,6 +60,22 @@ function EditProfile() {
                 {isPublic ? 'Make private my account' : 'Change to public'}
             </button>
 
+            <button onClick={() => history.push('/followers')}>
+                Followers List
+            </button>
+
+            <button onClick={() => history.push('/following')}>
+                Following List
+            </button>
+
+            <button onClick={() => history.push('/requests')}>
+                Requests List
+            </button>
+
+            <button onClick={() => history.push('/requested')}>
+                Requested List
+            </button>
+
             <button onClick={() => history.push('/updatepass')}>
                 Update Password
             </button>

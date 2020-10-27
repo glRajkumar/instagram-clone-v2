@@ -1,0 +1,21 @@
+.lists-container{
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.lists{
+    margin: .5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lists-profile{
+    display: flex;
+    align-items: center;
+}
+
+.list-img{
+    width: 1rem;
+}
+

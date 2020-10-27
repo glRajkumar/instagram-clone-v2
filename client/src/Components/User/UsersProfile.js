@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
 import '../../CSS/profile.css'
@@ -11,19 +11,21 @@ import usePhotos from '../Customs/usePhotos'
 const UsersProfile = () => {
     const [userProfile, setProfile] = useState(null)
     const { userid } = useParams()
+    const history = useHistory()
     const { updateFollow, headers } = useContext(AuthContext)
-    const [showfollow, setShowFollow] = useState(null)
     const [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos] = usePhotos(userid, headers)
 
     useEffect(() => {
-        axios.get(`/user/${userid}`, { headers })
-            .then((res) => {
-                setProfile(res.data.otherUser)
-                setShowFollow(res.data.isFollowing)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+        async function getUser() {
+            try {
+                let { data } = await axios.get(`/other_user/${userid}`, { headers })
+                setProfile(data)
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getUser()
     }, [])
 
     const followUser = async () => {
@@ -33,10 +35,10 @@ const UsersProfile = () => {
             setProfile(prev => {
                 return {
                     ...prev,
-                    followersCount: prev.followersCount + 1
+                    followersCount: prev.followersCount + 1,
+                    isFollowing: true
                 }
             })
-            setShowFollow(true)
 
         } catch (error) {
             console.log(error)
@@ -47,13 +49,13 @@ const UsersProfile = () => {
         try {
             await axios.put('/user/unfollow', { unfollowId: userid }, { headers })
             updateFollow(false)
-            setProfile((prev) => {
+            setProfile(prev => {
                 return {
                     ...prev,
-                    followersCount: prev.followersCount - 1
+                    followersCount: prev.followersCount - 1,
+                    isFollowing: false
                 }
             })
-            setShowFollow(false)
 
         } catch (error) {
             console.log(error)
@@ -83,17 +85,17 @@ const UsersProfile = () => {
                                         <p> {userProfile.totalPosts} </p>
                                         <p> posts </p>
                                     </div>
-                                    <div>
+                                    <div onClick={() => history.push(`/othersfollowers/${userProfile._id}`)}>
                                         <p> {userProfile.followersCount} </p>
                                         <p> followers </p>
                                     </div>
-                                    <div>
+                                    <div onClick={() => history.push(`/othersfollowing/${userProfile._id}`)}>
                                         <p> {userProfile.followingCount} </p>
                                         <p> following </p>
                                     </div>
                                 </div>
                                 {
-                                    !showfollow ?
+                                    !userProfile.isFollowing ?
                                         <button onClick={followUser}> Follow </button> :
                                         <button onClick={unfollowUser}> UnFollow </button>
                                 }
@@ -101,7 +103,7 @@ const UsersProfile = () => {
                         </div>
 
                         {
-                            !showfollow && !userProfile.isPublic &&
+                            !userProfile.isFollowing && !userProfile.isPublic &&
                             <div className="public">
                                 <img src={lock} alt="private" />
                                 <div>
@@ -142,7 +144,7 @@ const UsersProfile = () => {
                                             }
 
                                             {
-                                                (hasMore && !picsLoading) &&
+                                                hasMore && !picsLoading &&
                                                 <button onClick={getPhotos}>Load more</button>
                                             }
 

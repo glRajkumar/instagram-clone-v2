@@ -1,6 +1,5 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OGE5OGZmYzQwZDFhOTAyZGViYjIiLCJpYXQiOjE2MDM3MDE0MDgsImV4cCI6MTYwMzc2NjIwOH0.qAestqnm9NEfB1igEw7FAyFRTRvTm1ZlL3f8Fo77E0A
-# 5f968a98ffc40d1a902debb2
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OWM1MzY1OGNjYTE4MDRhY2QyMTUiLCJpYXQiOjE2MDM3NjY1NTIsImV4cCI6MTYwMzgzMTM1Mn0.ZUXxrQeZza8jS0ql2_eQWhHqvh3BOSvYZlq1vDZ83so
 
 ### get full 
 GET {{host}}/user/full
@@ -24,10 +23,6 @@ Authorization: {{token}}
 
 ### get requested
 GET {{host}}/user/requested
-Authorization: {{token}}
-
-### get user by id
-GET {{host}}/user/5f957bcadded980484501319
 Authorization: {{token}}
 
 ### register
@@ -82,7 +77,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "unfollowId" : "5f9239ff7ba0ba3018ad4593"
+    "unfollowId" : "5f96ce096d968e31f4850873"
 }
 
 ### request to follow
@@ -91,7 +86,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "reqId" : "5f964b17b555f92a90232800"
+    "reqId" : "5f968a98ffc40d1a902debb2"
 }
 
 ### cancel the request

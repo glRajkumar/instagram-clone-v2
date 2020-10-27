@@ -17,6 +17,7 @@ const commentControllers = require('./controllers/commentControllers')
 const imgControllers = require('./controllers/imgControllers')
 const tokenControllers = require('./controllers/tokenControllers')
 const deleteControllers = require('./controllers/deleteControllers')
+const othersControllers = require('./controllers/othersControllers')
 
 app.use("/user", userControllers)
 app.use("/post", postControllers)
@@ -24,6 +25,7 @@ app.use("/comment", commentControllers)
 app.use("/upload", imgControllers)
 app.use("/token", tokenControllers)
 app.use("/delete", deleteControllers)
+app.use("/other_user", othersControllers)
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

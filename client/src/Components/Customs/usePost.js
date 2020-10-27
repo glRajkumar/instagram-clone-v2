@@ -1,7 +1,7 @@
 import { useEffect, useContext, useReducer, useState } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
-import PostReducer from '../State/Post/PostReducer'
+import PostReducer from '../State/Posts/PostsReducer'
 
 const initialState = {
     posts: [],

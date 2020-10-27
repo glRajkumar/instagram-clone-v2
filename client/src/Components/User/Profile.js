@@ -41,11 +41,11 @@ function Profile() {
                             <p> {totalPosts} </p>
                             <p> posts </p>
                         </div>
-                        <div>
+                        <div onClick={() => history.push('/followers')}>
                             <p> {followersCount} </p>
                             <p> followers </p>
                         </div>
-                        <div>
+                        <div onClick={() => history.push('/following')}>
                             <p> {followingCount} </p>
                             <p> following </p>
                         </div>

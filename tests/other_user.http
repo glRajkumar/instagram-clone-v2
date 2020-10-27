@@ -1,0 +1,14 @@
+@host = http://localhost:5000
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OGE5OGZmYzQwZDFhOTAyZGViYjIiLCJpYXQiOjE2MDM3MDE0MDgsImV4cCI6MTYwMzc2NjIwOH0.qAestqnm9NEfB1igEw7FAyFRTRvTm1ZlL3f8Fo77E0A
+
+### get user by id
+GET {{host}}/other_user/5f977240dc8d9205b81c580b
+Authorization: {{token}}
+
+### get followers of others
+GET {{host}}/other_user/followers/5f977240dc8d9205b81c580b
+Authorization: {{token}}
+
+### get following of others
+GET {{host}}/other_user/following/5f977240dc8d9205b81c580b
+Authorization: {{token}}

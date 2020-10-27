@@ -27,6 +27,7 @@ router.get('/me', auth, async (req, res) => {
 
     try {
         res.json({ ...req.user._doc })
+
     } catch (error) {
         res.status(400).json({ error, msg: "Cannot find the user" })
     }
@@ -34,13 +35,26 @@ router.get('/me', auth, async (req, res) => {
 
 router.get('/followers', auth, async (req, res) => {
     const { _id } = req.user
+    const skip = parseInt(req.query.skip)
 
     try {
-        const followers = await User.findOne({ _id })
-            .select('-_id followers')
+        const { followers, following, requested } = await User.findOne({ _id })
+            .select('-_id followers following requested')
             .populate('followers', '_id img userName isPublic')
+            .skip(skip)
+            .limit(10)
             .lean()
-        res.json({ lists: followers })
+
+        const lists = followers.map(f => {
+            return {
+                ...f,
+                isFollowing: following.toString().includes(f._id.toString()),
+                isRequested: requested.toString().includes(f._id.toString())
+            }
+        })
+
+        res.json({ lists })
+
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get followers" })
     }
@@ -48,13 +62,26 @@ router.get('/followers', auth, async (req, res) => {
 
 router.get('/following', auth, async (req, res) => {
     const { _id } = req.user
+    const skip = parseInt(req.query.skip)
 
     try {
-        const following = await User.findOne({ _id })
+        const { following } = await User.findOne({ _id })
             .select('-_id following')
             .populate('following', '_id img userName isPublic')
+            .skip(skip)
+            .limit(10)
             .lean()
-        res.json({ following })
+
+        const lists = following.map(f => {
+            return {
+                ...f,
+                isFollowing: true,
+                isRequested: false
+            }
+        })
+
+        res.json({ lists })
+
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get following" })
     }
@@ -62,13 +89,26 @@ router.get('/following', auth, async (req, res) => {
 
 router.get('/requests', auth, async (req, res) => {
     const { _id } = req.user
+    const skip = parseInt(req.query.skip)
 
     try {
-        const requests = await User.findOne({ _id })
+        const { requests } = await User.findOne({ _id })
             .select('-_id requests')
             .populate('requests', '_id img userName isPublic')
+            .skip(skip)
+            .limit(10)
             .lean()
-        res.json({ requests })
+
+        const lists = requests.map(f => {
+            return {
+                ...f,
+                isFollowing: false,
+                isRequested: true
+            }
+        })
+
+        res.json({ lists })
+
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get requests" })
     }
@@ -76,32 +116,28 @@ router.get('/requests', auth, async (req, res) => {
 
 router.get('/requested', auth, async (req, res) => {
     const { _id } = req.user
+    const skip = parseInt(req.query.skip)
 
     try {
-        const requested = await User.findOne({ _id })
+        const { requested } = await User.findOne({ _id })
             .select('-_id requested')
             .populate('requested', '_id img userName isPublic')
+            .skip(skip)
+            .limit(10)
             .lean()
-        res.json({ requested })
+
+        const lists = requested.map(f => {
+            return {
+                ...f,
+                isFollowing: false,
+                isRequested: false
+            }
+        })
+
+        res.json({ lists })
+
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get requested" })
-    }
-})
-
-router.get('/:id', auth, async (req, res) => {
-    const id = req.params.id
-
-    try {
-        const otherUser = await User.findOne({ _id: id })
-            .select("-password -token -followers -following -savedPosts -requested -requests -__v")
-            .lean()
-        const user = await User.findOne({ _id: req.user._id }).select('following').lean()
-        const isFollowing = user.following.toString().includes(id)
-
-        res.json({ ...otherUser, isFollowing })
-
-    } catch (error) {
-        res.status(400).json({ error, msg: 'cannot get user' })
     }
 })
 
