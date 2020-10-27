@@ -94,30 +94,6 @@ const ListsReducer = (state, { type, payload }) => {
                 lists: newData4
             }
 
-        case 'ACCEPT':
-            const newData5 = state.lists.map(list => {
-                if (list._id === payload) {
-                    return {
-                        ...list,
-                        isRequested: false,
-                        isFollowing: true
-                    }
-                } else {
-                    return list
-                }
-            })
-            return {
-                ...state,
-                lists: newData5
-            }
-
-        case 'DECLINE':
-            const newData6 = state.lists.filter(item => item._id !== payload)
-            return {
-                ...state,
-                lists: newData6
-            }
-
         case "ERROR":
             return {
                 ...state,

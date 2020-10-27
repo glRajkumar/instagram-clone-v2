@@ -42,7 +42,7 @@ function Lists({ url, headers }) {
                                 <p> {list.userName} </p>
                             </div>
                             {
-                                !list.isFollowing &&
+                                !list.isFollowing && !list.isRequested &&
                                 <button onClick={() => followAction(list.isPublic, list._id)}>Follow</button>
                             }
 

@@ -1,14 +1,6 @@
 ## Updates
 Fully Changed and Optimized comparing to the previous version. Also added more features.
 
-## Installing dependecies...
-npm install for both server and client(cd - /client).
-Or delete client folder and then install using the command "npx create-react-app client" and add proxy in package.json.
-
-## Changes to consider
-engines in package.json in server,
-histry.push in AuthContextProvider (in login and logged)
-
 ## To hide credentials
 Add .env file outside of server.
 {
@@ -18,8 +10,8 @@ Add .env file outside of server.
  "PASS"
 }
 
-## Hashing password
-here we used bcryptjs package. If you need bcrypt, just changed it.  
+## Testing 
+For backend testing, I used REST Client(VS Code Ext.). All files are seperated in the test folder.
 
-## For new creation like boilerplate (helps in push)
-first remove git in client folder (using rm -rf .git).
+## Hashing password
+I used bcryptjs package. If you need bcrypt, just changed it.  

@@ -40,6 +40,12 @@ export default (state, action) => {
                 followingCount: state.followingCount + action.payload.followingCount
             }
 
+        case "FOLLOWERS":
+            return {
+                ...state,
+                followersCount: state.followersCount + 1
+            }
+
         case "TOTALPOSTS":
             return {
                 ...state,

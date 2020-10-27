@@ -99,15 +99,7 @@ router.get('/requests', auth, async (req, res) => {
             .limit(10)
             .lean()
 
-        const lists = requests.map(f => {
-            return {
-                ...f,
-                isFollowing: false,
-                isRequested: true
-            }
-        })
-
-        res.json({ lists })
+        res.json({ requests })
 
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get requests" })
@@ -130,7 +122,7 @@ router.get('/requested', auth, async (req, res) => {
             return {
                 ...f,
                 isFollowing: false,
-                isRequested: false
+                isRequested: true
             }
         })
 

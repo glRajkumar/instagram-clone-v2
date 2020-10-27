@@ -56,6 +56,8 @@ const AuthContextProvider = (props) => {
             token: existed
           }
 
+          console.log(res)
+
           dispatch({ type: "LOGIN", payload })
           history.push("/")
 
@@ -69,6 +71,9 @@ const AuthContextProvider = (props) => {
       }
 
     } catch (error) {
+      history.push("/signup")
+      localStorage.removeItem("insta_token")
+      localStorage.removeItem("insta_token_exp")
       console.log(error)
       dispatch({ type: "ERROR" })
     }
@@ -144,6 +149,16 @@ const AuthContextProvider = (props) => {
     }
   }
 
+  const updateFollowers = () => {
+    try {
+      dispatch({ type: "FOLLOWERS" })
+
+    } catch (error) {
+      console.log(error)
+      dispatch({ type: "ERROR" })
+    }
+  }
+
   const updateTotalPosts = (post) => {
     try {
       let payload
@@ -208,6 +223,7 @@ const AuthContextProvider = (props) => {
       updatePic,
       updatePublic,
       updateFollow,
+      updateFollowers,
       updateTotalPosts,
       logout,
       deleteAcc

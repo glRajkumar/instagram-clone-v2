@@ -1,6 +1,7 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useContext, useEffect, useReducer, useState } from 'react'
 import ListsReducer from '../State/Lists/ListsReducer'
 import axios from 'axios'
+import { AuthContext } from '../State/Auth/AuthContextProvider'
 
 const initialState = {
     lists: [],
@@ -11,6 +12,7 @@ const initialState = {
 }
 
 function useLists(url, headers) {
+    const { updateFollow } = useContext(AuthContext)
     const [initListLoad, setInit] = useState(true)
     const [{ lists, skip, listsLoading, hasMore, listsError }, dispatch] = useReducer(ListsReducer, initialState)
 
@@ -38,6 +40,7 @@ function useLists(url, headers) {
     const follow = async (followId) => {
         try {
             await axios.put('/user/follow', { followId }, { headers })
+            updateFollow(true)
             dispatch({ type: "FOLLOW", payload: followId })
 
         } catch (error) {
@@ -49,6 +52,7 @@ function useLists(url, headers) {
     const unFollow = async (unfollowId) => {
         try {
             await axios.put('/user/unfollow', { unfollowId }, { headers })
+            updateFollow(false)
             dispatch({ type: "UNFOLLOW", payload: unfollowId })
 
         } catch (error) {
@@ -79,28 +83,6 @@ function useLists(url, headers) {
         }
     }
 
-    const acceptReq = async (reqId) => {
-        try {
-            await axios.put('/user/accept-req', { reqId }, { headers })
-            dispatch({ type: "ACCEPT", payload: reqId })
-
-        } catch (error) {
-            dispatch({ type: "ERROR" })
-            console.log(error)
-        }
-    }
-
-    const declineReq = async (reqId) => {
-        try {
-            await axios.put('/user/decline-req', { reqId }, { headers })
-            dispatch({ type: "DECLINE", payload: reqId })
-
-        } catch (error) {
-            dispatch({ type: "ERROR" })
-            console.log(error)
-        }
-    }
-
     return [
         initListLoad,
         lists,
@@ -111,9 +93,7 @@ function useLists(url, headers) {
         follow,
         unFollow,
         requests,
-        cancelReq,
-        acceptReq,
-        declineReq
+        cancelReq
     ]
 }
 

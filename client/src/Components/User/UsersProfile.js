@@ -45,6 +45,36 @@ const UsersProfile = () => {
         }
     }
 
+    const reqUser = async () => {
+        try {
+            await axios.put('/user/requests', { reqId: userid }, { headers })
+            setProfile(prev => {
+                return {
+                    ...prev,
+                    isRequested: true
+                }
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const cancelReqUser = async () => {
+        try {
+            await axios.put('/user/cancel-req', { reqId: userid }, { headers })
+            setProfile(prev => {
+                return {
+                    ...prev,
+                    isRequested: false
+                }
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const unfollowUser = async () => {
         try {
             await axios.put('/user/unfollow', { unfollowId: userid }, { headers })
@@ -95,9 +125,20 @@ const UsersProfile = () => {
                                     </div>
                                 </div>
                                 {
-                                    !userProfile.isFollowing ?
-                                        <button onClick={followUser}> Follow </button> :
-                                        <button onClick={unfollowUser}> UnFollow </button>
+                                    !userProfile.isFollowing && !userProfile.isRequested &&
+                                    <button onClick={userProfile.isPublic ? followUser : reqUser}>
+                                        Follow
+                                    </button>
+                                }
+
+                                {
+                                    userProfile.isFollowing &&
+                                    <button onClick={unfollowUser}> UnFollow </button>
+                                }
+
+                                {
+                                    userProfile.isRequested &&
+                                    <button onClick={cancelReqUser}>Requested</button>
                                 }
                             </div>
                         </div>

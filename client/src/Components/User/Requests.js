@@ -1,41 +1,120 @@
-import React, { useState } from 'react'
+import React, { useEffect, useContext, useReducer, useState } from 'react'
+import { AuthContext } from '../State/Auth/AuthContextProvider'
 import Loading from '../Common/Loading'
-import useLists from '../Customs/useLists'
 import user from '../../Img/user.svg'
 import '../../CSS/lists.css'
+import axios from 'axios'
+
+const initialState = {
+    lists: [],
+    skip: 0,
+    listsLoading: false,
+    hasMore: true,
+    listsError: ""
+}
+
+const reqReducer = (state, { type, payload }) => {
+    switch (type) {
+        case "LOADING":
+            return {
+                ...state,
+                listsLoading: true
+            }
+
+        case "GET":
+            if (payload.lists.length < 10) {
+                return {
+                    ...state,
+                    skip: state.skip + 10,
+                    listsLoading: false,
+                    lists: [
+                        ...state.lists,
+                        ...payload.lists
+                    ],
+                    hasMore: false
+                }
+            } else {
+                return {
+                    ...state,
+                    skip: state.skip + 10,
+                    listsLoading: false,
+                    lists: [
+                        ...state.lists,
+                        ...payload.lists
+                    ]
+                }
+            }
+
+        case 'REQ':
+            const newData = state.lists.filter(item => item._id !== payload)
+            return {
+                ...state,
+                lists: newData
+            }
+
+        case "ERROR":
+            return {
+                ...state,
+                listsLoading: false,
+                listsError: "Something went wrong..."
+            }
+
+        default: return state
+    }
+}
 
 function Requests({ headers }) {
-    const [secTime, setSecTime] = useState(false)
-    const [
-        initListLoad,
-        lists,
-        listsLoading,
-        hasMore,
-        listsError,
-        getLists,
-        follow,
-        unFollow,
-        requests,
-        cancelReq,
-        acceptReq,
-        declineReq
-    ] = useLists("/user/requests", headers)
+    const { updateFollowers } = useContext(AuthContext)
+    const [initListLoad, setInit] = useState(true)
+    const [{ lists, skip, listsLoading, hasMore, listsError }, dispatch] = useReducer(reqReducer, initialState)
 
-    const followAction = (isPublic, id) => {
-        if (isPublic) {
-            follow(id)
-        } else {
-            requests(id)
+    useEffect(() => {
+        getLists()
+        setInit(false)
+    }, [])
+
+    const getLists = async () => {
+        try {
+            dispatch({ type: 'LOADING' })
+            let res = await axios.get(`/user/requests/?skip=${skip}`, { headers })
+            console.log(res.data.requests)
+            const payload = {
+                lists: res.data.requests
+            }
+            dispatch({ type: 'GET', payload })
+
+        } catch (error) {
+            dispatch({ type: "ERROR" })
+            console.log(error)
         }
     }
 
-    const acceptAction = (id) => {
-        acceptReq(id)
-        setSecTime(true)
+    const acceptReq = async (reqId) => {
+        try {
+            await axios.put('/user/accept-req', { reqId }, { headers })
+            updateFollowers()
+            dispatch({ type: "REQ", payload: reqId })
+
+        } catch (error) {
+            dispatch({ type: "ERROR" })
+            console.log(error)
+        }
+    }
+
+    const declineReq = async (reqId) => {
+        try {
+            await axios.put('/user/decline-req', { reqId }, { headers })
+            dispatch({ type: "REQ", payload: reqId })
+
+        } catch (error) {
+            dispatch({ type: "ERROR" })
+            console.log(error)
+        }
     }
 
     return !initListLoad ? (
         <div className="lists-container">
+            <p>Action cannot be reversed. So Think before taking the action.</p>
             {
                 lists.length > 0 &&
                 lists.map(list => {
@@ -50,26 +129,10 @@ function Requests({ headers }) {
                                 <p> {list.userName} </p>
                             </div>
 
-                            {
-                                !secTime && list.isRequested ?
-                                    <button onClick={() => acceptAction(list._id)}>Accept</button>
-                                    : <button onClick={() => declineReq(list._id)}>Decline</button>
-                            }
-
-                            {
-                                secTime && !list.isFollowing &&
-                                <button onClick={() => followAction(list.isPublic, list._id)}>Follow</button>
-                            }
-
-                            {
-                                secTime && list.isFollowing &&
-                                <button onClick={() => unFollow(list._id)}>UnFollow</button>
-                            }
-
-                            {
-                                secTime && list.isRequested &&
-                                <button onClick={() => cancelReq(list._id)}>Requested</button>
-                            }
+                            <div>
+                                <button onClick={() => acceptReq(list._id)}>Accept</button>
+                                <button onClick={() => declineReq(list._id)}>Decline</button>
+                            </div>
                         </div>
                     )
                 })
