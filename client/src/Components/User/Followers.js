@@ -3,7 +3,7 @@ import Lists from '../Common/Lists'
 
 function Followers({ headers }) {
     return (
-        <Lists url={`/user/followers`} headers={headers} />
+        <Lists url='/user/followers' headers={headers} />
     )
 }
 

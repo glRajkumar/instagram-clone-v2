@@ -77,7 +77,6 @@ function Requests({ headers }) {
         try {
             dispatch({ type: 'LOADING' })
             let res = await axios.get(`/user/requests/?skip=${skip}`, { headers })
-            console.log(res.data.requests)
             const payload = {
                 lists: res.data.requests
             }

@@ -3,7 +3,7 @@ import Lists from '../Common/Lists'
 
 function Requested({ headers }) {
     return (
-        <Lists url={`/user/requested`} headers={headers} />
+        <Lists url='/user/requested' headers={headers} />
     )
 }
 

@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Loading from '../Common/Loading'
 import useLists from '../Customs/useLists'
 import user from '../../Img/user.svg'
 import '../../CSS/lists.css'
+import { Link } from 'react-router-dom'
+import { AuthContext } from '../State/Auth/AuthContextProvider'
 
 function Lists({ url, headers }) {
+    const { _id } = useContext(AuthContext)
     const [
         initListLoad,
         lists,
@@ -39,10 +42,17 @@ function Lists({ url, headers }) {
                                     src={list.img ? `/upload/${list.img}` : user}
                                     alt="userprofile"
                                 />
-                                <p> {list.userName} </p>
+                                <p>
+                                    <Link to={list._id === _id
+                                        ? "/profile"
+                                        : `/profile/${list._id}`
+                                    }>
+                                        {list.userName}
+                                    </Link>
+                                </p>
                             </div>
                             {
-                                !list.isFollowing && !list.isRequested &&
+                                !list.isFollowing && !list.isRequested && list._id !== _id &&
                                 <button onClick={() => followAction(list.isPublic, list._id)}>Follow</button>
                             }
 

@@ -25,7 +25,6 @@ function useLists(url, headers) {
         try {
             dispatch({ type: 'LOADING' })
             let res = await axios.get(`${url}/?skip=${skip}`, { headers })
-            console.log(res.data.lists)
             const payload = {
                 lists: res.data.lists
             }

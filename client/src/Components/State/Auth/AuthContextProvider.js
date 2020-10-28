@@ -37,11 +37,6 @@ const AuthContextProvider = (props) => {
       const exp = localStorage.getItem("insta_token_exp")
       const valid = 64800000 - (Date.now() - exp)
 
-      console.log(valid)
-      console.log(exp)
-      console.log(Date.now())
-      console.log(Date.now() - exp)
-
       if (existed) {
         if (valid > 0) {
           const res = await axios.get("/user/me", {
@@ -55,8 +50,6 @@ const AuthContextProvider = (props) => {
             auth: true,
             token: existed
           }
-
-          console.log(res)
 
           dispatch({ type: "LOGIN", payload })
           history.push("/")
@@ -103,6 +96,7 @@ const AuthContextProvider = (props) => {
       dispatch({ type: "LOGIN", payload })
       history.push("/")
       return true
+
     } catch (error) {
       console.log(error)
       dispatch({ type: "ERROR" })

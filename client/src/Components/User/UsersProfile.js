@@ -10,6 +10,7 @@ import usePhotos from '../Customs/usePhotos'
 
 const UsersProfile = () => {
     const [userProfile, setProfile] = useState(null)
+    const [showPosts, setShow] = useState(null)
     const { userid } = useParams()
     const history = useHistory()
     const { updateFollow, headers } = useContext(AuthContext)
@@ -20,6 +21,12 @@ const UsersProfile = () => {
             try {
                 let { data } = await axios.get(`/other_user/${userid}`, { headers })
                 setProfile(data)
+                if (data.isPublic) {
+                    setShow(true)
+                } else {
+                    if (data.isFollowing) return setShow(true)
+                    setShow(false)
+                }
 
             } catch (error) {
                 console.log(error)
@@ -155,47 +162,45 @@ const UsersProfile = () => {
                         }
 
                         {
-                            userProfile.isPublic &&
+                            showPosts &&
                             <div>
                                 {
-                                    !initPicLoad ?
-                                        <>
-                                            {
-                                                pics.length > 0 ?
-                                                    <div className="profile-posts">
-                                                        {
-                                                            pics.map(item => {
-                                                                return (
-                                                                    <img
-                                                                        key={item._id}
-                                                                        className="item"
-                                                                        src={`/upload/${item.photo}`}
-                                                                        alt={item._id}
-                                                                    />
-                                                                )
-                                                            })
-                                                        }
-                                                    </div>
-                                                    : <h3 className="text-center">No post yet</h3>
-                                            }
+                                    !initPicLoad ? <>
+                                        {
+                                            pics.length > 0 ?
+                                                <div className="profile-posts">
+                                                    {
+                                                        pics.map(item => {
+                                                            return (
+                                                                <img
+                                                                    key={item._id}
+                                                                    className="item"
+                                                                    src={`/upload/${item.photo}`}
+                                                                    alt={item._id}
+                                                                />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                                : <h3 className="text-center">No post yet</h3>
+                                        }
 
-                                            {
-                                                picsLoading &&
-                                                <div className="rel-pos"><Loading /></div>
-                                            }
+                                        {
+                                            picsLoading &&
+                                            <div className="rel-pos"><Loading /></div>
+                                        }
 
-                                            {
-                                                hasMore && !picsLoading &&
-                                                <button onClick={getPhotos}>Load more</button>
-                                            }
+                                        {
+                                            hasMore && !picsLoading &&
+                                            <button onClick={getPhotos}>Load more</button>
+                                        }
 
-                                            {
-                                                picsError && <div>Error</div>
-                                            }
-                                        </>
+                                        {
+                                            picsError && <div>Error</div>
+                                        }
+                                    </>
                                         : <div className="rel-pos"><Loading /></div>
                                 }
-
                             </div>
                         }
                     </div>
