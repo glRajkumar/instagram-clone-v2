@@ -6,31 +6,44 @@ import ProgressBar from '../Common/ProgressBar'
 import insta_logo from '../../Img/Insta_logo.png'
 
 function CreatePost() {
+    const fileNnames = []
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
-    const [selectedFile, setFile] = useState(null)
+    const [selectedFiles, setFile] = useState(null)
     const [progress, setProgress] = useState(0)
-    const [picUrl, setPicUrl] = useState("")
+    const [files, setFiles] = useState("")
     const history = useHistory()
     const { headers, updateTotalPosts } = useContext(AuthContext)
 
+    const handleChange = async () => {
+        if (selectedFiles) {
+            for (const key of Object.keys(selectedFiles)) {
+                fileNnames.push(selectedFiles[key].name)
+            }
+        }
+    }
+    handleChange()
+
     useEffect(() => {
-        if (picUrl) {
-            axios.post('/post/createpost', { title, body, picUrl }, { headers })
+        if (files) {
+            axios.post('/post/createpost', { title, body, files }, { headers })
                 .then(() => {
                     updateTotalPosts(true)
-                    history.push('/')
+                    history.push('/myposts')
                 })
                 .catch(err => {
                     console.log(err)
                 })
         }
-    }, [picUrl])
+    }, [files])
 
     const submit = (e) => {
         e.preventDefault();
         const formData = new FormData()
-        formData.append("img", selectedFile)
+
+        for (const key of Object.keys(selectedFiles)) {
+            formData.append("files", selectedFiles[key])
+        }
 
         const config = {
             headers,
@@ -45,7 +58,7 @@ function CreatePost() {
         axios.post("/upload", formData, config)
             .then(res => {
                 setProgress(0)
-                setPicUrl(res.data.img)
+                setFiles(res.data.names)
             })
             .catch(err => {
                 console.log(err)
@@ -78,14 +91,15 @@ function CreatePost() {
 
             <div className="file-wrapper">
                 <label htmlFor="file" className="file-label">
-                    {selectedFile ? `${selectedFile.name}` : "Upload picture"}
+                    {fileNnames.length > 0 ? fileNnames.join(", ") : "Upload picture"}
                 </label>
                 <input
                     className="file-input"
                     type="file"
-                    name="img"
-                    accept="image/*"
-                    onChange={e => setFile(e.target.files[0])}
+                    name="files"
+                    accept="image/*,video/*"
+                    // multiple
+                    onChange={e => setFile(e.target.files)}
                 />
             </div>
 

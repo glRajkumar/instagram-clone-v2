@@ -1,17 +1,56 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OGE5OGZmYzQwZDFhOTAyZGViYjIiLCJpYXQiOjE2MDM3MDE0MDgsImV4cCI6MTYwMzc2NjIwOH0.qAestqnm9NEfB1igEw7FAyFRTRvTm1ZlL3f8Fo77E0A
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3ZmM3MDQ2NTk4MDE1MGM4NjQzNzMiLCJpYXQiOjE2MDM4NzE3NjgsImV4cCI6MTYwMzkzNjU2OH0.He5HVSM4EsQhyDMEKlX23ssuoL9jpDkC2Vq9eqg5HLs
 
 ### Get the Single image
-GET {{host}}/upload/500ee70376f1eaa7e2aa08273f49e989
+GET {{host}}/upload/9695343948e0ab35734f5ab7c3022ae8
+
+### Get the Single image
+GET {{host}}/upload/byid/5f9924832fdfc235cc7f9d40
 
 ### post img
-POST {{host}}/upload/
+POST {{host}}/upload
 Authorization: {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
 
 ------WebKitFormBoundary
-Content-Disposition: form-data; name="img"; filename="1.png"
+Content-Disposition: form-data; name="files"; filename="1.png"
 Content-Type: image/png
 
 < ./1.png
+------WebKitFormBoundary--
+
+### post non allowed files
+POST {{host}}/upload
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="files"; filename="1.pdf"
+Content-Type: application/pdf
+
+< ./1.pdf
+------WebKitFormBoundary--
+
+### post files
+POST {{host}}/upload
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="files"; filename="1.png"
+Content-Type: image/png
+
+< ./1.png
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="files"; filename="1.mp4"
+Content-Type: video/mp4
+
+< ./1.mp4
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="files"; filename="3.png"
+Content-Type: image/png
+
+< ./3.png
 ------WebKitFormBoundary--

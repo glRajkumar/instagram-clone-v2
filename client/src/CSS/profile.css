@@ -37,6 +37,11 @@
   align-items: center;
 }
 
+.profile-mini div:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
 .profile-posts{
   margin-top: 1.5rem;
   gap: 1rem;

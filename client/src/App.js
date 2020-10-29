@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { NotFound, Protected, UnAuthor } from './Components/Common'
 import { Signup, Login, NavBar, Profile, UsersProfile, NewPass, ResetPass, NewPassGen, UpdateImg, EditProfile } from './Components/User'
 import { CreatePost, AllPosts, FollowingPosts, MyPosts, Comments } from './Components/Posts'
@@ -14,9 +14,6 @@ const App = () => {
   return (
     <>
       <NavBar />
-
-      <Link to="/followers">F1</Link>
-      <Link to="/following">F2</Link>
 
       <Switch>
         <Route exact path='/signup' component={Signup} />

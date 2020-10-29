@@ -14,6 +14,8 @@ import comment from '../../Img/comment.png'
 import usePost from '../Customs/usePost'
 
 function Posts({ url, text }) {
+  let img = new RegExp('image/*')
+
   const [
     _id,
     posts,
@@ -64,10 +66,34 @@ function Posts({ url, text }) {
               </h4>
 
               <div className="post-img">
-                <img
-                  src={`/upload/${post.photo}`}
-                  alt={post._id}
-                />
+                {
+                  post.files ?
+                    post.files.map(file => {
+                      return (
+                        <div key={file._id}>
+                          {
+                            img.test(file.fileType) ?
+                              <img
+                                src={`/upload/${file.fileName}`}
+                                alt={post._id}
+                              />
+                              :
+                              <video
+                                autoPlay
+                                loop
+                                // controls
+                                playsInline
+                                preload="none"
+                                src={`/upload/${file.fileName}`}
+                              >
+                                your browser doesn't supported
+                              </video>
+                          }
+                        </div>
+                      )
+                    })
+                    : null
+                }
               </div>
 
               <div className="post-content">
@@ -88,7 +114,7 @@ function Posts({ url, text }) {
                       <img className="icons" alt="like-icon" src={likeIc} onClick={() => { likePost(post._id) }} />
                   }
 
-                  <img className="icons" alt="like-icon" src={comment} onClick={() => { history.push(`/comments/${post._id}`) }} />
+                  <img className="icons" alt="like-icon" src={comment} onClick={() => history.push(`/comments/${post._id}`)} />
 
                   {
                     post.isSaved
@@ -103,7 +129,7 @@ function Posts({ url, text }) {
                 <h4 className="post-title">{post.title}</h4>
                 <h6 className="post-body">{post.body}</h6>
 
-                <div className="post-comments">
+                <div className="post-comments" onClick={() => history.push(`/comments/${post._id}`)}>
                   {
                     post.commentsCount > 0 ?
                       `view all ${post.commentsCount} comments` :

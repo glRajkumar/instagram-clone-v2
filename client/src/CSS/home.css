@@ -10,10 +10,17 @@
     border-radius: 5px;
 }
 
-.post-img img{
+.post-img img, .post-img video{
     width: 500px;
     height: 500px;
+    object-fit: fill;
+    background-color: black;
 }
+
+/* .post-img video{
+    object-fit: fill;
+    background-color: black;
+} */
 
 .post-name{
     display: flex;
@@ -41,20 +48,22 @@
 }
 
 .post-title, .post-body{
-    overflow: scroll;
-    scroll-behavior: smooth;
+    margin: .5rem 0;
+    line-height: 1.1;
+    word-break: break-all;   
 }
 
 .post-comments{
-    max-height: 300px;
-    margin-bottom: 0.5rem;
-    overflow: scroll;
-    scroll-behavior: smooth;
+    opacity: .6;
+    cursor: pointer;
 }
 
-.post-comments span{
-    opacity: 0.9;
+.post-likes{
+    margin: .3rem 0;
 }
+/* .post-comments span{
+    opacity: 0.9;
+} */
 
 .input-com{
     display: block;

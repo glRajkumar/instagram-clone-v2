@@ -21,11 +21,18 @@ router.get('/:filename', (req, res) => {
     d.on("end", () => { res.end() })
 });
 
-router.post('/', auth, upload.single("img"), async (req, res) => {
+router.post('/', auth, upload.array('files', 10), async (req, res) => {
     try {
-        res.json({ img: req.file.filename })
+        const names = req.files.map(file => {
+            return {
+                fileName: file.filename,
+                fileType: file.mimetype,
+            }
+        })
+        res.json({ names });
+
     } catch (error) {
-        res.status(400).json({ error, msg: "Image upload failed" })
+        res.status(400).json({ error, msg: "files upload failed" })
     }
 })
 

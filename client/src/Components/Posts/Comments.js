@@ -20,10 +20,11 @@ function Comments() {
         <div className="commets">
             {
                 editCom.edit &&
-                <div>
+                <div className="cmt-edit">
                     <input
                         type="text"
                         value={editCom.text}
+                        className="input-box"
                         onChange={(e) => {
                             e.persist()
                             setEdit(prev => {
@@ -56,7 +57,7 @@ function Comments() {
                             <div className="comment-head">
                                 <div>
                                     <img
-                                        className="icons extra"
+                                        className="extra"
                                         src={comment.postedBy.img ? `/upload/${comment.postedBy.img}` : user}
                                         alt="user-img"
                                     />
@@ -79,7 +80,7 @@ function Comments() {
                                                 }}
                                                 src={edit}
                                                 alt="edit"
-                                                className="icons extra"
+                                                className="icons"
                                             />
                                             <img
                                                 onClick={() => {
@@ -87,7 +88,8 @@ function Comments() {
                                                 }}
                                                 src={del}
                                                 alt="delete"
-                                                className="icons extra"
+                                                className="icons"
+                                                style={{ marginLeft: '.5rem' }}
                                             />
                                         </>
                                     }
@@ -117,11 +119,13 @@ function Comments() {
                 comError && <div>error</div>
             }
 
-            <form onSubmit={(e) => {
-                e.preventDefault()
-                makeComment(e.target[0].value, postid)
-                e.target[0].value = ''
-            }}>
+            <form
+                className="cmt-form"
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    makeComment(e.target[0].value, postid)
+                    e.target[0].value = ''
+                }}>
                 <input
                     type="text"
                     className="input-com"

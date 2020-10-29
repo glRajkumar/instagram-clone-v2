@@ -7,14 +7,21 @@ const Post = require("../models/Post")
 router.get('/onlyphotos/:id', auth, async (req, res) => {
     const id = req.params.id
     const skip = parseInt(req.query.skip)
+    const pics = []
 
     try {
-        const pics = await Post.find({ postedBy: id })
-            .select('photo')
+        const lists = await Post.find({ postedBy: id })
+            .select('-_id files')
             .sort('-createdAt')
             .skip(skip)
             .limit(6)
             .lean()
+
+        lists.map(list => {
+            list.files.map(file => {
+                pics.push(file)
+            })
+        })
 
         res.json({ pics })
 
@@ -29,7 +36,7 @@ router.get('/allpost', auth, saved, async (req, res) => {
 
     try {
         let posts = await Post.find()
-            .select('-comments -createdAt -updatedAt -__v')
+            .select('-comments -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -60,7 +67,7 @@ router.get('/mypost', auth, saved, async (req, res) => {
 
     try {
         let posts = await Post.find({ postedBy: req.user._id })
-            .select('-comments -createdAt -updatedAt -__v')
+            .select('-comments -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -91,7 +98,7 @@ router.get('/heartedpost', auth, saved, async (req, res) => {
 
     try {
         let posts = await Post.find({ hearted: { $in: req.user._id } })
-            .select('-comments -createdAt -updatedAt -__v')
+            .select('-comments -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -122,7 +129,7 @@ router.get('/savedpost', auth, saved, async (req, res) => {
 
     try {
         let posts = await Post.find({ _id: { $in: req.savedPosts } })
-            .select('-comments -createdAt -updatedAt -__v')
+            .select('-comments -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -153,7 +160,7 @@ router.get('/followingpost', auth, following, saved, async (req, res) => {
 
     try {
         let posts = await Post.find({ postedBy: { $in: req.following } })
-            .select('-comments -createdAt -updatedAt -__v')
+            .select('-comments -updatedAt -__v')
             .populate("postedBy", "_id userName img")
             .sort('-createdAt')
             .skip(skip)
@@ -179,14 +186,14 @@ router.get('/followingpost', auth, following, saved, async (req, res) => {
 })
 
 router.post('/createpost', auth, async (req, res) => {
-    const { title, body, picUrl } = req.body
+    const { title, body, files } = req.body
     let user = req.user
 
     try {
         const post = new Post({
             title,
             body,
-            photo: picUrl,
+            files,
             postedBy: req.user._id
         })
 

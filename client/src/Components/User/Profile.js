@@ -3,8 +3,7 @@ import '../../CSS/profile.css'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
 import user from '../../Img/user.svg'
 import { useHistory } from 'react-router-dom'
-import usePhotos from '../Customs/usePhotos'
-import { Loading } from '../Common'
+import Photos from '../Common/Photos'
 
 function Profile() {
     const {
@@ -18,7 +17,6 @@ function Profile() {
         headers
     } = useContext(AuthContext)
 
-    const [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos] = usePhotos(_id, headers)
     const history = useHistory()
 
     return (
@@ -60,44 +58,8 @@ function Profile() {
                 </div>
             </div>
 
-            {
-                !initPicLoad ?
-                    <>
-                        {
-                            pics.length > 0 ?
-                                <div className="profile-posts">
-                                    {
-                                        pics.map(item => {
-                                            return (
-                                                <img
-                                                    key={item._id}
-                                                    className="item"
-                                                    src={`/upload/${item.photo}`}
-                                                    alt={item._id}
-                                                />
-                                            )
-                                        })
-                                    }
-                                </div>
-                                : <h3 className="text-center">No post yet</h3>
-                        }
+            <Photos id={_id} headers={headers} />
 
-                        {
-                            picsLoading &&
-                            <div className="rel-pos"><Loading /></div>
-                        }
-
-                        {
-                            (hasMore && !picsLoading) &&
-                            <button onClick={getPhotos}>Load more</button>
-                        }
-
-                        {
-                            picsError && <div>Error</div>
-                        }
-                    </>
-                    : <div className="rel-pos"><Loading /></div>
-            }
         </div>
     )
 }

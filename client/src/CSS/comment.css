@@ -2,7 +2,17 @@
     padding: 2rem;
     max-width: 600px;
     margin-left: auto;
-    margin-right: auto;  
+    margin-right: auto; 
+}
+
+.cmt-edit{
+    position: relative;
+}
+
+.cmt-edit button{
+    position: absolute;
+    right: 0;
+    top: -1px;
 }
 
 .comment{
@@ -10,6 +20,7 @@
 }
 
 .extra{
+    width: 25px;
     margin-right: .5rem;
 }
 
@@ -22,6 +33,15 @@
 .comment-body{
     word-break: break-all;
     margin-bottom: .7rem;
+    margin-left: 2.2rem;
     opacity: .8;
 }
 
+.cmt-form{
+    position: fixed;
+    max-width: 540px;
+    width: 90%;
+    padding: .5rem;
+    background-color: white;
+    bottom: 0;
+}

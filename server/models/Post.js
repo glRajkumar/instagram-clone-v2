@@ -11,10 +11,14 @@ const postSchema = new mongoose.Schema({
         required: true
     },
 
-    photo: {
-        type: String,
-        required: true
-    },
+    files: [{
+        fileType: {
+            type: String
+        },
+        fileName: {
+            type: String
+        }
+    }],
 
     hearted: [{
         type: mongoose.Schema.Types.ObjectId,

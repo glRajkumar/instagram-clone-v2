@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3NzI0MGRjOGQ5MjA1YjgxYzU4MGIiLCJpYXQiOjE2MDM3NjA3MTgsImV4cCI6MTYwMzgyNTUxOH0.o9g3w--CNZaGdGuaejoS2uaovgOOc3NShdgmZcnNjXw
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3ZmM3MDQ2NTk4MDE1MGM4NjQzNzMiLCJpYXQiOjE2MDM4NzE3NjgsImV4cCI6MTYwMzkzNjU2OH0.He5HVSM4EsQhyDMEKlX23ssuoL9jpDkC2Vq9eqg5HLs
 
 ### get onlyphotos 
-GET {{host}}/post/onlyphotos/5f968a98ffc40d1a902debb2/?skip=0
+GET {{host}}/post/onlyphotos/5f97fc70465980150c864373/?skip=0
 Authorization: {{token}}
 
 ### get my post 
@@ -31,11 +31,15 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "title" : "title3",
-    "body" : "body3",
-    "picUrl" : "79aa7814c24b2f2a4349033d798017ef"
+    "title" : "title for the title",
+    "body" : "body for the body of my post",
+    "files" : [
+        {
+            "fileName": "c1b51fc0609d2fd08fda79ad1ca491ce",
+            "fileType": "image/png" 
+        }
+    ]
 }
-
 ### like post
 PUT {{host}}/post/like
 Content-Type: application/json
@@ -73,6 +77,6 @@ Authorization: {{token}}
 }
 
 ### delete the particular post
-DELETE  {{host}}/post/5f8ebec6c998c002a42e0783
+DELETE  {{host}}/post/5f994c57ff38710a08e98992
 Content-Type: application/json
 Authorization: {{token}}

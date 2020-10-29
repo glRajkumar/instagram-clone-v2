@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OWM1MzY1OGNjYTE4MDRhY2QyMTUiLCJpYXQiOjE2MDM3NjY1NTIsImV4cCI6MTYwMzgzMTM1Mn0.ZUXxrQeZza8jS0ql2_eQWhHqvh3BOSvYZlq1vDZ83so
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3ZmM3MDQ2NTk4MDE1MGM4NjQzNzMiLCJpYXQiOjE2MDM4NzE3NjgsImV4cCI6MTYwMzkzNjU2OH0.He5HVSM4EsQhyDMEKlX23ssuoL9jpDkC2Vq9eqg5HLs
 
 ### get full 
 GET {{host}}/user/full
@@ -10,19 +10,19 @@ GET {{host}}/user/me
 Authorization: {{token}}
 
 ### get followers
-GET {{host}}/user/followers
+GET {{host}}/user/followers/?skip=0
 Authorization: {{token}}
 
 ### get following
-GET {{host}}/user/following
+GET {{host}}/user/following/?skip=0
 Authorization: {{token}}
 
 ### get requests
-GET {{host}}/user/requests
+GET {{host}}/user/requests/?skip=0
 Authorization: {{token}}
 
 ### get requested
-GET {{host}}/user/requested
+GET {{host}}/user/requested/?skip=0
 Authorization: {{token}}
 
 ### register
@@ -31,9 +31,9 @@ Content-Type: application/json
 
 {
     "fullName" : "newname",
-    "userName": "eeue",
-    "email" : "eeeu@ngmail.com",
-    "password" : "aA1!aaaa"
+    "userName": "ooo",
+    "email" : "ooo@gmail.com",
+    "password" : "aA1!aa"
 }
 
 ### login
@@ -41,8 +41,8 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "eeeu@ngmail.com",
-    "password" : "aA1!aaaa"
+    "email" : "kkk@gmail.com",
+    "password" : "aA1!aa"
 }
 
 ### update public preference

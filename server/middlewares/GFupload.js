@@ -26,6 +26,17 @@ const storage = new GridFsStorage({
     }
 });
 
-const upload = multer({ storage });
+
+const fileFilter = (req, file, cb) => {
+    let img = new RegExp('image/*')
+    let vid = new RegExp('video/*')
+    if (img.test(file.mimetype) || vid.test(file.mimetype)) {
+        cb(null, true)
+    } else {
+        cb(new Error("not allowed"), false)
+    }
+}
+
+const upload = multer({ storage, fileFilter })
 
 module.exports = upload
