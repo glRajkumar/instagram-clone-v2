@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import useComments from '../Customs/useComments'
 import Loading from '../Common/Loading'
 import '../../CSS/comment.css'
+import { getTime } from '../Customs/getTime'
 
 function Comments() {
     const { postid } = useParams()
@@ -97,7 +98,8 @@ function Comments() {
                             </div>
 
                             <div className="comment-body">
-                                {comment.text}
+                                <p> {comment.text} </p>
+                                <p className="comment-time">{getTime(comment.updatedAt)}</p>
                             </div>
                         </div>
                     )

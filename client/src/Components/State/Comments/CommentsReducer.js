@@ -44,7 +44,8 @@ const CommentsReducer = (state, { type, payload }) => {
                 if (com._id === payload.commentId) {
                     return {
                         ...com,
-                        text: payload.text
+                        text: payload.text,
+                        updatedAt: Date()
                     }
                 } else {
                     return com

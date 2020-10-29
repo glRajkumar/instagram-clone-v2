@@ -10,7 +10,7 @@ router.get('/:postId', auth, async (req, res) => {
 
     try {
         const comments = await Comment.find({ 'post': postId })
-            .select('text postedBy')
+            .select('text postedBy updatedAt')
             .populate('postedBy', "_id userName img")
             .sort('-createdAt')
             .skip(skip)

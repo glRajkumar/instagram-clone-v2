@@ -1,10 +1,12 @@
 import React from 'react'
 import usePhotos from '../Customs/usePhotos'
 import { Loading } from '../Common'
+import { useHistory } from 'react-router-dom'
 
 function Photos({ id, headers }) {
     const imgCheck = new RegExp('image/*')
     const [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos] = usePhotos(id, headers)
+    const history = useHistory()
 
     return (
         <div>
@@ -17,7 +19,7 @@ function Photos({ id, headers }) {
                                     {
                                         pics.map(item => {
                                             return (
-                                                <div key={item._id}>
+                                                <div key={item._id} onClick={() => history.push(`othersposts/${id}`)}>
                                                     {
                                                         imgCheck.test(item.fileType) ?
                                                             <img
@@ -28,10 +30,6 @@ function Photos({ id, headers }) {
                                                             />
                                                             :
                                                             <video
-                                                                autoPlay
-                                                                loop
-                                                                controls
-                                                                playsInline
                                                                 preload="none"
                                                                 src={`/upload/${item.fileName}`}
                                                             >

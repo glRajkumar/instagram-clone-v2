@@ -47,7 +47,8 @@ function useComments(postId) {
                         _id,
                         img,
                         userName
-                    }
+                    },
+                    updatedAt: Date()
                 }
                 dispatch({ type: 'ADD', payload })
             }

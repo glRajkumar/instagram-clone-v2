@@ -54,16 +54,22 @@
 }
 
 .post-comments{
-    opacity: .6;
+    opacity: .8;
     cursor: pointer;
 }
 
 .post-likes{
     margin: .3rem 0;
 }
+
 /* .post-comments span{
     opacity: 0.9;
 } */
+
+.post-time{
+    font-size: .7rem;
+    opacity: .6;
+}
 
 .input-com{
     display: block;

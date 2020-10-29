@@ -1,8 +1,8 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjkyMzlmZjdiYTBiYTMwMThhZDQ1OTMiLCJpYXQiOjE2MDM2MTc4MTgsImV4cCI6MTYwMzY4MjYxOH0.v2S5Q5XUWllMmtOGxHO_TIYPglAaaa0GRAkeWzzcvIQ
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3ZmM3MDQ2NTk4MDE1MGM4NjQzNzMiLCJpYXQiOjE2MDM5NjcyMDEsImV4cCI6MTYwNDAzMjAwMX0.uSRN57d3kAzsa0lV8lvVVImnNff5iuJ1bHexXUI59LU
 
 ### get comments 
-GET {{host}}/comment/5f95446a4b517f2810f2cc98/?skip=0
+GET {{host}}/comment/5f9a9969ff668f3b30f01894/?skip=0
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -13,7 +13,7 @@ Authorization: {{token}}
 
 {
     "text": "raj 2",
-    "postId" : "5f95446a4b517f2810f2cc98"
+    "postId" : "5f9a9969ff668f3b30f01894"
 }
 
 ### put comment

@@ -9,6 +9,7 @@ import OtherUserFollowers from './Components/User/OtherUserFollowers';
 import OtherUserFollowing from './Components/User/OtherUserFollowing';
 import Requests from './Components/User/Requests';
 import Requested from './Components/User/Requested';
+import OtherUserPost from './Components/Posts/OtherUserPost';
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         <Protected exact path="/myposts" component={MyPosts} />
         <Protected exact path="/createpost" component={CreatePost} />
         <Protected path="/allposts" component={AllPosts} />
+        <Protected path="/othersposts/:userid" component={OtherUserPost} />
         <Protected path="/Comments/:postid" component={Comments} />
 
         <Protected exact path="/updatepass" component={NewPass} />

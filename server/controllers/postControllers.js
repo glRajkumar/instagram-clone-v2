@@ -185,6 +185,38 @@ router.get('/followingpost', auth, following, saved, async (req, res) => {
     }
 })
 
+router.get('/otherspost/:userid', auth, following, saved, async (req, res) => {
+    const id = req.params.userid
+    const skip = parseInt(req.query.skip)
+    const strId = req.user._id.toString()
+
+    try {
+        let posts = await Post.find({ postedBy: id })
+            .select('-comments -updatedAt -__v')
+            .populate("postedBy", "_id userName img")
+            .sort('-createdAt')
+            .skip(skip)
+            .limit(5)
+            .lean()
+
+        posts = posts.map(post => {
+            return {
+                ...post,
+                likes: 0,
+                hearted: 0,
+                isLiked: post.likes.toString().includes(strId),
+                isHearted: post.hearted.toString().includes(strId),
+                isSaved: req.savedPosts.toString().includes(post._id.toString())
+            }
+        })
+
+        res.json({ posts })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: "cannot get hearted posts" })
+    }
+})
+
 router.post('/createpost', auth, async (req, res) => {
     const { title, body, files } = req.body
     let user = req.user

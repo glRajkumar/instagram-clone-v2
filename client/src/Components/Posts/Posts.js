@@ -12,6 +12,7 @@ import save from '../../Img/save.png'
 import saved from '../../Img/saved.png'
 import comment from '../../Img/comment.png'
 import usePost from '../Customs/usePost'
+import { getTime } from '../Customs/getTime'
 
 function Posts({ url, text }) {
   let img = new RegExp('image/*')
@@ -136,6 +137,7 @@ function Posts({ url, text }) {
                       `still no one commented`
                   }
                 </div>
+                <p className="post-time"> {getTime(post.createdAt)} </p>
 
                 <form onSubmit={(e) => {
                   e.preventDefault()

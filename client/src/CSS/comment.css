@@ -21,6 +21,8 @@
 
 .extra{
     width: 25px;
+    height: 25px;
+    border-radius: 50%;
     margin-right: .5rem;
 }
 
@@ -32,9 +34,15 @@
 
 .comment-body{
     word-break: break-all;
+    line-height: 1.1;
     margin-bottom: .7rem;
     margin-left: 2.2rem;
     opacity: .8;
+}
+
+.comment-time{
+    font-size: .7rem;
+    opacity: .6;
 }
 
 .cmt-form{

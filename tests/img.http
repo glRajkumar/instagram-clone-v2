@@ -4,9 +4,6 @@
 ### Get the Single image
 GET {{host}}/upload/9695343948e0ab35734f5ab7c3022ae8
 
-### Get the Single image
-GET {{host}}/upload/byid/5f9924832fdfc235cc7f9d40
-
 ### post img
 POST {{host}}/upload
 Authorization: {{token}}
