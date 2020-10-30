@@ -1,5 +1,4 @@
 import { useReducer, useEffect, useState } from 'react'
-import PicsReducer from '../State/Pics/PicsReducer'
 import axios from 'axios'
 
 const initialState = {
