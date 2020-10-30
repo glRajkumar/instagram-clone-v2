@@ -53,14 +53,17 @@ const AuthContextProvider = (props) => {
 
           dispatch({ type: "LOGIN", payload })
           history.push("/")
+          return
 
         } else {
           history.push("/login")
           localStorage.removeItem("insta_token")
           localStorage.removeItem("insta_token_exp")
+          return
         }
       } else {
         history.push("/signup")
+        return
       }
 
     } catch (error) {

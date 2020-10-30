@@ -16,15 +16,19 @@ function EditProfile() {
         <div className="edit">
             {
                 delModel &&
-                <div>
-                    <img
-                        onClick={() => setDelModel(false)}
-                        className="icons"
-                        src={close}
-                        alt="close"
-                    />
-                    <p>Are you sure! Do you want to delete your account</p>
-                    <button className="alert" onClick={deleteAcc}>Delete My Account</button>
+                <div id="del-model">
+                    <div id="indel-model">
+                        <img
+                            onClick={() => setDelModel(false)}
+                            className="icons"
+                            src={close}
+                            alt="close"
+                        />
+                        <p>
+                            Are you sure! Do you want to delete your account
+                        </p>
+                        <button className="alert" onClick={deleteAcc}>Delete My Account</button>
+                    </div>
                 </div>
             }
 
@@ -56,37 +60,32 @@ function EditProfile() {
                 onChange={e => setUser(e.target.value)}
             />
 
-            <button onClick={updatePublic}>
-                {isPublic ? 'Make private my account' : 'Change to public'}
-            </button>
+            <div className="edit-detail">
+                Update your account visibility : &nbsp;
+                <button onClick={updatePublic}>
+                    {isPublic ? 'Make private my account' : 'Change to public'}
+                </button>
+            </div>
 
-            <button onClick={() => history.push('/followers')}>
-                Followers List
-            </button>
+            <div className="edit-detail">
+                Change your old password : &nbsp;
+                <button onClick={() => history.push('/updatepass')}>
+                    Update Password
+                </button>
+            </div>
 
-            <button onClick={() => history.push('/following')}>
-                Following List
-            </button>
+            <div className="edit-detail">
+                Forget your password : &nbsp;
+                <button onClick={() => history.push('/resetpass')}>
+                    Reset Password
+                </button>
+            </div>
 
-            <button onClick={() => history.push('/requests')}>
-                Requests List
-            </button>
-
-            <button onClick={() => history.push('/requested')}>
-                Requested List
-            </button>
-
-            <button onClick={() => history.push('/updatepass')}>
-                Update Password
-            </button>
-
-            <button onClick={() => history.push('/resetpass')}>
-                Reset Password
-            </button>
-
-            <button className="alert" onClick={() => setDelModel(true)}>
-                Delete My Account
-            </button>
+            <div className="edit-detail">
+                <button className="alert" onClick={() => setDelModel(true)}>
+                    Delete My Account
+                </button>
+            </div>
         </div>
     )
 }

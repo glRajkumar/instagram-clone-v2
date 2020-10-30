@@ -1,4 +1,5 @@
 .edit{
+    position: relative;
     padding: 2rem;
     max-width: 600px;
     margin-left: auto;
@@ -16,4 +17,26 @@
     width: 160px;
     height: 160px;
     border-radius: 50%;
+}
+
+#del-model{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+#indel-model{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.edit-detail{
+    margin: .7rem 0;
 }

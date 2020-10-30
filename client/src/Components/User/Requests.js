@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useReducer, useState } from 'react'
 import { AuthContext } from '../State/Auth/AuthContextProvider'
+import { Link } from 'react-router-dom'
 import Loading from '../Common/Loading'
 import user from '../../Img/user.svg'
 import '../../CSS/lists.css'
@@ -64,7 +65,7 @@ const reqReducer = (state, { type, payload }) => {
 }
 
 function Requests({ headers }) {
-    const { updateFollowers } = useContext(AuthContext)
+    const { _id, updateFollowers } = useContext(AuthContext)
     const [initListLoad, setInit] = useState(true)
     const [{ lists, skip, listsLoading, hasMore, listsError }, dispatch] = useReducer(reqReducer, initialState)
 
@@ -125,7 +126,14 @@ function Requests({ headers }) {
                                     src={list.img ? `/upload/${list.img}` : user}
                                     alt="userprofile"
                                 />
-                                <p> {list.userName} </p>
+                                <p>
+                                    <Link to={list._id === _id
+                                        ? "/profile"
+                                        : `/profile/${list._id}`
+                                    }>
+                                        {list.userName}
+                                    </Link>
+                                </p>
                             </div>
 
                             <div>

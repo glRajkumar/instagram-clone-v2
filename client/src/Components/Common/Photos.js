@@ -29,10 +29,7 @@ function Photos({ id, headers }) {
                                                                 alt={item._id}
                                                             />
                                                             :
-                                                            <video
-                                                                preload="none"
-                                                                src={`/upload/${item.fileName}`}
-                                                            >
+                                                            <video src={`/upload/${item.fileName}`}>
                                                                 your browser doesn't supported
                                                             </video>
 
