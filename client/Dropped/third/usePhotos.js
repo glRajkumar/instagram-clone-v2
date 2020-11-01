@@ -24,10 +24,8 @@ function usePhotos(id, headers) {
             dispatch({ type: 'LOADING' })
             let res = await axios.get(`/post/onlyphotos/${id}/?skip=${skip}`, { headers })
             const payload = {
-                pics: res.data.files
+                pics: res.data.pics
             }
-            console.log("usephotos")
-            console.log(res.data)
             dispatch({ type: 'GET', payload })
 
         } catch (error) {

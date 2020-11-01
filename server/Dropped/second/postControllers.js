@@ -7,16 +7,23 @@ const Post = require("../models/Post")
 router.get('/onlyphotos/:id', auth, async (req, res) => {
     const id = req.params.id
     const skip = parseInt(req.query.skip)
+    const pics = []
 
     try {
-        const files = await Post.find({ postedBy: id })
+        const lists = await Post.find({ postedBy: id })
             .select('-_id files')
             .sort('-createdAt')
             .skip(skip)
             .limit(6)
             .lean()
 
-        res.json({ files })
+        lists.map(list => {
+            list.files.map(file => {
+                pics.push(file)
+            })
+        })
+
+        res.json({ pics })
 
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get phots" })

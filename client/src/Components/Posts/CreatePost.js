@@ -98,7 +98,7 @@ function CreatePost() {
                     type="file"
                     name="files"
                     accept="image/*,video/*"
-                    // multiple
+                    multiple
                     onChange={e => setFile(e.target.files)}
                 />
             </div>

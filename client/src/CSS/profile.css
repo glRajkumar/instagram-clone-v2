@@ -72,6 +72,20 @@
   margin-left: .5rem;
 }
 
+.post-container{
+  position: relative;
+}
+
+.post-container .post-top{
+  position: absolute;
+  z-index: 4;
+  width: 25px;
+  height: 25px;
+  right: 5px;
+  top: 5px;
+  background-color: white;
+}
+
 @media (max-width: 600px){ 
   .profile-username{
     margin-left: 1rem;

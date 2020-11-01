@@ -2,9 +2,9 @@ import React from 'react'
 import usePhotos from '../Customs/usePhotos'
 import { Loading } from '../Common'
 import { useHistory } from 'react-router-dom'
-import NoSlider from './NoSlider'
 
 function Photos({ id, headers }) {
+    const imgCheck = new RegExp('image/*')
     const [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos] = usePhotos(id, headers)
     const history = useHistory()
 
@@ -14,14 +14,26 @@ function Photos({ id, headers }) {
                 !initPicLoad ?
                     <>
                         {
-                            pics.length > 0
-                                ?
+                            pics.length > 0 ?
                                 <div className="profile-posts">
                                     {
-                                        pics.map(files => {
+                                        pics.map(item => {
                                             return (
-                                                <div key={files.files[0]._id} className="post-container" onClick={() => history.push(`othersposts/${id}`)}>
-                                                    <NoSlider files={files} />
+                                                <div key={item._id} onClick={() => history.push(`othersposts/${id}`)}>
+                                                    {
+                                                        imgCheck.test(item.fileType) ?
+                                                            <img
+                                                                key={item._id}
+                                                                className="item"
+                                                                src={`/upload/${item.fileName}`}
+                                                                alt={item._id}
+                                                            />
+                                                            :
+                                                            <video src={`/upload/${item.fileName}`}>
+                                                                your browser doesn't supported
+                                                            </video>
+
+                                                    }
                                                 </div>
                                             )
                                         })
@@ -36,7 +48,7 @@ function Photos({ id, headers }) {
                         }
 
                         {
-                            hasMore && !picsLoading &&
+                            (hasMore && !picsLoading) &&
                             <button onClick={getPhotos}>Load more</button>
                         }
 

@@ -13,7 +13,6 @@ import saved from '../../Img/saved.png'
 import comment from '../../Img/comment.png'
 import usePost from '../Customs/usePost'
 import { getTime } from '../Customs/getTime'
-import Slider from '../Common/Slider'
 
 function Posts({ url, text }) {
   let img = new RegExp('image/*')
@@ -67,32 +66,36 @@ function Posts({ url, text }) {
                 }
               </h4>
 
-              {
-                post.files.length === 1 ?
-                  <div className="post-img">
-                    <div key={post.files[0]._id}>
-                      {
-                        img.test(post.files[0].fileType) ?
-                          <img
-                            src={`/upload/${post.files[0].fileName}`}
-                            alt={post._id}
-                          />
-                          :
-                          <video
-                            autoPlay
-                            loop
-                            controls
-                            playsInline
-                            preload="none"
-                            src={`/upload/${post.files[0].fileName}`}
-                          >
-                            your browser doesn't supported
-                        </video>
-                      }
-                    </div>
-                  </div>
-                  : <Slider files={post.files} />
-              }
+              <div className="post-img">
+                {
+                  post.files ?
+                    post.files.map(file => {
+                      return (
+                        <div key={file._id}>
+                          {
+                            img.test(file.fileType) ?
+                              <img
+                                src={`/upload/${file.fileName}`}
+                                alt={post._id}
+                              />
+                              :
+                              <video
+                                autoPlay
+                                loop
+                                // controls
+                                playsInline
+                                preload="none"
+                                src={`/upload/${file.fileName}`}
+                              >
+                                your browser doesn't supported
+                              </video>
+                          }
+                        </div>
+                      )
+                    })
+                    : null
+                }
+              </div>
 
               <div className="post-content">
                 <div className="post-icons">
