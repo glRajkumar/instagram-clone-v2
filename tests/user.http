@@ -68,7 +68,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "followId" : "5f968a98ffc40d1a902debb2"
+    "followId" : "5f97fc02465980150c864369"
 }
 
 ### unfollow

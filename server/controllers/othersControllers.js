@@ -5,6 +5,24 @@ const User = require('../models/User')
 
 const router = express.Router()
 
+router.get('/suggestions', auth, following, async (req, res) => {
+    const skip = parseInt(req.query.skip)
+
+    try {
+        const notSelect = [req.user._id, ...req.following, ...req.requested]
+        const ids = await User.find({ _id: { $nin: notSelect } })
+            .select('_id userName img isPublic')
+            .skip(skip)
+            .limit(10)
+            .lean()
+
+        res.json({ ids })
+    } catch (error) {
+        res.status(400).json({ error, msg: 'cannot get user' })
+    }
+
+})
+
 router.get('/:id', auth, following, async (req, res) => {
     const id = req.params.id
 

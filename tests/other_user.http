@@ -1,8 +1,12 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk2OGE5OGZmYzQwZDFhOTAyZGViYjIiLCJpYXQiOjE2MDM3MDE0MDgsImV4cCI6MTYwMzc2NjIwOH0.qAestqnm9NEfB1igEw7FAyFRTRvTm1ZlL3f8Fo77E0A
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3ZmM3MDQ2NTk4MDE1MGM4NjQzNzMiLCJpYXQiOjE2MDQyMTM5NjUsImV4cCI6MTYwNDI3ODc2NX0.d8B5mcuEZXKkEVGqhiaz7m3R5rbMB6pvTjqUrFhaom0
+
+### get suggestions
+GET {{host}}/other_user/suggestions/?skip=0
+Authorization: {{token}}
 
 ### get user by id
-GET {{host}}/other_user/5f977240dc8d9205b81c580b
+GET {{host}}/other_user/5f97fc1c465980150c86436a
 Authorization: {{token}}
 
 ### get followers of others

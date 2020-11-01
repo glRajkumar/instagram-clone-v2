@@ -4,9 +4,10 @@ import { NotFound, Protected, UnAuthor } from './Components/Common'
 import {
   Signup, Login, NavBar, Profile, UsersProfile, NewPass,
   ResetPass, NewPassGen, UpdateImg, EditProfile, Followers,
-  Following, Requests, Requested, OtherUserFollowers, OtherUserFollowing
+  Following, Requests, Requested, OtherUserFollowers,
+  OtherUserFollowing, FullSuggestion
 } from './Components/User'
-import { CreatePost, AllPosts, FollowingPosts, MyPosts, Comments, OtherUserPost } from './Components/Posts'
+import { CreatePost, AllPosts, FollowingPosts, MyPosts, Comments, OtherUserPost, Hearted } from './Components/Posts'
 
 const App = () => {
   return (
@@ -31,6 +32,8 @@ const App = () => {
         <Protected exact path='/following' component={Following} />
         <Protected exact path='/requests' component={Requests} />
         <Protected exact path='/requested' component={Requested} />
+        <Protected exact path='/hearted' component={Hearted} />
+        <Protected exact path='/suggest' component={FullSuggestion} />
         <Protected exact path='/othersfollowers/:userId' component={OtherUserFollowers} />
         <Protected exact path='/othersfollowing/:userId' component={OtherUserFollowing} />
 

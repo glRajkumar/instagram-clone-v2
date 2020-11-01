@@ -70,6 +70,16 @@ const NavBar = () => {
                     </Link>
                 </li>
                 <li>
+                    <Link to="/hearted" onClick={() => setOpen(prev => !prev)}>
+                        Hearted
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/suggest" onClick={() => setOpen(prev => !prev)}>
+                        Suggestions
+                    </Link>
+                </li>
+                <li>
                     <button onClick={LogOut} >
                         Logout
                     </button>
