@@ -80,7 +80,7 @@ const NavBar = () => {
                     </Link>
                 </li>
                 <li>
-                    <button onClick={LogOut} >
+                    <button className="grey-btn" onClick={LogOut} >
                         Logout
                     </button>
                 </li>

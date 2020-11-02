@@ -42,7 +42,7 @@ function Lists({ url, headers }) {
                                     src={list.img ? `/upload/${list.img}` : user}
                                     alt="userprofile"
                                 />
-                                <p>
+                                <p className="lists-user">
                                     <Link to={list._id === _id
                                         ? "/profile"
                                         : `/profile/${list._id}`
@@ -53,17 +53,17 @@ function Lists({ url, headers }) {
                             </div>
                             {
                                 !list.isFollowing && !list.isRequested && list._id !== _id &&
-                                <button onClick={() => followAction(list.isPublic, list._id)}>Follow</button>
+                                <button className="list-button" onClick={() => followAction(list.isPublic, list._id)}>Follow</button>
                             }
 
                             {
                                 list.isFollowing &&
-                                <button onClick={() => unFollow(list._id)}>UnFollow</button>
+                                <button className="list-button" onClick={() => unFollow(list._id)}>UnFollow</button>
                             }
 
                             {
                                 list.isRequested &&
-                                <button onClick={() => cancelReq(list._id)}>Requested</button>
+                                <button className="list-button grey-btn" onClick={() => cancelReq(list._id)}>Requested</button>
                             }
                         </div>
                     )

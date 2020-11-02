@@ -108,11 +108,8 @@ function CreatePost() {
                     Submit Post
                 </button>
             </div>
-            <br />
 
             { progress > 0 && <ProgressBar progress={progress} />}
-
-            <br />
         </div>
     )
 }

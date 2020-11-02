@@ -1,6 +1,8 @@
 /node_modules
 /other
 .env
-/tests
-/Dropped
 debug.log
+*.mp4
+*.pdf
+*.png
+*.jpg

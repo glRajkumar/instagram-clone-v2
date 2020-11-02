@@ -36,15 +36,15 @@ function Profile() {
                 <div className="profile-details">
                     <div className="profile-mini">
                         <div>
-                            <p> {totalPosts} </p>
+                            <p> <strong>{totalPosts}</strong> </p>
                             <p> posts </p>
                         </div>
                         <div onClick={() => history.push('/followers')}>
-                            <p> {followersCount} </p>
+                            <p> <strong>{followersCount}</strong> </p>
                             <p> followers </p>
                         </div>
                         <div onClick={() => history.push('/following')}>
-                            <p> {followingCount} </p>
+                            <p> <strong>{followingCount}</strong> </p>
                             <p> following </p>
                         </div>
                     </div>

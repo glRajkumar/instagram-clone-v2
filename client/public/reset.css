@@ -17,7 +17,7 @@ body {
   background-color: #fff;
   overflow-x: hidden; }
 
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+article, aside, figcaption, figure, footer, header, hgroup, main, nav, section, label {
   display: block; }
 
 ul li,
@@ -28,12 +28,10 @@ ol li {
 strong {
   font-weight: bolder; }
 
-a {
+a,
+a:hover {
   text-decoration: none;
   background-color: transparent; }
-
-a:hover {
-  text-decoration: none; }
 
 img, video {
   max-width: 100%;
@@ -47,24 +45,15 @@ table {
 th {
   text-align: inherit; }
 
-label {
-  display: block; }
-
 button {
   border-radius: 0;
   outline: none;
   border: none;
   padding: 0.5rem 1rem; }
 
-button:hover {
-  cursor: pointer;
-  color: #fff;
-  background-color: #291137; }
-
+button:hover, 
 button:focus {
-  cursor: pointer;
-  color: #fff;
-  background-color: #291137; }
+  cursor: pointer; }
 
 input,
 button,
@@ -102,7 +91,7 @@ textarea {
 
 @media (max-width: 300) {
   html {
-    line-height: 1; }
+    line-height: 1.1; }
   body {
     font-weight: 220;
-    line-height: 1; } }
+    line-height: 1.1; } }

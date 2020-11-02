@@ -8,6 +8,7 @@ import {
   OtherUserFollowing, FullSuggestion
 } from './Components/User'
 import { CreatePost, AllPosts, FollowingPosts, MyPosts, Comments, OtherUserPost, Hearted } from './Components/Posts'
+import "./CSS/app.css"
 
 const App = () => {
   return (

@@ -55,11 +55,18 @@
 }
 
 .profile-edit{
+  color: black;
   padding: .5rem 3rem;
   margin-top: 1rem;
   border-radius: 5px;
   border: 1px solid #313131;
   background-color: transparent;
+}
+
+.profile-edit:hover{
+  outline: none;
+  color: #000;
+  background-color: rgba(0, 0, 0, .1);
 }
 
 .public{

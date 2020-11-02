@@ -2,8 +2,8 @@
   text-align: center; }
 
 .icons{
-    width: 1rem;
-    cursor: pointer; }
+  width: 1rem;
+  cursor: pointer; }
 
 .rel-pos{
   position: relative;
@@ -28,7 +28,7 @@
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 40%;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 2rem;
@@ -60,7 +60,8 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
 
 .file-wrapper {
-  position: relative; }
+  position: relative;
+  margin-bottom: .6rem; }
 
 .file-label {
   position: relative;
@@ -74,7 +75,13 @@
   color: #495057;
   background-color: #fff;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem; }
+  border-radius: 0.25rem;
+  overflow-y: scroll; }
+
+.file-label::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}
 
 .file-label::after {
   position: absolute;
@@ -112,6 +119,7 @@
   overflow: hidden;
   font-size: 0.75rem;
   background-color: #e9ecef;
+  margin: .5rem 0;
   border-radius: 0.25rem; }
 
 .progress-bar {
@@ -167,17 +175,17 @@
 
 @media (max-width: 900px) {
   .form-box {
-    width: 60%;
+    width: 50%;
     padding: 1.5rem; } }
 
 @media (max-width: 650px) {
   .form-box {
-    width: 70%;
+    width: 60%;
     padding: 1.2rem; } }
 
 @media (max-width: 450px) {
   .form-box {
-    width: 100%;
+    width: 90%;
     padding: 0.9rem; } }
   
 @media (max-width: 500px) {

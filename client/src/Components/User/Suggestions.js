@@ -34,16 +34,16 @@ function Suggestions({ headers, isGrid }) {
                 suggestions.map(list => {
                     return (
                         <div className="sug" key={list._id}>
-                            <img
-                                className="sug-img"
-                                src={list.img ? `/upload/${list.img}` : user}
-                                alt="userprofile"
-                            />
-                            <p>
-                                <Link to={`/profile/${list._id}`}>
+                            <Link to={`/profile/${list._id}`}>
+                                <img
+                                    className="sug-img"
+                                    src={list.img ? `/upload/${list.img}` : user}
+                                    alt="userprofile"
+                                />
+                                <p>
                                     {list.userName}
-                                </Link>
-                            </p>
+                                </p>
+                            </Link>
 
                             {
                                 !list.isFollowing && !list.isRequested &&
