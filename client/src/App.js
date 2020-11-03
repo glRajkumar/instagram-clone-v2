@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { AuthContext } from './Components/State/Auth/AuthContextProvider';
 import { NotFound, Protected, UnAuthor } from './Components/Common'
 import {
   Signup, Login, NavBar, Profile, UsersProfile, NewPass,
@@ -11,6 +12,8 @@ import { CreatePost, AllPosts, FollowingPosts, MyPosts, Comments, OtherUserPost,
 import "./CSS/app.css"
 
 const App = () => {
+  const { auth } = useContext(AuthContext)
+
   return (
     <>
       <NavBar />
@@ -19,7 +22,10 @@ const App = () => {
         <Route exact path='/signup' component={Signup} />
         <Route exact path='/login' component={Login} />
 
-        <Protected exact path='/' component={FollowingPosts} />
+        {
+          auth &&
+          <Protected exact path='/' component={FollowingPosts} />
+        }
         <Protected exact path="/myposts" component={MyPosts} />
         <Protected exact path="/createpost" component={CreatePost} />
         <Protected path="/allposts" component={AllPosts} />

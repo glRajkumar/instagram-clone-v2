@@ -67,7 +67,7 @@ const AuthContextProvider = (props) => {
       }
 
     } catch (error) {
-      history.push("/signup")
+      history.push("/login")
       localStorage.removeItem("insta_token")
       localStorage.removeItem("insta_token_exp")
       console.log(error)

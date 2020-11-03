@@ -14,7 +14,7 @@ nav {
     justify-content: space-between;
     align-items: center; 
     background-color: white;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(0, 0,0, .3);
 }
 
 .list, #inMod div{
@@ -41,8 +41,8 @@ nav {
 }
 
 .nav-icons{
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
     cursor: pointer;
 }
 
@@ -65,17 +65,34 @@ nav {
     padding: .5rem 2rem;
 }
 
-.miniProfile ul li:hover{
-    background-color: rgba(0, 0,0, 0.1);
+.miniProfile ul li a{
+    color: #000;
 }
 
-@media (max-width: 450px){    
+.miniProfile ul li:hover{
+    background-color: rgba(0, 0,0, .1);
+}
+
+.miniProfile ul li a:hover{
+    color: #007bff;
+}
+
+@media (max-width: 600px){    
+    .nav-icons{
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 450px){      
+    .miniProfile{
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 300px){    
     .nav-icons{
         width: 15px;
         height: 15px;
-    }
-   
-    .miniProfile{
-        padding: 0 1rem;
     }
 }
