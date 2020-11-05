@@ -1,0 +1,54 @@
+.svg_ic, 
+.search{
+    cursor: pointer;
+    fill: transparent;
+    width: 32px;
+    height: 32px;
+    stroke: #000;
+    stroke-width: 5;
+}
+
+.search{
+    fill: #000;
+    stroke-width: 3;
+}
+
+.filled,
+.svg_ic:hover{
+    fill: #000;
+}
+
+.svg_ic:hover *>:not(circle){
+    stroke: white;
+    fill: #000;
+}
+
+.whited:hover{
+    fill: #fff;
+}
+
+.svg_ic_op{
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    fill: #fff;
+    stroke: #000;
+    stroke-width: 5;
+}
+
+.svg_ic_op:hover{
+    fill: #000;
+    stroke: #fff;
+}
+
+#cross{
+    transform: rotate(45deg);
+}
+
+.heart{
+    transform: rotate(-45deg);
+}
+
+#liked{
+    transform: rotateX(180deg);
+}

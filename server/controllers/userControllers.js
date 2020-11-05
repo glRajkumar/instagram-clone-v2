@@ -137,8 +137,9 @@ router.post('/register', async (req, res) => {
     const { fullName, userName, email, password } = req.body
 
     try {
-        const userExist = await User.findOne({ email })
+        const userExist = await User.findOne({ email }).select("_id")
         if (userExist) return res.status(400).json({ msg: "Email is already exists" })
+        if (password === "") return res.status(400).json({ msg: "Password shouldn't be empty" })
 
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
@@ -158,6 +159,7 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email })
             .select("-followers -following -savedPosts -requested -requests")
         if (!user) return res.status(401).json({ msg: "cannot find user in db" })
+        if (password === "") return res.status(400).json({ msg: "Password shouldn't be empty" })
 
         const result = await bcrypt.compare(password, user.password)
         if (!result) return res.status(400).json({ msg: "password not matched" })
@@ -342,17 +344,6 @@ router.put('/password', auth, async (req, res) => {
 
     } catch (error) {
         res.status(400).json({ error, msg: "User password update failed" })
-    }
-})
-
-router.post('/search-users', async (req, res) => {
-    const userPattern = new RegExp("^" + req.body.query)
-
-    try {
-        const user = await User.find({ email: { $regex: userPattern } }).select("_id email")
-        res.json({ user })
-    } catch (error) {
-        res.status(400).json({ error, msg: 'cannot search' })
     }
 })
 

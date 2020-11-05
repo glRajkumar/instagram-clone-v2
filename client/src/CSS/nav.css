@@ -77,6 +77,18 @@ nav {
     color: #007bff;
 }
 
+.user-icon{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+
+.search-lists a{
+    display: flex;
+    align-items: center;
+}
+
 @media (max-width: 600px){    
     .nav-icons{
         width: 20px;

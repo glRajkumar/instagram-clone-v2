@@ -12,13 +12,20 @@ function CreatePost() {
     const [selectedFiles, setFile] = useState(null)
     const [progress, setProgress] = useState(0)
     const [files, setFiles] = useState("")
+    const [fileError, setError] = useState(false)
     const history = useHistory()
     const { headers, updateTotalPosts } = useContext(AuthContext)
 
     const handleChange = async () => {
         if (selectedFiles) {
-            for (const key of Object.keys(selectedFiles)) {
-                fileNnames.push(selectedFiles[key].name)
+            if (selectedFiles.length > 10) {
+                if (!fileError) {
+                    setError(true)
+                }
+            } else {
+                for (const key of Object.keys(selectedFiles)) {
+                    fileNnames.push(selectedFiles[key].name)
+                }
             }
         }
     }
@@ -99,9 +106,13 @@ function CreatePost() {
                     name="files"
                     accept="image/*,video/*"
                     multiple
-                    onChange={e => setFile(e.target.files)}
+                    onChange={e => { setError(false); setFile(e.target.files) }}
                 />
             </div>
+
+            {
+                fileError && <div className="alert">You can't select more than 10 files, Try again</div>
+            }
 
             <div className="text-center">
                 <button type="submit" onClick={submit}>

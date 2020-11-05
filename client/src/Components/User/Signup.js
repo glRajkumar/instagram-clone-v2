@@ -45,7 +45,7 @@ const Signup = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            if (fnerr === false && unerr === false && eerr === false && perr === false) {
+            if (fnerr === false && unerr === false && eerr === false && perr === false && fullName !== "" && userName !== "" && email !== "" && password !== "") {
                 setLoading(true)
                 await axios.post("/user/register", { fullName, userName, email, password })
                 history.push("/login")

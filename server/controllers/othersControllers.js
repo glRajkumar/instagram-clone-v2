@@ -5,6 +5,19 @@ const User = require('../models/User')
 
 const router = express.Router()
 
+router.get('/username/:name', async (req, res) => {
+    const name = req.params.name
+
+    try {
+        const user = await User.findOne({ userName: name }).select("_id")
+        if (user) return res.status(400).json({ msg: 'username already exist' })
+        res.json({ msg: "username is available", name })
+
+    } catch (error) {
+        res.status(400).json({ error, msg: 'cannot check username existence' })
+    }
+})
+
 router.get('/suggestions', auth, following, async (req, res) => {
     const skip = parseInt(req.query.skip)
 
@@ -86,6 +99,17 @@ router.get('/following/:id', auth, following, async (req, res) => {
 
     } catch (error) {
         res.status(400).json({ error, msg: "cannot get following" })
+    }
+})
+
+router.post('/search', auth, async (req, res) => {
+    const userPattern = new RegExp("^" + req.body.query)
+
+    try {
+        const user = await User.find({ userName: { $regex: userPattern } }).select("_id img userName")
+        res.json({ user })
+    } catch (error) {
+        res.status(400).json({ error, msg: 'cannot search' })
     }
 })
 

@@ -12,7 +12,7 @@ import home from '../../Img/home.png'
 import explore from '../../Img/explore.png'
 
 const NavBar = () => {
-    const { _id, auth, img, logout } = useContext(AuthContext)
+    const { _id, auth, img, headers, logout } = useContext(AuthContext)
     const [modal, setModal] = useState(false)
     const [searchQ, setSearchQ] = useState('')
     const [userDetails, setUserDetails] = useState([])
@@ -21,7 +21,7 @@ const NavBar = () => {
     const fetchUsers = (query) => {
         setSearchQ(query)
         if (query !== '') {
-            axios.post('/user/search-users', { query })
+            axios.post('/other_user/search', { query }, { headers })
                 .then((res) => {
                     setUserDetails(res.data.user)
                 })
@@ -177,12 +177,13 @@ const NavBar = () => {
                     {
                         userDetails.map(item => {
                             return (
-                                <div key={item._id}>
+                                <div key={item._id} className="search-lists">
                                     <Link
                                         to={item._id !== _id ? `/profile/${item._id}` : '/profile'}
                                         onClick={() => { setSearchQ(''); setModal(false) }}
                                     >
-                                        <li>{item.email}</li>
+                                        <img className="user-icon" src={item.img ? `/upload/${item.img}` : user} alt="userprofile" />
+                                        <li>{item.userName}</li>
                                     </Link>
                                 </div>
                             )

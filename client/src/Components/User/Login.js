@@ -33,7 +33,7 @@ const Login = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (eerr === false && perr === false) {
+            if (eerr === false && perr === false && email !== "" && password !== "") {
                 setLoading(true)
                 let res = await login({ email, password })
                 if (!res) {

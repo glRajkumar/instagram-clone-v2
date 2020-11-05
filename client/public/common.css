@@ -28,7 +28,7 @@
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
+  width: 30%;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 2rem;
@@ -162,38 +162,62 @@
   background-color: rgba(255, 0, 0, .5);
   padding: 0.5rem;
   margin-bottom: 0.5rem; }
-  
-@media (max-width: 750px) {
-  .modalBox {
-    width: 70%;
-    padding: 1.5rem; } }
 
-@media (max-width: 350px) {
-  .modalBox {
-    width: 100%;
-    padding: 1rem; } }
+
+@media (max-width: 1200px) {
+  .form-box {
+    width: 40%;
+    padding: 1.5rem; 
+  } 
+}
 
 @media (max-width: 900px) {
   .form-box {
     width: 50%;
-    padding: 1.5rem; } }
+  } 
+}
+    
+@media (max-width: 750px) {
+  .modalBox {
+    width: 70%;
+    padding: 1.5rem; 
+  } 
+}
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
   .form-box {
     width: 60%;
-    padding: 1.2rem; } }
+    padding: 1.2rem; 
+  } 
+}
 
 @media (max-width: 450px) {
-  .form-box {
-    width: 90%;
-    padding: 0.9rem; } }
-  
-@media (max-width: 500px) {
   .file-label {
     position: relative;
-    cursor: pointer; }
+    cursor: pointer; 
+  }
+  
   .file-label::after {
-    display: none; } }
+    display: none; 
+  } 
+  
+  .form-box {
+    width: 80%;
+    padding: 0.9rem; 
+  } 
+}
+
+@media (max-width: 300px) {
+  .modalBox {
+    width: 100%;
+    padding: 1rem; 
+  }
+
+  .form-box {
+    width: 90%;
+    padding: 0.9rem; 
+  } 
+}
 
 @-webkit-keyframes progress-bar-stripes {
   from {

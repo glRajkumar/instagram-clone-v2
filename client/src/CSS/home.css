@@ -15,6 +15,15 @@
     overflow: hidden;
 }
 
+.post-img::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
+
+.post-img div{
+    transition: all .2s linear;
+}
+
 .post-img div,
 .post-img img, 
 .post-img video{
@@ -42,6 +51,31 @@
 .post-img div div:nth-child(5){
     transform: translate(400%);
 } 
+
+.post-img div div:nth-child(6){
+    transform: translate(500%);
+} 
+
+.post-img div div:nth-child(7){
+    transform: translate(600%);
+} 
+
+.post-img div div:nth-child(8){
+    transform: translate(700%);
+} 
+
+.post-img div div:nth-child(9){
+    transform: translate(800%);
+} 
+
+.post-img div div:nth-child(10){
+    transform: translate(900%);
+} 
+
+.post-img div div:nth-child(5){
+    transform: translate(400%);
+} 
+
 
 .post-name{
     display: flex;
