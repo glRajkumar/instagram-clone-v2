@@ -15,7 +15,11 @@ function Comments() {
         id: '',
         text: ''
     })
-    const [_id, comments, hasMore, comLoading, comError, initComLoad, getComments, makeComment, editComment, deleteComment] = useComments(postid)
+    const {
+        _id, comments, hasMore,
+        comLoading, comError, initComLoad,
+        getComments, makeComment, editComment, deleteComment
+    } = useComments(postid)
 
     return !initComLoad ? (
         <div className="commets">

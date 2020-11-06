@@ -14,7 +14,7 @@ function CreatePost() {
     const [files, setFiles] = useState("")
     const [fileError, setError] = useState(false)
     const history = useHistory()
-    const { headers, updateTotalPosts } = useContext(AuthContext)
+    const { headers, totalPosts, authDispatch } = useContext(AuthContext)
 
     const handleChange = async () => {
         if (selectedFiles) {
@@ -35,7 +35,7 @@ function CreatePost() {
         if (files) {
             axios.post('/post/createpost', { title, body, files }, { headers })
                 .then(() => {
-                    updateTotalPosts(true)
+                    authDispatch({ type: "ACTION", payload: { totalPosts: totalPosts + 1 } })
                     history.push('/myposts')
                 })
                 .catch(err => {

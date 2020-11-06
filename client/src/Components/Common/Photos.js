@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import NoSlider from './NoSlider'
 
 function Photos({ id, headers }) {
-    const [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos] = usePhotos(id, headers)
+    const { initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos } = usePhotos(id, headers)
     const history = useHistory()
 
     return (
@@ -20,7 +20,7 @@ function Photos({ id, headers }) {
                                     {
                                         pics.map(files => {
                                             return (
-                                                <div key={files.files[0]._id} className="post-container" onClick={() => history.push(`othersposts/${id}`)}>
+                                                <div key={files.files[0]._id} className="post-container" onClick={() => history.push(`/othersposts/${id}`)}>
                                                     <NoSlider files={files} />
                                                 </div>
                                             )

@@ -30,113 +30,12 @@ const PostReducer = (state, { type, payload }) => {
                 }
             }
 
-        case "LIKE":
-            if (payload.like) {
-                const newData = state.posts.map(post => {
-                    if (post._id === payload.postId) {
-                        return {
-                            ...post,
-                            isLiked: true,
-                            likesCount: post.likesCount + 1
-                        }
-                    } else {
-                        return post
-                    }
-                })
-                return {
-                    ...state,
-                    posts: newData
-                }
-            } else {
-                const newData = state.posts.map(post => {
-                    if (post._id === payload.postId) {
-                        return {
-                            ...post,
-                            isLiked: false,
-                            likesCount: post.likesCount - 1
-                        }
-                    } else {
-                        return post
-                    }
-                })
-                return {
-                    ...state,
-                    posts: newData
-                }
-            }
-
-        case "SAVE":
-            if (payload.save) {
-                const newData = state.posts.map(post => {
-                    if (post._id === payload.postId) {
-                        return {
-                            ...post,
-                            isSaved: true
-                        }
-                    } else {
-                        return post
-                    }
-                })
-                return {
-                    ...state,
-                    posts: newData
-                }
-            } else {
-                const newData = state.posts.map(post => {
-                    if (post._id === payload.postId) {
-                        return {
-                            ...post,
-                            isSaved: false
-                        }
-                    } else {
-                        return post
-                    }
-                })
-                return {
-                    ...state,
-                    posts: newData
-                }
-            }
-
-        case "HEART":
-            if (payload.hearted) {
-                const newData = state.posts.map(post => {
-                    if (post._id === payload.postId) {
-                        return {
-                            ...post,
-                            isHearted: true
-                        }
-                    } else {
-                        return post
-                    }
-                })
-                return {
-                    ...state,
-                    posts: newData
-                }
-            } else {
-                const newData = state.posts.map(post => {
-                    if (post._id === payload.postId) {
-                        return {
-                            ...post,
-                            isHearted: false
-                        }
-                    } else {
-                        return post
-                    }
-                })
-                return {
-                    ...state,
-                    posts: newData
-                }
-            }
-
-        case 'COMMENT':
-            const newsData = state.posts.map(post => {
-                if (post._id === payload) {
+        case "ACTION": {
+            const newData = state.posts.map(post => {
+                if (post._id === payload.postId) {
                     return {
                         ...post,
-                        commentsCount: post.commentsCount + 1
+                        ...payload.info
                     }
                 } else {
                     return post
@@ -144,13 +43,12 @@ const PostReducer = (state, { type, payload }) => {
             })
             return {
                 ...state,
-                posts: newsData
+                posts: newData
             }
+        }
 
         case "DELETE":
-            const newData = state.posts.filter(item => {
-                return item._id !== payload
-            })
+            const newData = state.posts.filter(item => item._id !== payload)
             return {
                 ...state,
                 posts: newData

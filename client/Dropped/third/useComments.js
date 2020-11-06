@@ -87,7 +87,7 @@ function useComments(postId) {
         }
     }
 
-    return {
+    return [
         _id,
         comments,
         hasMore,
@@ -98,7 +98,7 @@ function useComments(postId) {
         makeComment,
         editComment,
         deleteComment
-    }
+    ]
 }
 
 export default useComments

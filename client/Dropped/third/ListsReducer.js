@@ -30,12 +30,12 @@ const ListsReducer = (state, { type, payload }) => {
                 }
             }
 
-        case 'ACTION':
+        case 'FOLLOW':
             const newData = state.lists.map(list => {
-                if (list._id === payload.id) {
+                if (list._id === payload) {
                     return {
                         ...list,
-                        ...payload.info
+                        isFollowing: true
                     }
                 } else {
                     return list
@@ -44,6 +44,54 @@ const ListsReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 lists: newData
+            }
+
+        case 'UNFOLLOW':
+            const newData2 = state.lists.map(list => {
+                if (list._id === payload) {
+                    return {
+                        ...list,
+                        isFollowing: false
+                    }
+                } else {
+                    return list
+                }
+            })
+            return {
+                ...state,
+                lists: newData2
+            }
+
+        case 'REQ':
+            const newData3 = state.lists.map(list => {
+                if (list._id === payload) {
+                    return {
+                        ...list,
+                        isRequested: true
+                    }
+                } else {
+                    return list
+                }
+            })
+            return {
+                ...state,
+                lists: newData3
+            }
+
+        case 'UNREQ':
+            const newData4 = state.lists.map(list => {
+                if (list._id === payload) {
+                    return {
+                        ...list,
+                        isRequested: false
+                    }
+                } else {
+                    return list
+                }
+            })
+            return {
+                ...state,
+                lists: newData4
             }
 
         case "ERROR":

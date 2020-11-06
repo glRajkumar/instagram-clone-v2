@@ -29,7 +29,15 @@ router.get('/suggestions', auth, following, async (req, res) => {
             .limit(10)
             .lean()
 
-        res.json({ ids })
+        const lists = ids.map(id => {
+            return {
+                ...id,
+                isFollowing: false,
+                isRequested: false
+            }
+        })
+
+        res.json({ lists })
     } catch (error) {
         res.status(400).json({ error, msg: 'cannot get user' })
     }

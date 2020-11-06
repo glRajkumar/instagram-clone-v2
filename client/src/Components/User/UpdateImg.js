@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 function UpdateImg() {
     const [selectedFile, setFile] = useState(null)
     const [progress, setProgress] = useState(0)
-    const { headers, updatePic } = useContext(AuthContext)
+    const { headers, authDispatch } = useContext(AuthContext)
     const history = useHistory()
 
     const submit = (e) => {
@@ -29,7 +29,7 @@ function UpdateImg() {
         axios.put("/user/img", formData, config)
             .then(res => {
                 setProgress(0)
-                updatePic(res.data.img)
+                authDispatch({ type: "ACTION", payload: { img: res.data.img } })
                 history.push('/profile')
             })
             .catch(err => {

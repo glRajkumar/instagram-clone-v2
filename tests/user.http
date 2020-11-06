@@ -1,5 +1,5 @@
 @host = http://localhost:5000
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Zjk3ZmM3MDQ2NTk4MDE1MGM4NjQzNzMiLCJpYXQiOjE2MDQyOTM1MjUsImV4cCI6MTYwNDM1ODMyNX0.8FGSCyTxBLE8eGupYFjcFJ5-MpNhd7jtQ-MSVeyDq9E
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmEzZjdhOTgxMGJlNTI2OTg2ZmI3YjIiLCJpYXQiOjE2MDQ1ODEzMDIsImV4cCI6MTYwNDY0NjEwMn0.PH1UZq6pzGaFVscgUvpXejVaHkWCakOVxt3fme2L8aE
 
 ### get full 
 GET {{host}}/user/full
@@ -31,9 +31,9 @@ Content-Type: application/json
 
 {
     "fullName" : "newname",
-    "userName": "ooo",
-    "email" : "ooo@gmail.com",
-    "password" : "aA1!aa"
+    "userName": "oomllluo",
+    "email" : "oo@gmail.com",
+    "password" : "aaaaaaa"
 }
 
 ### login
@@ -41,8 +41,8 @@ POST {{host}}/user/login
 Content-Type: application/json
 
 {
-    "email" : "kkk@gmail.com",
-    "password" : "aA1!aa"
+    "email" : "oo@gmail.com",
+    "password" : "aaaaaaa"
 }
 
 ### update public preference
@@ -142,14 +142,6 @@ Authorization: {{token}}
 {
     "oldPass" : "aA1!aaaa",
     "newPass" : "Aa1!amja"
-}
-
-###search users
-POST {{host}}/user/search-users
-Authorization: {{token}}
-
-{
-    "query" : ""
 }
 
 ### logout

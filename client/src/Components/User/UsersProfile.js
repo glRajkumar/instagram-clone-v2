@@ -13,7 +13,7 @@ const UsersProfile = () => {
     const [showPosts, setShow] = useState(null)
     const { userid } = useParams()
     const history = useHistory()
-    const { updateFollow, headers } = useContext(AuthContext)
+    const { followingCount, authDispatch, headers } = useContext(AuthContext)
 
     useEffect(() => {
         async function getUser() {
@@ -37,7 +37,7 @@ const UsersProfile = () => {
     const followUser = async () => {
         try {
             await axios.put('/user/follow', { followId: userid }, { headers })
-            updateFollow(true)
+            authDispatch({ type: "ACTION", payload: { followingCount: followingCount + 1 } })
             setProfile(prev => {
                 return {
                     ...prev,
@@ -84,7 +84,7 @@ const UsersProfile = () => {
     const unfollowUser = async () => {
         try {
             await axios.put('/user/unfollow', { unfollowId: userid }, { headers })
-            updateFollow(false)
+            authDispatch({ type: "ACTION", payload: { followingCount: followingCount - 1 } })
             setProfile(prev => {
                 return {
                     ...prev,
@@ -149,7 +149,7 @@ const UsersProfile = () => {
 
                                 {
                                     userProfile.isRequested &&
-                                    <button onClick={cancelReqUser}>Requested</button>
+                                    <button className="grey-btn" onClick={cancelReqUser}>Requested</button>
                                 }
                             </div>
                         </div>

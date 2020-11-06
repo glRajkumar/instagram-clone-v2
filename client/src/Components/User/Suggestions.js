@@ -3,21 +3,21 @@ import Loading from '../Common/Loading'
 import user from '../../Img/user.svg'
 import { Link } from 'react-router-dom'
 import '../../CSS/suggest.css'
-import useSuggestions from '../Customs/useSuggestions'
+import useLists from '../Customs/useLists'
 
 function Suggestions({ headers, isGrid }) {
     const {
-        initSugLoad,
-        suggestions,
-        sugLoading,
+        initListLoad,
+        lists,
+        listsLoading,
         hasMore,
-        sugError,
-        getSug,
+        listsError,
+        getLists,
         follow,
         unFollow,
         requests,
         cancelReq
-    } = useSuggestions(headers)
+    } = useLists('/other_user/suggestions', headers)
 
     const followAction = (isPublic, id) => {
         if (isPublic) {
@@ -27,11 +27,11 @@ function Suggestions({ headers, isGrid }) {
         }
     }
 
-    return !initSugLoad ? (
+    return !initListLoad ? (
         <div className={isGrid ? "sug-grid-cont" : 'sug-flex-cont'}>
             {
-                suggestions.length > 0 &&
-                suggestions.map(list => {
+                lists.length > 0 &&
+                lists.map(list => {
                     return (
                         <div className="sug" key={list._id}>
                             <Link to={`/profile/${list._id}`}>
@@ -57,7 +57,7 @@ function Suggestions({ headers, isGrid }) {
 
                             {
                                 list.isRequested &&
-                                <button onClick={() => cancelReq(list._id)}>Requested</button>
+                                <button className="grey-btn" onClick={() => cancelReq(list._id)}>Requested</button>
                             }
                         </div>
                     )
@@ -65,14 +65,14 @@ function Suggestions({ headers, isGrid }) {
             }
 
             {
-                sugLoading &&
+                listsLoading &&
                 <div className="rel-pos"><Loading /></div>
             }
 
             {
-                hasMore && !sugLoading &&
+                hasMore && !listsLoading &&
                 <div className="sug-center">
-                    <button onClick={getSug}>load more</button>
+                    <button onClick={getLists}>load more</button>
                     {
                         !isGrid && <Link to="/suggest">View in FullScreen</Link>
                     }
@@ -80,7 +80,7 @@ function Suggestions({ headers, isGrid }) {
             }
 
             {
-                sugError && <div>error</div>
+                listsError && <div>error</div>
             }
         </div>
     )

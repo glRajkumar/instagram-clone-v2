@@ -6,7 +6,7 @@ import close from '../../Img/close.png'
 import '../../CSS/edit.css'
 
 function EditProfile() {
-    const { fullName, userName, img, isPublic, updatePublic, deleteAcc } = useContext(AuthContext)
+    const { fullName, userName, img, isPublic, authDispatch, deleteAcc } = useContext(AuthContext)
     const [fName, setFull] = useState(fullName)
     const [uName, setUser] = useState(userName)
     const [delModel, setDelModel] = useState(false)
@@ -62,7 +62,7 @@ function EditProfile() {
 
             <div className="edit-detail">
                 Update your account visibility : &nbsp;
-                <button onClick={updatePublic}>
+                <button onClick={() => { authDispatch({ type: "ACTION", payload: { isPublic: !isPublic } }) }}>
                     {isPublic ? 'Make private my account' : 'Change to public'}
                 </button>
             </div>

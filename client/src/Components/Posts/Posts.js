@@ -18,7 +18,7 @@ import Slider from '../Common/Slider'
 function Posts({ url, text }) {
   let img = new RegExp('image/*')
 
-  const [
+  const {
     _id,
     posts,
     hasMore,
@@ -34,7 +34,7 @@ function Posts({ url, text }) {
     unsavePost,
     makeComment,
     deletePost
-  ] = usePost(url)
+  } = usePost(url)
 
   const history = useHistory()
 
@@ -107,9 +107,9 @@ function Posts({ url, text }) {
                   {
                     post.isLiked
                       ?
-                      <img className="icons" alt="unlike-icon" src={unlikeIc} onClick={() => { unlikePost(post._id) }} />
+                      <img className="icons" alt="unlike-icon" src={unlikeIc} onClick={() => { unlikePost(post._id, post.likesCount) }} />
                       :
-                      <img className="icons" alt="like-icon" src={likeIc} onClick={() => { likePost(post._id) }} />
+                      <img className="icons" alt="like-icon" src={likeIc} onClick={() => { likePost(post._id, post.likesCount) }} />
                   }
 
                   <img className="icons" alt="like-icon" src={comment} onClick={() => history.push(`/comments/${post._id}`)} />
@@ -130,15 +130,21 @@ function Posts({ url, text }) {
                 <div className="post-comments" onClick={() => history.push(`/comments/${post._id}`)}>
                   {
                     post.commentsCount > 0 ?
-                      `view all ${post.commentsCount} comments` :
-                      `still no one commented`
+                      <>
+                        {
+                          post.commentsCount === 1
+                            ? `view ${post.commentsCount} comment`
+                            : `view all ${post.commentsCount} comments`
+                        }
+                      </>
+                      : `still no one commented`
                   }
                 </div>
                 <p className="post-time"> {getTime(post.createdAt)} </p>
 
                 <form onSubmit={(e) => {
                   e.preventDefault()
-                  makeComment(e.target[0].value, post._id)
+                  makeComment(e.target[0].value, post._id, post.commentsCount)
                   e.target[0].value = ''
                 }}>
                   <input

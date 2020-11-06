@@ -67,3 +67,30 @@ export const useCvalid = (value, checker) => {
         return [msg, false]
     }
 }
+
+const useUNvalid = (value) => {
+    if (value === '') {
+        let msg = 'Please Provide name'
+        return [msg, true]
+    }
+    if (value.length < 3) {
+        let msg = 'Name must be atleast 3 charactrs'
+        return [msg, true]
+    }
+    if (value.length > 3) {
+        // axios.get(`/other_user/username/${value}`)
+        //     .then((res) => {
+        //         let msg = ''
+        //         return [msg, false]
+        //     })
+        //     .catch((err) => {
+        //         console.log("clg")
+        //         let msg = 'UserName is already taken'
+        //         return [msg, true]
+        //     })
+    }
+    if (value !== '' && value.length >= 3) {
+        let msg = ''
+        return [msg, false]
+    }
+}

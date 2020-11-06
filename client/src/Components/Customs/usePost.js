@@ -13,7 +13,7 @@ const initialState = {
 
 function usePost(url) {
     const [initPostLoad, setInit] = useState(true)
-    const { _id, headers, updateTotalPosts } = useContext(AuthContext)
+    const { _id, headers, totalPosts, authDispatch } = useContext(AuthContext)
     const [{ posts, skip, postLoading, hasMore, postError }, dispatch] = useReducer(PostReducer, initialState)
 
     useEffect(() => {
@@ -36,14 +36,17 @@ function usePost(url) {
         }
     }
 
-    const likePost = async (postId) => {
+    const likePost = async (postId, count) => {
         try {
             await axios.put('/post/like', { postId }, { headers })
             const payload = {
-                like: true,
-                postId
+                postId,
+                info: {
+                    isLiked: true,
+                    likesCount: count + 1
+                }
             }
-            dispatch({ type: 'LIKE', payload })
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -51,14 +54,17 @@ function usePost(url) {
         }
     }
 
-    const unlikePost = async (postId) => {
+    const unlikePost = async (postId, count) => {
         try {
             await axios.put('/post/unlike', { postId }, { headers })
             const payload = {
-                like: false,
-                postId
+                postId,
+                info: {
+                    isLiked: false,
+                    likesCount: count - 1
+                }
             }
-            dispatch({ type: 'LIKE', payload })
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -70,10 +76,12 @@ function usePost(url) {
         try {
             await axios.put('/post/hearted', { postId }, { headers })
             const payload = {
-                hearted: true,
-                postId
+                postId,
+                info: {
+                    isHearted: true
+                }
             }
-            dispatch({ type: 'HEART', payload })
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -85,10 +93,12 @@ function usePost(url) {
         try {
             await axios.put('/post/unhearted', { postId }, { headers })
             const payload = {
-                hearted: false,
-                postId
+                postId,
+                info: {
+                    isHearted: false
+                }
             }
-            dispatch({ type: 'HEART', payload })
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -100,10 +110,12 @@ function usePost(url) {
         try {
             await axios.put('/user/savepost', { postId }, { headers })
             const payload = {
-                save: true,
-                postId
+                postId,
+                info: {
+                    isSaved: true
+                }
             }
-            dispatch({ type: 'SAVE', payload })
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -115,10 +127,12 @@ function usePost(url) {
         try {
             await axios.put('/user/unsavepost', { postId }, { headers })
             const payload = {
-                save: false,
-                postId
+                postId,
+                info: {
+                    isSaved: false
+                }
             }
-            dispatch({ type: 'SAVE', payload })
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -126,11 +140,17 @@ function usePost(url) {
         }
     }
 
-    const makeComment = async (text, postId) => {
+    const makeComment = async (text, postId, count) => {
         try {
             if (text !== '') {
                 await axios.post('/comment', { text, postId }, { headers })
-                dispatch({ type: 'COMMENT', payload: postId })
+                const payload = {
+                    postId,
+                    info: {
+                        commentsCount: count + 1
+                    }
+                }
+                dispatch({ type: 'ACTION', payload })
             }
 
         } catch (error) {
@@ -142,7 +162,7 @@ function usePost(url) {
     const deletePost = async (postId) => {
         try {
             await axios.delete(`/post/${postId}`, { headers })
-            updateTotalPosts(false)
+            authDispatch({ type: "ACTION", payload: { totalPosts: totalPosts - 1 } })
             dispatch({ type: 'DELETE', payload: postId })
 
         } catch (error) {
@@ -151,7 +171,7 @@ function usePost(url) {
         }
     }
 
-    return [
+    return {
         _id,
         posts,
         hasMore,
@@ -167,7 +187,7 @@ function usePost(url) {
         unsavePost,
         makeComment,
         deletePost
-    ]
+    }
 }
 
 export default usePost

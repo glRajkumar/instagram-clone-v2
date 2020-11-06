@@ -26,8 +26,6 @@ function usePhotos(id, headers) {
             const payload = {
                 pics: res.data.files
             }
-            console.log("usephotos")
-            console.log(res.data)
             dispatch({ type: 'GET', payload })
 
         } catch (error) {
@@ -36,7 +34,7 @@ function usePhotos(id, headers) {
         }
     }
 
-    return [initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos]
+    return { initPicLoad, pics, hasMore, picsLoading, picsError, getPhotos }
 }
 
 export default usePhotos

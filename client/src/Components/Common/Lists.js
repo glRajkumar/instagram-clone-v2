@@ -1,14 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Loading from '../Common/Loading'
 import useLists from '../Customs/useLists'
 import user from '../../Img/user.svg'
 import '../../CSS/lists.css'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../State/Auth/AuthContextProvider'
 
 function Lists({ url, headers }) {
-    const { _id } = useContext(AuthContext)
-    const [
+    const {
+        _id,
         initListLoad,
         lists,
         listsLoading,
@@ -19,7 +18,7 @@ function Lists({ url, headers }) {
         unFollow,
         requests,
         cancelReq
-    ] = useLists(url, headers)
+    } = useLists(url, headers)
 
     const followAction = (isPublic, id) => {
         if (isPublic) {

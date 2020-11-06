@@ -12,7 +12,7 @@ const initialState = {
 }
 
 function useLists(url, headers) {
-    const { updateFollow } = useContext(AuthContext)
+    const { _id, followingCount, authDispatch } = useContext(AuthContext)
     const [initListLoad, setInit] = useState(true)
     const [{ lists, skip, listsLoading, hasMore, listsError }, dispatch] = useReducer(ListsReducer, initialState)
 
@@ -39,8 +39,14 @@ function useLists(url, headers) {
     const follow = async (followId) => {
         try {
             await axios.put('/user/follow', { followId }, { headers })
-            updateFollow(true)
-            dispatch({ type: "FOLLOW", payload: followId })
+            authDispatch({ type: "ACTION", payload: { followingCount: followingCount + 1 } })
+            const payload = {
+                id: followId,
+                info: {
+                    isFollowing: true
+                }
+            }
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -51,8 +57,14 @@ function useLists(url, headers) {
     const unFollow = async (unfollowId) => {
         try {
             await axios.put('/user/unfollow', { unfollowId }, { headers })
-            updateFollow(false)
-            dispatch({ type: "UNFOLLOW", payload: unfollowId })
+            authDispatch({ type: "ACTION", payload: { followingCount: followingCount - 1 } })
+            const payload = {
+                id: unfollowId,
+                info: {
+                    isFollowing: false
+                }
+            }
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -63,7 +75,13 @@ function useLists(url, headers) {
     const requests = async (reqId) => {
         try {
             await axios.put('/user/requests', { reqId }, { headers })
-            dispatch({ type: "REQ", payload: reqId })
+            const payload = {
+                id: reqId,
+                info: {
+                    isRequested: true
+                }
+            }
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -74,7 +92,13 @@ function useLists(url, headers) {
     const cancelReq = async (reqId) => {
         try {
             await axios.put('/user/cancel-req', { reqId }, { headers })
-            dispatch({ type: "UNREQ", payload: reqId })
+            const payload = {
+                id: reqId,
+                info: {
+                    isRequested: false
+                }
+            }
+            dispatch({ type: 'ACTION', payload })
 
         } catch (error) {
             dispatch({ type: "ERROR" })
@@ -82,7 +106,8 @@ function useLists(url, headers) {
         }
     }
 
-    return [
+    return {
+        _id,
         initListLoad,
         lists,
         listsLoading,
@@ -93,7 +118,7 @@ function useLists(url, headers) {
         unFollow,
         requests,
         cancelReq
-    ]
+    }
 }
 
 export default useLists

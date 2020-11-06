@@ -7,7 +7,7 @@ export const AuthContext = createContext()
 
 const AuthContextProvider = (props) => {
   const [firstRender, setFirstRender] = useState(true)
-
+  const history = useHistory()
   const inialState = {
     _id: "",
     fullName: "",
@@ -24,11 +24,20 @@ const AuthContextProvider = (props) => {
     error: ""
   }
 
-  const [state, dispatch] = useReducer(AuthReducer, inialState)
-  const history = useHistory()
+  const [{
+    _id, fullName, userName, email, img, isPublic, auth,
+    followersCount, followingCount, totalPosts, token
+  }, authDispatch] = useReducer(AuthReducer, inialState)
 
   let headers = {
-    Authorization: "Bearer " + state.token
+    Authorization: "Bearer " + token
+  }
+
+  const LOGOUT = async (url = '/login') => {
+    localStorage.removeItem("insta_token")
+    localStorage.removeItem("insta_token_exp")
+    authDispatch({ type: "ACTION", payload: inialState })
+    history.push(url)
   }
 
   const logged = async () => {
@@ -48,17 +57,16 @@ const AuthContextProvider = (props) => {
           const payload = {
             ...res.data,
             auth: true,
-            token: existed
+            token: existed,
+            loading: false
           }
 
-          dispatch({ type: "LOGIN", payload })
+          authDispatch({ type: "ACTION", payload })
           history.push("/")
           return
 
         } else {
-          history.push("/login")
-          localStorage.removeItem("insta_token")
-          localStorage.removeItem("insta_token_exp")
+          LOGOUT()
           return
         }
       } else {
@@ -67,11 +75,9 @@ const AuthContextProvider = (props) => {
       }
 
     } catch (error) {
-      history.push("/login")
-      localStorage.removeItem("insta_token")
-      localStorage.removeItem("insta_token_exp")
+      LOGOUT()
       console.log(error)
-      dispatch({ type: "ERROR" })
+      authDispatch({ type: "ERROR" })
     }
   }
 
@@ -92,136 +98,57 @@ const AuthContextProvider = (props) => {
         ...res.data,
         email: formData.email,
         auth: true,
+        loading: false
       }
 
       localStorage.setItem("insta_token", res.data.token)
       localStorage.setItem("insta_token_exp", Date.now())
-      dispatch({ type: "LOGIN", payload })
+      authDispatch({ type: "ACTION", payload })
       history.push("/")
       return true
 
     } catch (error) {
       console.log(error)
-      dispatch({ type: "ERROR" })
+      authDispatch({ type: "ERROR" })
       return false
-    }
-  }
-
-  const updatePic = async (imgName) => {
-    try {
-      dispatch({ type: "IMG", payload: { imgName } })
-    } catch (error) {
-      console.log(error)
-      dispatch({ type: "ERROR" })
-    }
-  }
-
-  const updatePublic = async () => {
-    try {
-      await axios.put("/user/public", {}, { headers })
-      dispatch({ type: "PUBLIC" })
-    } catch (error) {
-      console.log(error)
-      dispatch({ type: "ERROR" })
-    }
-  }
-
-  const updateFollow = (follow) => {
-    try {
-      let payload
-      if (follow) {
-        payload = {
-          followingCount: 1
-        }
-      } else {
-        payload = {
-          followingCount: -1
-        }
-      }
-
-      dispatch({ type: "FOLLOW", payload })
-    } catch (error) {
-      console.log(error)
-      dispatch({ type: "ERROR" })
-    }
-  }
-
-  const updateFollowers = () => {
-    try {
-      dispatch({ type: "FOLLOWERS" })
-
-    } catch (error) {
-      console.log(error)
-      dispatch({ type: "ERROR" })
-    }
-  }
-
-  const updateTotalPosts = (post) => {
-    try {
-      let payload
-      if (post) {
-        payload = {
-          totalPosts: 1
-        }
-      } else {
-        payload = {
-          totalPosts: -1
-        }
-      }
-
-      dispatch({ type: "TOTALPOSTS", payload })
-    } catch (error) {
-      console.log(error)
-      dispatch({ type: "ERROR" })
     }
   }
 
   const logout = async () => {
     try {
       await axios.post("/user/logout", {}, { headers })
-      localStorage.removeItem("insta_token")
-      localStorage.removeItem("insta_token_exp")
-      dispatch({ type: "LOGOUT" })
-      history.push("/login")
+      LOGOUT()
     } catch (error) {
       console.log(error)
-      dispatch({ type: "ERROR" })
+      authDispatch({ type: "ERROR" })
     }
   }
 
   const deleteAcc = async () => {
     try {
       await axios.delete("/delete", { headers })
-      localStorage.removeItem("insta_token")
-      localStorage.removeItem("insta_token_exp")
-      dispatch({ type: "LOGOUT" })
-      history.push("/signup")
+      LOGOUT('/signup')
     } catch (error) {
       console.log(error)
-      dispatch({ type: "ERROR" })
+      authDispatch({ type: "ERROR" })
     }
   }
 
   return (
     <AuthContext.Provider value={{
-      _id: state._id,
-      fullName: state.fullName,
-      userName: state.userName,
-      email: state.email,
-      img: state.img,
-      isPublic: state.isPublic,
-      followersCount: state.followersCount,
-      followingCount: state.followingCount,
-      totalPosts: state.totalPosts,
-      token: state.token,
-      auth: state.auth,
+      _id,
+      fullName,
+      userName,
+      email,
+      img,
+      isPublic,
+      followersCount,
+      followingCount,
+      totalPosts,
+      auth,
       headers,
       login,
-      updatePic,
-      updatePublic,
-      updateFollow,
-      updateFollowers,
-      updateTotalPosts,
+      authDispatch,
       logout,
       deleteAcc
     }}>

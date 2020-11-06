@@ -15,3 +15,7 @@ For backend testing, I used REST Client(VS Code Ext.). All files are seperated i
 
 ## Hashing password
 I used bcryptjs package. If you need bcrypt, just changed it.  
+
+### Dropped Folder
+Dropped folders in client and server are just for my reference only. 
+It doesn't have meaning for you, so delete it.
